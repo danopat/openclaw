@@ -1,0 +1,9 @@
+*.bak*
+logs/
+*.log
+*.tmp
+*.swp
+openclaw.json
+agents/main/sessions/
+canvas/
+memory/

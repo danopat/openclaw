@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "socket": {
+    "path": "/root/.openclaw/exec-approvals.sock",
+    "token": "gxX6D2ByK89O78AQP_ISAMkae56oicqB"
+  },
+  "defaults": {},
+  "agents": {
+    "main": {
+      "allowlist": [
+        {
+          "id": "b60613ec-e91e-4d0b-ace1-26997f9e71fd",
+          "pattern": "/usr/bin/git",
+          "lastUsedAt": 1772544416127,
+          "lastUsedCommand": "git -C /root/.openclaw status",
+          "lastResolvedPath": "/usr/bin/git"
+        },
+        {
+          "id": "f9db4abb-ca2b-40b9-9b06-540cfeadf7e6",
+          "pattern": "/usr/bin/cat",
+          "lastUsedAt": 1772544403939,
+          "lastUsedCommand": "cat /root/.openclaw/.gitignore",
+          "lastResolvedPath": "/usr/bin/cat"
+        },
+        {
+          "id": "da37c8c5-3063-4223-8050-41fa81f7c87b",
+          "pattern": "/usr/bin/ls",
+          "lastUsedAt": 1772544344415,
+          "lastUsedCommand": "ls -la /root/.openclaw/",
+          "lastResolvedPath": "/usr/bin/ls"
+        }
+      ]
+    }
+  }
+}
