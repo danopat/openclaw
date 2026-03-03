@@ -11,7 +11,7 @@
         {
           "id": "b60613ec-e91e-4d0b-ace1-26997f9e71fd",
           "pattern": "/usr/bin/git",
-          "lastUsedAt": 1772544548064,
+          "lastUsedAt": 1772544557995,
           "lastUsedCommand": "git -C /root/.openclaw status",
           "lastResolvedPath": "/usr/bin/git"
         },
