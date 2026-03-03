@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "profiles": {
+    "kilocode:default": {
+      "type": "api_key",
+      "provider": "kilocode",
+      "key": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbnYiOiJwcm9kdWN0aW9uIiwia2lsb1VzZXJJZCI6IjY1OWQ0YWM4LTVkZTktNDU3NS04ZWI4LTVkOWQyNGJkODYwNyIsImFwaVRva2VuUGVwcGVyIjpudWxsLCJ2ZXJzaW9uIjozLCJpYXQiOjE3NzI0NjAwODgsImV4cCI6MTc3NTA1MjA4OH0.NMWoWlUFG7dP38qZfodwYQQot9QKEgXQZUcMlA6mx6I"
+    }
+  },
+  "usageStats": {
+    "kilocode:default": {
+      "lastUsed": 1772544510374,
+      "errorCount": 0
+    }
+  }
+}
