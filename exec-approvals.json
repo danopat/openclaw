@@ -11,8 +11,8 @@
         {
           "id": "b60613ec-e91e-4d0b-ace1-26997f9e71fd",
           "pattern": "/usr/bin/git",
-          "lastUsedAt": 1772544416127,
-          "lastUsedCommand": "git -C /root/.openclaw status",
+          "lastUsedAt": 1772544504326,
+          "lastUsedCommand": "git -C /root/.openclaw push origin master",
           "lastResolvedPath": "/usr/bin/git"
         },
         {
@@ -25,9 +25,14 @@
         {
           "id": "da37c8c5-3063-4223-8050-41fa81f7c87b",
           "pattern": "/usr/bin/ls",
-          "lastUsedAt": 1772544344415,
-          "lastUsedCommand": "ls -la /root/.openclaw/",
+          "lastUsedAt": 1772544478969,
+          "lastUsedCommand": "ls /root/.openclaw/",
           "lastResolvedPath": "/usr/bin/ls"
+        },
+        {
+          "id": "e8551729-4c1c-4f1e-99df-e2a67f8ecd41",
+          "pattern": "/usr/bin/head",
+          "lastUsedAt": 1772544483880
         }
       ]
     }
