@@ -25,7 +25,7 @@
     ],
 
     run(ctx) {
-      const pairs = LEVELS[ctx.level - 1];
+      const pairs = ctx.short ? Math.min(8, LEVELS[ctx.level - 1]) : LEVELS[ctx.level - 1];
       const symbols = U.sample(SYMBOLS, pairs);
       const deck = U.shuffle(symbols.concat(symbols)).map((s) => ({ s: s, open: false, done: false, el: null }));
       let moves = 0, found = 0, first = null, busy = false;

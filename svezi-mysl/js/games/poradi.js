@@ -16,7 +16,6 @@
     { n: 20, alt: true, hint: false },
     { n: 24, alt: true, hint: false }
   ];
-  const BOARDS = 2;
   const LETTERS = 'ABCDEFGHIJKL';
   const STUCK_MS = 7000;
 
@@ -56,6 +55,7 @@
 
     async run(ctx) {
       const L = LEVELS[ctx.level - 1];
+      const BOARDS = ctx.short ? 1 : 2;
       const labs = labels(L);
       let errors = 0, hints = 0, totalMs = 0;
 
@@ -79,7 +79,7 @@
         perf: U.clamp(1 - (perItem - fast) / (slowT - fast), 0, 1) * (1 - Math.min(0.4, errors * 0.04)),
         levelDelta: perItem <= good && errors <= 2 && hints === 0 ? 1 : perItem >= slowT || errors >= 6 ? -1 : 0,
         big: U.fmtTime(totalMs),
-        bigLabel: 'celkový čas za ' + BOARDS + ' kola',
+        bigLabel: BOARDS === 1 ? 'celkový čas' : 'celkový čas za ' + BOARDS + ' kola',
         details: ['Na jedno políčko: ' + U.num(perItem, 1) + ' s', 'Chyby: ' + errors].concat(hints ? ['Nápověda: ' + hints + '×'] : []),
         metric: { perItem: Math.round(perItem * 100) / 100, errors: errors }
       });

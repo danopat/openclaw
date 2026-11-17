@@ -4,7 +4,6 @@
   const SM = window.SM;
   const U = SM.util;
   const h = U.h;
-  const ROUNDS = 8;
 
   function gridFor(level) {
     if (level <= 4) return { cols: 3, rows: 3 };
@@ -28,6 +27,7 @@
     ],
 
     async run(ctx) {
+      const ROUNDS = ctx.short ? 5 : 8;
       const startSpan = ctx.level + 1;
       const grid = gridFor(ctx.level);
       const N = grid.cols * grid.rows;

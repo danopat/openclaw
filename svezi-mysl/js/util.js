@@ -66,13 +66,30 @@
     });
   };
 
-  U.shuffle = function (arr) {
+  /** Zamíchá kopii pole; volitelně s vlastním generátorem náhody (rnd() → 0..1). */
+  U.shuffle = function (arr, rnd) {
+    rnd = rnd || Math.random;
     var a = arr.slice();
     for (var i = a.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
+      var j = Math.floor(rnd() * (i + 1));
       var t = a[i]; a[i] = a[j]; a[j] = t;
     }
     return a;
+  };
+  /** Opakovatelná náhoda (mulberry32): stejné semínko → stejná posloupnost. */
+  U.rng = function (seed) {
+    var a = seed >>> 0;
+    return function () {
+      a = (a + 0x6d2b79f5) >>> 0;
+      var t = a;
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  };
+  U.daysBetween = function (a, b) {
+    var da = U.parseDayKey(a), db = U.parseDayKey(b);
+    return Math.round((Date.UTC(db.getFullYear(), db.getMonth(), db.getDate()) - Date.UTC(da.getFullYear(), da.getMonth(), da.getDate())) / 86400000);
   };
   U.sample = function (arr, n) { return U.shuffle(arr).slice(0, n); };
   U.pick = function (arr) { return arr[Math.floor(Math.random() * arr.length)]; };

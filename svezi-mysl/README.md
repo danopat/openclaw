@@ -1,6 +1,6 @@
 # Svěží mysl
 
-Krátké denní hry pro seniory na trénink **paměti, postřehu a rozhodování**. Je to webová aplikace (PWA). Na iPhonu a iPadu se přidá na plochu a pak se chová jako běžná aplikace: má ikonu, běží přes celou obrazovku a funguje bez internetu. Výsledky zůstávají jen v zařízení.
+Krátké denní hry pro seniory na trénink **paměti, postřehu, rozhodování, slov a počtů**, propojené cestou po Česku ve stylu Duolinga. Je to webová aplikace (PWA). Na iPhonu a iPadu se přidá na plochu a pak se chová jako běžná aplikace: má ikonu, běží přes celou obrazovku a funguje bez internetu. Výsledky zůstávají jen v zařízení.
 
 Navrženo pro starší uživatele:
 
@@ -10,29 +10,53 @@ Navrženo pro starší uživatele:
 - obtížnost se přizpůsobuje sama: když se daří, hra přitvrdí, když ne, uleví,
 - jemné zvuky, světlý i tmavý vzhled a respektování nastavení „omezit pohyb“.
 
-## Hry
+## Jak aplikace motivuje (ve stylu Duolinga)
 
-| Hra | Oblast | Co trénuje | Výzkumný vzor | Jak se přizpůsobuje |
-|---|---|---|---|---|
-| **Pexeso** | Paměť | zrakovou a prostorovou paměť | klasická hra Concentration | 3 až 15 dvojic |
-| **Nákupní seznam** | Paměť | paměť na slova | učení seznamu slov a jejich rozpoznání | 3 až 10 položek, od úrovně 3 s příkladem na rozptýlení |
-| **Svítící okna** | Paměť | pracovní paměť, pořadí | Corsiho kostky | délka řady roste a klesá v každém kole, mřížka 3×3 až 4×4 |
-| **Bleskový pohled** | Postřeh | rychlost vnímání, periferní pozornost | Useful Field of View (UFOV) | doba zobrazení se řídí schodovou metodou 2 dolů / 1 nahoru; 4 a 8 pozic, rušivé obrázky |
-| **Jeden je jiný** | Postřeh | zrakové vyhledávání | vizuální vyhledávání | 3×3 až 6×7, stále jemnější rozdíly |
-| **Šipky** | Rozhodování | potlačení rušivé informace | Eriksenova úloha (flanker) | podíl matoucích šipek, časový limit, posun na obrazovce |
-| **Barvy a slova** | Rozhodování | sebeovládání, přepínání pravidel | Stroopova úloha | počet barev, časový limit, střídání pravidel „barva / slovo“ |
-| **Popořadě** | Rozhodování | rychlost, střídání dvou řad | Trail Making Test (A/B) | 8 až 24 políček, čísla a pak střídání čísel a písmen |
+- **Cesta po Česku**: hlavní obrazovka je cesta přes 12 zastávek (Praha, Karlovy Vary, Český Krumlov, Kutná Hora, Olomouc, Krkonoše, Lednice, Telč, Třeboň, Brno, Litomyšl, České Švýcarsko). Každá zastávka má 4 lekce, truhlu s odměnou a závěrečnou lekci.
+- **Lekce**: tři krátké minihry za sebou (asi 5 minut), závěrečná lekce zastávky má čtyři. Mezi hrami je mezivýsledek a pravidla další hry, na konci souhrn s body.
+- **Postupné odemykání**: prvních 7 zastávek přináší vždy 3 až 4 nové hry. Seniora tak hned na začátku nezahltí 22 her. Zamčenou hru jde v kartě Hry odemknout i hned.
+- **Body a denní cíl**: 5 až 10 bodů za hru podle výkonu, 5 za dokončenou lekci, 5 za lekci bez chyby, 15 za truhlu. Denní cíl si hráč vybere: 20, 40 nebo 60 bodů (asi 5, 10 nebo 15 minut).
+- **Série dní** s **ohníčkem** a **záchranným dnem**: za každých 7 dní v řadě přibude záchranný den (nejvýš 2), který podrží sérii, když jeden den vynecháte. Žádné „životy“ ani tresty za chyby.
+- **Sbírka**: za každou zastávku sběratelská **pohlednice** („Pozdrav z Prahy“) s ilustrací a zajímavostí o místě, za vytrvalost a pokroky **odznaky** v několika stupních (Vytrvalost, Splněný cíl, Píle, Cestovatel, Bez chyby, Všestrannost, Ranní ptáče, Rekordy).
+- **Oslavy**: konfety a samostatné obrazovky pro prodlouženou sérii, splněný cíl, novou pohlednici, nové hry a nový odznak. Při zapnutém „omezit pohyb“ se animace vypnou.
+- **Procvičování**: v kartě Hry jedno tlačítko sestaví lekci ze tří her, které hráč hrál nejméně.
 
-**Bleskový pohled** je nejdůležitější: vychází z tréninku rychlosti zpracování ze studie ACTIVE, který má mezi „mozkovými hrami“ nejsilnější důkazy (viz níže).
+Žebříčky s cizími lidmi záměrně chybí: bez serveru by byly falešné a pro seniory spíš stresují.
+
+## Hry (22)
+
+| Oblast | Hra | Co trénuje | Výzkumný vzor |
+|---|---|---|---|
+| Paměť | Pexeso | zrakovou a prostorovou paměť | hra Concentration |
+| Paměť | Nákupní seznam | paměť na slova | učení a rozpoznání seznamu slov |
+| Paměť | Svítící okna | pracovní paměť, pořadí | Corsiho kostky |
+| Paměť | Jména a tváře | spojení jména s obličejem | asociativní paměť |
+| Paměť | Telefonní číslo | krátkodobou paměť na čísla | rozsah paměti na číslice (digit span) |
+| Paměť | Co se změnilo | zrakovou paměť, detaily | detekce změny (change detection) |
+| Paměť | Mozaika | prostorovou paměť | zapamatování vzoru v mřížce |
+| Postřeh | Bleskový pohled | rychlost vnímání, periferní pozornost | Useful Field of View (UFOV) |
+| Postřeh | Jeden je jiný | zrakové vyhledávání | vizuální vyhledávání |
+| Postřeh | Kolik jich je | rychlé vnímání množství | odhad počtu (subitizing) |
+| Rozhodování | Šipky | potlačení rušivé informace | Eriksenova úloha (flanker) |
+| Rozhodování | Barvy a slova | sebeovládání, přepínání pravidel | Stroopova úloha |
+| Rozhodování | Popořadě | rychlost, střídání dvou řad | Trail Making Test (A/B) |
+| Rozhodování | Sběr ovoce | rychlé rozhodnutí a zdrženlivost | go/no-go |
+| Slova | Přísloví | slovní zásobu, dlouhodobou paměť | doplňování známých rčení |
+| Slova | Protiklady | slovní zásobu | antonyma |
+| Slova | Přesmyčky | práci se slovy | anagramy |
+| Slova | Co sem nepatří | třídění pojmů | sémantická kategorizace |
+| Počty a logika | Hodiny | orientaci v čase | čtení ručičkových hodin |
+| Počty a logika | Placení | počítání s penězi v korunách | běžné denní činnosti (IADL) |
+| Počty a logika | Co bude dál | logické uvažování | doplňování řad |
+| Počty a logika | Otočené tvary | prostorovou představivost | mentální rotace |
+
+Každá hra má několik úrovní obtížnosti, které se mění podle výsledků. V lekcích se hraje kratší verze, ve volném hraní delší. **Bleskový pohled** vychází z tréninku rychlosti zpracování ze studie ACTIVE, který má mezi „mozkovými hrami“ nejsilnější důkazy (viz níže).
 
 Další části aplikace:
 
-- **Dnešní trénink**: 4 hry denně (asi 10 minut), každý den jiná kombinace ze všech tří oblastí.
-- **Můj pokrok**: dny v řadě, posledních 7 dní, úroveň a vývoj bodů u každé hry, tabulka posledních výsledků.
-- **Nastavení**: velikost písma, vzhled, zvuky, automatické předčítání, smazání výsledků.
-- **O tréninku**: co trénovat a jak, co mysli pomáhá ještě víc (pohyb, lidé, sluch a zrak, cévy, spánek) a upozornění, že nejde o zdravotnický prostředek.
-
-Body: každá úroveň přidává 10 bodů a dalších 0 až 10 bodů hráč získá za výkon v ní. Díky tomu body rostou s pokrokem a dají se porovnávat v čase.
+- **Spodní lišta**: Cesta, Hry (volné hraní a procvičování), Sbírka (pohlednice a odznaky), Pokrok (série, body za týden, výsledky každé hry).
+- **Nastavení**: denní cíl, velikost písma, vzhled, zvuky, automatické předčítání, smazání výsledků.
+- **O tréninku**: jak funguje cesta, jak trénovat, co mysli pomáhá ještě víc (pohyb, lidé, sluch a zrak, cévy, spánek) a upozornění, že nejde o zdravotnický prostředek.
 
 ## Spuštění
 
@@ -48,7 +72,7 @@ Funguje i po otevření `index.html` přímo ze souboru, jen bez offline režimu
 
 ### Test
 
-Automatický test projde všech 8 her a celý denní trénink v emulovaném iPhonu a iPadu a hlídá chyby v konzoli:
+Automatický test projde úvodní nastavení, celou první zastávku cesty (lekce, truhlu, pohlednici, odemčení nových her) a všech 22 her v emulovaném iPhonu a iPadu. Hlídá chyby v konzoli a přetékání stránky do šířky:
 
 ```bash
 npm i -D playwright && npx playwright install chromium
@@ -80,12 +104,18 @@ manifest.webmanifest  název, ikony a barvy pro instalaci
 sw.js                 offline režim (mezipaměť souborů)
 css/app.css           vzhled (barvy jako proměnné, světlý i tmavý režim)
 css/fonts.css         písmo uložené přímo v aplikaci (fonts/, licence SIL OFL)
-js/util.js            pomocné funkce, české datum a množná čísla
-js/store.js           ukládání výsledků a nastavení (localStorage)
+js/util.js            pomocné funkce, české datum a množná čísla, opakovatelná náhoda
+js/store.js           ukládání výsledků, postupu a nastavení (localStorage)
 js/sound.js           zvuky (Web Audio) a předčítání (Web Speech, cs-CZ)
 js/icons.js           ikony
-js/app.js             obrazovky, navigace, běh her, denní trénink, pokrok
-js/games/*.js         jednotlivé hry
+js/places.js          zastávky cesty, nové hry v nich a ilustrace pohlednic
+js/content.js         obsah slovních her (přísloví, protiklady, přesmyčky, kategorie, jména)
+js/kit.js             společné prvky miniher (výběr odpovědi, číselná klávesnice)
+js/fx.js              konfety a napočítávání čísel
+js/engine.js          motivace: body, denní cíl, série, záchranné dny, odznaky, sestavení lekcí
+js/app.js             kostra: navigace, spodní lišta, dialogy, běh hry
+js/screens/*.js       cesta, lekce a oslavy, karta Hry, sbírka, pokrok, nastavení a první spuštění
+js/games/*.js         jednotlivé minihry (22)
 tests/e2e.cjs         automatický test v Playwrightu
 ```
 
@@ -93,16 +123,16 @@ Cílem je Safari 15 a novější (např. iPhone 7 nebo starší iPady). Proto k�
 
 ### Jak přidat hru
 
-Vytvořte `js/games/nova.js`, přidejte ji do `index.html`, do `sw.js` a do skupiny `GROUPS` v `js/app.js`:
+Vytvořte `js/games/nova.js`, přidejte ji do `index.html` a do `sw.js` a v `js/places.js` ji zařaďte do seznamu `intro` některé zastávky (tam se hra poprvé objeví a odemkne). V lekcích dostane krátkou verzi přes `ctx.short`.
 
 ```js
 SM.registerGame({
-  id: 'nova', name: 'Nová hra', domain: 'pamet',     // pamet | postreh | rozhodovani
+  id: 'nova', name: 'Nová hra', domain: 'pamet',     // pamet | postreh | rozhodovani | slova | logika
   trains: 'co hra trénuje', short: 'Jedna věta do přehledu.', duration: 'asi 2 minuty',
   maxLevel: 8,
   howTo: ['Krok 1', 'Krok 2'],                         // nebo funkce (level) => [...]
   async run(ctx) {
-    // ctx.level, ctx.stage, ctx.foot, ctx.status(text), ctx.progress(text),
+    // ctx.level, ctx.short (kratší verze v lekci), ctx.stage, ctx.foot, ctx.status(text), ctx.progress(text),
     // await ctx.sleep(ms), ctx.after(ms, fn), ctx.frame(fn), ctx.on(el, typ, fn),
     // ctx.size(), ctx.feedback(správně), ctx.sound
     ctx.finish({
@@ -134,7 +164,8 @@ SM.registerGame({
 
 1. **Vyzkoušet s 5 až 8 seniory** různého věku. Sledovat, jestli rozumí pokynům, jak zvládají dotyk a co je frustruje. Doladit úroveň 1 všech her.
 2. **Denní připomínka**: v Capacitoru jako lokální notifikace, na webu jako Web Push (iOS 16.4+, jen pro aplikaci na ploše).
-3. **Další hry**: počítání peněz v korunách, slovní hry (doplňte slovo, protiklady), jména a tváře, orientace v kalendáři a na mapě.
-4. **Pohyb a společnost** podle FINGER: tip na procházku nebo cvičení dne, společné hraní s vnoučaty.
-5. **Přístupnost**: projít s VoiceOverem, alternativa Barev a slov pro barvoslepé.
-6. **Rodinný přehled** (se souhlasem): sdílení pokroku s blízkými. Vyžaduje server a řešení GDPR.
+3. **Další hry a obsah**: krátké příběhy s otázkami (vybavování), orientace v kalendáři a na mapě, hudební paměť, víc přísloví a slov. Další zastávky cesty (např. Morava, Šumava) s novými pohlednicemi.
+4. **Rodinné výzvy místo žebříčků**: společný týdenní cíl s vnoučaty nebo partnerem (vyžaduje server).
+5. **Pohyb a společnost** podle FINGER: tip na procházku nebo cvičení dne, společné hraní s vnoučaty.
+6. **Přístupnost**: projít s VoiceOverem, alternativa Barev a slov pro barvoslepé.
+7. **Rodinný přehled** (se souhlasem): sdílení pokroku s blízkými. Vyžaduje server a řešení GDPR.

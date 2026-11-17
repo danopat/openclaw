@@ -1,6 +1,7 @@
-/* Automatický test: projde všechny hry v emulovaném iPhonu i iPadu a hlídá chyby v konzoli.
+/* Automatický test: projde úvodní nastavení, celou první zastávku cesty (lekce, truhla, pohlednice)
+   a všech 22 her ve volném hraní v emulovaném iPhonu a iPadu. Hlídá chyby v konzoli.
    Spuštění:  npm i -D playwright && npx playwright install chromium && node tests/e2e.cjs
-   Volitelně:  node tests/e2e.cjs --shots ./screenshots   (uloží snímky obrazovek) */
+   Volitelně:  node tests/e2e.cjs --shots ./screenshots   (uloží snímky obrazovky) */
 const { chromium, devices } = require('playwright');
 const http = require('http');
 const fs = require('fs');
@@ -29,10 +30,18 @@ function serve() {
   });
 }
 
-const status = (page) => page.evaluate(() => (document.querySelector('.play-status') || {}).textContent || '');
-const waitFor = (page, fn, arg, timeout) => page.waitForFunction(fn, arg, { timeout: timeout || 20000 });
+const T = 30000;
+const shot = async (page, name) => { if (SHOTS) await page.screenshot({ path: path.join(SHOTS, name + '.png') }); };
+/** Počká, až fn(arg) v prohlížeči vrátí pravdivou hodnotu, nebo až hra skončí. Vrací hodnotu, nebo null po konci hry. */
+async function next(page, fn, arg) {
+  const h = await page.waitForFunction(new Function('arg', 'if (!document.querySelector(".play")) return "__gone"; return (' + fn + ')(arg);'), arg, { timeout: T });
+  const v = await h.jsonValue();
+  return v === '__gone' ? null : v;
+}
+const progress = () => (document.querySelector('.play-progress') || {}).textContent || '';
+const freshChoices = () => !!document.querySelector('.choices:not(.is-locked)');
 
-/* Hráči: každá hra se dohraje podle toho, co je vidět na obrazovce. */
+/* Hráči: každá hra se dohraje podle toho, co je vidět na obrazovce, dokud nezmizí herní obrazovka. */
 const players = {
   async pexeso(page) {
     const fronts = await page.$$eval('.pex-front', (els) => els.map((e) => e.textContent));
@@ -40,27 +49,21 @@ const players = {
     fronts.forEach((s, i) => { (groups[s] = groups[s] || []).push(i); });
     const cards = page.locator('.pex-card');
     const keys = Object.keys(groups);
-    // jeden omyl na začátku, ať se otestuje i otočení zpět
     await cards.nth(groups[keys[0]][0]).click();
     await cards.nth(groups[keys[1]][0]).click();
-    await page.waitForTimeout(400);
-    for (const s of keys) {
-      await cards.nth(groups[s][0]).click();
-      await cards.nth(groups[s][1]).click();
-      await page.waitForTimeout(20);
-    }
+    await page.waitForTimeout(300);
+    for (const s of keys) { await cards.nth(groups[s][0]).click(); await cards.nth(groups[s][1]).click(); }
   },
   async nakup(page) {
-    for (let r = 0; r < 2; r++) {
-      await page.waitForSelector('.note-item');
+    for (let r = 0; r < 4; r++) {
+      if (!(await next(page, () => !!document.querySelector('.note-item')))) return;
       const items = await page.$$eval('.note-item span:not(.emo)', (els) => els.map((e) => e.textContent));
       await page.getByRole('button', { name: 'Mám zapamatováno' }).click();
-      await page.waitForSelector('.quiz, .pick-grid');
+      await next(page, () => !!document.querySelector('.quiz, .pick-grid'));
       if (await page.$('.quiz')) {
-        const q = await page.textContent('.quiz-q');
-        const nums = q.match(/\d+/g).map(Number);
+        const nums = (await page.textContent('.quiz-q')).match(/\d+/g).map(Number);
         await page.locator('.quiz-opts .btn', { hasText: new RegExp('^' + (nums[0] + nums[1]) + '$') }).click();
-        await page.waitForSelector('.pick-grid');
+        await next(page, () => !!document.querySelector('.pick-grid'));
       }
       const picks = page.locator('.pick');
       const n = await picks.count();
@@ -73,110 +76,248 @@ const players = {
     }
   },
   async okna(page) {
-    for (let r = 0; r < 8; r++) {
-      await waitFor(page, () => ((document.querySelector('.play-status') || {}).textContent || '').indexOf('Teď vy') === 0);
+    for (let r = 0; r < 12; r++) {
+      if (!(await next(page, () => (document.querySelector('.play-status') || {}).textContent.indexOf('Teď vy') === 0))) return;
       const seq = await page.evaluate(() => { const s = window.__seq; window.__seq = []; return s; });
       const wins = page.locator('.win');
-      if (r === 2) {
-        await wins.nth(seq[0] === 0 ? 1 : 0).click(); // úmyslná chyba
-      } else {
-        for (const i of seq) await wins.nth(i).click();
-      }
-      await waitFor(page, () => !document.querySelector('.okna-scene') || ((document.querySelector('.play-status') || {}).textContent || '').indexOf('Teď vy') !== 0);
+      if (r === 2) await wins.nth(seq[0] === 0 ? 1 : 0).click();
+      else for (const i of seq) await wins.nth(i).click();
+      await next(page, () => (document.querySelector('.play-status') || {}).textContent.indexOf('Teď vy') !== 0);
     }
   },
   async blesk(page) {
-    for (let t = 0; t < 16; t++) {
-      await page.locator('.choice-btn').first().waitFor({ timeout: 20000 });
+    for (let t = 0; t < 20; t++) {
+      if (!(await next(page, () => !!document.querySelector('.choice-btn')))) return;
       await page.locator('.choice-btn').nth(t % 2).click();
-      await page.locator('.slot.is-choice').first().waitFor({ timeout: 20000 });
+      if (!(await next(page, () => !!document.querySelector('.slot.is-choice')))) return;
       await page.locator('.slot.is-choice').nth(t % 4).click();
     }
   },
   async jiny(page) {
-    for (let t = 0; t < 10; t++) {
-      await waitFor(page, (k) => (document.querySelector('.play-progress') || {}).textContent === 'Úkol ' + k + ' z 10' &&
-        document.querySelectorAll('.odd-cell').length > 0 && !document.querySelector('.odd-cell.is-found'), t + 1);
+    let last = '';
+    for (let t = 0; t < 14; t++) {
+      const p = await next(page, (l) => { const p = (document.querySelector('.play-progress') || {}).textContent; return p !== l && document.querySelector('.odd-cell') && !document.querySelector('.odd-cell.is-found') ? p : false; }, last);
+      if (!p) return;
+      last = p;
       const idx = await page.$$eval('.odd-cell', (els) => {
         const txt = els.map((e) => e.textContent);
-        const counts = {};
-        txt.forEach((x) => { counts[x] = (counts[x] || 0) + 1; });
-        return txt.findIndex((x) => counts[x] === 1);
+        const c = {};
+        txt.forEach((x) => { c[x] = (c[x] || 0) + 1; });
+        return txt.findIndex((x) => c[x] === 1);
       });
       if (t === 1) await page.locator('.odd-cell').nth(idx === 0 ? 1 : 0).click();
       await page.locator('.odd-cell').nth(idx).click();
     }
   },
   async sipky(page) {
-    for (let t = 0; t < 24; t++) {
-      await waitFor(page, (k) => (document.querySelector('.play-progress') || {}).textContent === k + ' / 24' && !!document.querySelector('.arrows'), t + 1);
-      const label = await page.getAttribute('.arrows', 'aria-label');
-      const left = /doleva/.test(label);
-      const wrong = t === 3;
-      await page.getByRole('button', { name: left !== wrong ? 'Doleva' : 'Doprava' }).click();
+    let last = '';
+    for (let t = 0; t < 30; t++) {
+      const p = await next(page, (l) => { const p = (document.querySelector('.play-progress') || {}).textContent; return p !== l && document.querySelector('.arrows') ? p : false; }, last);
+      if (!p) return;
+      last = p;
+      const left = /doleva/.test(await page.getAttribute('.arrows', 'aria-label'));
+      await page.getByRole('button', { name: left !== (t === 3) ? 'Doleva' : 'Doprava' }).click();
     }
   },
   async barvy(page) {
-    for (let t = 0; t < 24; t++) {
-      await waitFor(page, (k) => (document.querySelector('.play-progress') || {}).textContent === k + ' / 24' &&
-        !!(document.querySelector('.board-word') || {}).textContent, t + 1);
-      const info = await page.evaluate(() => ({
-        label: document.querySelector('.board-word').getAttribute('aria-label'),
-        word: document.querySelector('.rule-pill').classList.contains('is-word')
-      }));
+    let last = '';
+    for (let t = 0; t < 30; t++) {
+      const p = await next(page, (l) => { const p = (document.querySelector('.play-progress') || {}).textContent; const w = document.querySelector('.board-word'); return p !== l && w && w.textContent ? p : false; }, last);
+      if (!p) return;
+      last = p;
+      const info = await page.evaluate(() => ({ label: document.querySelector('.board-word').getAttribute('aria-label'), word: document.querySelector('.rule-pill').classList.contains('is-word') }));
       const m = /Slovo (\S+), napsané barvou (\S+)/.exec(info.label);
       await page.locator('.color-btn', { hasText: info.word ? m[1] : m[2] }).click();
     }
   },
   async poradi(page) {
-    for (let b = 0; b < 2; b++) {
-      await waitFor(page, (k) => (document.querySelector('.play-progress') || {}).textContent === 'Kolo ' + k + ' z 2' &&
-        document.querySelectorAll('.dot').length > 0 && !document.querySelector('.dot.is-done'), b + 1);
+    for (let b = 0; b < 3; b++) {
+      if (!(await next(page, () => document.querySelectorAll('.dot').length > 0 && !document.querySelector('.dot.is-done')))) return;
       const dots = page.locator('.dot');
       const n = await dots.count();
       if (b === 0) await dots.nth(n - 1).click();
       for (let i = 0; i < n; i++) await dots.nth(i).click();
+      await next(page, () => !document.querySelector('.dot') || document.querySelectorAll('.dot.is-done').length === document.querySelectorAll('.dot').length);
+      await page.waitForTimeout(50);
     }
-  }
-};
-const GAMES = Object.keys(players);
-
-/* Příprava před spuštěním hry (sledování rozsvícených oken musí běžet od první vteřiny). */
-const prepare = {
-  async okna(page) {
-    await page.evaluate(() => {
-      window.__seq = [];
-      const mo = new MutationObserver((muts) => {
-        muts.forEach((m) => {
-          const el = m.target;
-          if (!el.classList || !el.classList.contains('win')) return;
-          const scene = el.closest('.okna-scene');
-          if (el.classList.contains('is-lit') && !(m.oldValue || '').includes('is-lit') && scene && scene.classList.contains('is-watching')) {
-            window.__seq.push(Array.prototype.indexOf.call(scene.querySelectorAll('.win'), el));
-          }
-        });
-      });
-      mo.observe(document.body, { subtree: true, attributes: true, attributeFilter: ['class'], attributeOldValue: true });
+  },
+  async prislovi(page) {
+    await mcq(page, () => {
+      const card = document.querySelector('.quote-card');
+      const pre = card.firstChild.textContent;
+      return SM.content.PROVERBS.find((p) => p.t.split('___')[0] === pre).a;
     });
-  }
+  },
+  async protiklady(page) {
+    await mcq(page, () => {
+      const w = document.querySelector('.word-card').textContent;
+      return SM.content.OPPOSITES.find((o) => o.w.toUpperCase() === w).a;
+    });
+  },
+  async nepatri(page) {
+    await mcq(page, () => {
+      const opts = Array.from(document.querySelectorAll('.choice')).map((b) => b.textContent);
+      return SM.content.ODD.find((o) => opts.indexOf(o.x) !== -1 && o.w.every((w) => opts.indexOf(w) !== -1)).x;
+    });
+  },
+  async hodiny(page) {
+    await mcq(page, () => {
+      const ang = (sel) => parseFloat(/rotate\(([-\d.]+)/.exec(document.querySelector(sel).getAttribute('transform'))[1]);
+      const m = Math.round(ang('.clock-min') / 6) % 60;
+      const hr = Math.floor((ang('.clock-hour') + 0.01) / 30) % 12;
+      const add = /za (\d+) minut/.exec(document.querySelector('.play-status').textContent);
+      const t = (hr * 60 + m + (add ? +add[1] : 0)) % 720;
+      const H = Math.floor(t / 60) % 12 || 12, M = t % 60;
+      return H + ':' + (M < 10 ? '0' : '') + M;
+    });
+  },
+  async rada(page) { await mcq(page, () => document.querySelector('.choice').textContent); },
+  async tvary(page) { await mcq(page, () => document.querySelector('.choice').textContent); },
+  async kolik(page) { await mcq(page, () => String(window.__dots)); },
+  async placeni(page) {
+    for (let r = 0; r < 8; r++) {
+      const kind = await next(page, () => (document.querySelector('.tray') && !document.querySelector('.money-btn[aria-label^="Vrátit"]') && !document.querySelector('.choice.is-correct') ? 'pay' : document.querySelector('.choices:not(.is-locked)') ? 'mcq' : false));
+      if (!kind) return;
+      if (kind === 'mcq') { await page.locator('.choice').first().click(); await page.waitForTimeout(50); continue; }
+      const price = +/(\d+) Kč/.exec(await page.textContent('.play-status'))[1];
+      const vals = (await page.$$eval('.tray .money-btn', (els) => els.map((e) => +/(\d+)/.exec(e.getAttribute('aria-label'))[1]))).sort((a, b) => b - a);
+      let left = price;
+      for (const v of vals) {
+        while (left >= v) { await page.locator('.tray .money-btn[aria-label="Položit ' + v + ' Kč"]').click(); left -= v; }
+      }
+      await page.getByRole('button', { name: 'Zaplatit' }).click();
+      await next(page, () => !document.querySelector('.tray') || document.querySelector('.play-status').textContent.indexOf('Zaplaťte') !== 0);
+    }
+  },
+  async presmycky(page) {
+    for (let r = 0; r < 8; r++) {
+      const ok = await next(page, () => document.querySelector('.ana-tile') && !document.querySelector('.ana-tile[disabled]') && !document.querySelector('.ana-slot.is-shown'));
+      if (!ok) return;
+      const word = await page.evaluate(() => {
+        const tiles = Array.from(document.querySelectorAll('.ana-tile')).map((t) => t.textContent);
+        const key = tiles.slice().sort().join('');
+        const cat = document.querySelector('.ana-hint strong').textContent;
+        return SM.content.ANAGRAMS.find((a) => [...a.w].sort().join('') === key && a.c === cat).w;
+      });
+      for (const ch of [...word]) await page.locator('.ana-tile:not([disabled])', { hasText: new RegExp('^' + ch + '$') }).first().click();
+      await next(page, () => !document.querySelector('.ana-tile:not([disabled])'));
+      await page.waitForTimeout(60);
+    }
+  },
+  async telefon(page) {
+    for (let r = 0; r < 8; r++) {
+      const num = await next(page, () => { const n = document.querySelector('.phone-card:not(.is-check) .phone-num'); return n ? n.textContent.replace(/\s/g, '') : false; });
+      if (!num) return;
+      if (!(await next(page, () => !!document.querySelector('.kp')))) return;
+      for (const d of num) await page.locator('.kp-key', { hasText: new RegExp('^' + d + '$') }).click();
+      await page.locator('.kp-ok').click();
+      await next(page, () => !document.querySelector('.kp'));
+    }
+  },
+  async jmena(page) {
+    const seen = {};
+    for (let r = 0; r < 30; r++) {
+      const state = await next(page, () => {
+        const btn = Array.from(document.querySelectorAll('.play-foot .btn')).find((b) => /Další soused|Můžeme začít/.test(b.textContent));
+        if (btn && document.querySelector('.person-name')) return 'meet';
+        if (document.querySelector('.choices:not(.is-locked)')) return 'quiz';
+        return false;
+      });
+      if (!state) return;
+      if (state === 'meet') {
+        const face = await page.textContent('.person-face');
+        seen[face] = (await page.textContent('.person-name')).split(' ').pop();
+        await page.locator('.play-foot .btn').first().click();
+        await next(page, (f) => { const el = document.querySelector('.person-face'); return !el || el.textContent !== f || !document.querySelector('.person-name'); }, face);
+      } else {
+        const face = await page.textContent('.person-face');
+        await page.locator('.choice', { hasText: new RegExp('^' + seen[face] + '$') }).click();
+        await page.waitForTimeout(30);
+      }
+    }
+  },
+  async zmena(page) {
+    for (let r = 0; r < 10; r++) {
+      const ok = await next(page, () => /Která věc je nová/.test(document.querySelector('.play-status').textContent) && !document.querySelector('.shelf-slot.is-correct'));
+      if (!ok) return;
+      const idx = await page.evaluate(() => {
+        const now = Array.from(document.querySelectorAll('.shelf-slot')).map((s) => s.textContent);
+        return now.findIndex((t, i) => t !== window.__shelf[i]);
+      });
+      await page.locator('.shelf-slot').nth(idx).click();
+    }
+  },
+  async mozaika(page) {
+    for (let r = 0; r < 8; r++) {
+      const ok = await next(page, () => /Vybarvěte/.test(document.querySelector('.play-status').textContent) && !document.querySelector('.mosaic-cell.is-hit, .mosaic-cell.is-miss'));
+      if (!ok) return;
+      const cells = await page.evaluate(() => window.__mosaic);
+      for (const i of cells) await page.locator('.mosaic-cell').nth(i).click();
+      await page.getByRole('button', { name: 'Hotovo' }).click();
+      await next(page, () => !!document.querySelector('.mosaic-cell.is-hit, .mosaic-cell.is-miss, .mosaic-cell.is-extra'));
+    }
+  },
+  async sber(page) { await next(page, () => false); }
 };
 
-async function shot(page, name) {
-  if (SHOTS) await page.screenshot({ path: path.join(SHOTS, name + '.png') });
+async function mcq(page, answerFn) {
+  for (let r = 0; r < 16; r++) {
+    if (!(await next(page, freshChoices))) return;
+    const ans = await page.evaluate(answerFn);
+    await page.locator('.choices:not(.is-locked) .choice', { hasText: new RegExp('^' + String(ans).replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '$') }).first().click();
+    await page.waitForTimeout(30);
+  }
 }
 
-async function playOne(page, id, label) {
-  if (prepare[id]) await prepare[id](page);
+/* Příprava před spuštěním hry: sledování věcí, které se ukazují jen na okamžik. */
+async function prepare(page) {
+  await page.evaluate(() => {
+    if (window.__prepared) return;
+    window.__prepared = true;
+    window.__seq = [];
+    const FRUIT = ['🍎', '🍐', '🍊', '🍋', '🍌', '🍉', '🍇', '🍓', '🍒', '🍑', '🍍', '🥝'];
+    new MutationObserver((muts) => {
+      muts.forEach((m) => {
+        const el = m.target;
+        if (el.classList && el.classList.contains('win') && el.classList.contains('is-lit') && !(m.oldValue || '').includes('is-lit')) {
+          const scene = el.closest('.okna-scene');
+          if (scene && scene.classList.contains('is-watching')) window.__seq.push(Array.prototype.indexOf.call(scene.querySelectorAll('.win'), el));
+        }
+        if (el.classList && el.classList.contains('catch-item') && el.classList.contains('is-in') && !(m.oldValue || '').includes('is-in')) {
+          if (FRUIT.indexOf(el.textContent) !== -1) document.querySelector('.catch-btn').dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, pointerType: 'touch' }));
+        }
+      });
+      const dots = document.querySelectorAll('.count-dot').length;
+      if (dots) window.__dots = dots;
+      const slots = Array.from(document.querySelectorAll('.shelf-slot'));
+      if (slots.length && slots.every((s) => s.disabled && !s.classList.contains('is-covered') && s.textContent)) window.__shelf = slots.map((s) => s.textContent);
+      const cells = Array.from(document.querySelectorAll('.mosaic-cell'));
+      if (cells.length && cells.every((c) => c.disabled) && cells.some((c) => c.classList.contains('is-on'))) {
+        window.__mosaic = cells.map((c, i) => (c.classList.contains('is-on') ? i : -1)).filter((i) => i >= 0);
+      }
+    }).observe(document.body, { subtree: true, childList: true, attributes: true, attributeFilter: ['class'], attributeOldValue: true });
+  });
+}
+
+async function playFree(page, base, id, label) {
+  await page.goto(base + '?ts=0.1#hra-' + id);
+  await page.waitForSelector('.intro-hero');
+  await prepare(page);
   await page.getByRole('button', { name: 'Začít hru' }).click();
   await page.waitForSelector('.play-stage > *');
-  await page.waitForTimeout(150);
-  await shot(page, label + '-' + id + '-play');
+  await page.waitForTimeout(120);
+  await shot(page, label + '-' + id);
   await players[id](page);
-  await page.waitForSelector('.result', { timeout: 30000 });
-  const big = await page.textContent('.result-big');
-  const lbl = await page.textContent('.result-big-label');
-  await shot(page, label + '-' + id + '-result');
-  return big + ' ' + lbl;
+  await page.waitForSelector('.result', { timeout: T });
+  return (await page.textContent('.result-big')) + ' ' + (await page.textContent('.result-big-label'));
+}
+
+async function continueAll(page) {
+  for (let i = 0; i < 12; i++) {
+    if (await page.$('.nodes')) return;
+    await page.getByRole('button', { name: 'Pokračovat' }).click();
+    await page.waitForTimeout(80);
+  }
 }
 
 (async () => {
@@ -192,67 +333,94 @@ async function playOne(page, id, label) {
     page.on('pageerror', (e) => errors.push('pageerror: ' + e.message));
     page.on('console', (m) => { if (m.type() === 'error') errors.push('console: ' + m.text()); });
 
+    // 1) první spuštění
     await page.goto(base + '?ts=0.1');
-    await page.waitForSelector('.today');
-    await shot(page, label + '-home');
+    await page.waitForSelector('.onboarding');
+    await shot(page, label + '-onboarding');
+    await page.getByRole('button', { name: 'Pokračovat' }).click();
+    await page.getByRole('button', { name: 'Vydat se na cestu' }).click();
+    await page.waitForSelector('.nodes');
+    await shot(page, label + '-path');
 
-    // 1) každá hra zvlášť
-    for (const id of GAMES) {
-      await page.goto(base + '?ts=0.1#hra-' + id);
-      await page.waitForSelector('.intro-hero');
-      if (id === 'pexeso') await shot(page, label + '-intro');
+    // 2) celá první zastávka cesty
+    if (label === 'iphone') {
       try {
-        const res = await playOne(page, id, label);
-        console.log('[' + label + '] ' + id.padEnd(7) + ' OK  → ' + res.replace(/\s+/g, ' '));
+        for (let n = 0; n < 6; n++) {
+          await page.click('.node.is-current');
+          await page.waitForSelector('.modal');
+          await page.waitForTimeout(300);
+          if (n === 0) await shot(page, label + '-sheet');
+          const chest = await page.$('.big-stat.is-chest');
+          if (chest) {
+            await page.getByRole('button', { name: 'Otevřít truhlu' }).click();
+            await page.waitForSelector('.summary');
+            await shot(page, label + '-chest');
+            await continueAll(page);
+            continue;
+          }
+          await page.getByRole('button', { name: /Začít lekci/ }).click();
+          for (let g = 0; g < 5; g++) {
+            await page.waitForSelector('.gate, .summary', { timeout: T });
+            if (await page.$('.summary')) break;
+            const name = await page.textContent('.gate-game h1');
+            const id = await page.evaluate((nm) => Object.keys(SM.games).find((k) => SM.games[k].name === nm), name);
+            if (n === 0 && g === 1) await shot(page, label + '-gate');
+            await prepare(page);
+            await page.getByRole('button', { name: 'Začít hru' }).click();
+            await page.waitForSelector('.play-stage > *');
+            await players[id](page);
+          }
+          await page.waitForSelector('.summary');
+          if (n === 0 || n === 5) await shot(page, label + '-summary-' + n);
+          for (let c = 0; c < 12 && !(await page.$('.nodes')); c++) {
+            if (n === 5 && (await page.$('.celebrate.is-postcard'))) await shot(page, label + '-postcard');
+            if (await page.$('.celebrate.is-unlock')) await shot(page, label + '-unlock');
+            if (await page.$('.celebrate.is-streak')) await shot(page, label + '-streak');
+            await page.getByRole('button', { name: 'Pokračovat' }).click();
+            await page.waitForTimeout(60);
+          }
+        }
+        const st = await page.evaluate(() => ({ post: Object.keys(SM.store.profile().postcards), xp: SM.store.profile().xp, unit: SM.engine.position().u, hodiny: SM.engine.isUnlocked('hodiny') }));
+        if (st.post[0] !== 'praha' || st.unit !== 1 || !st.hodiny) { failures++; console.log('[' + label + '] cesta FAILED', st); }
+        else console.log('[' + label + '] první zastávka OK → pohlednice ' + st.post.join(', ') + ', ' + st.xp + ' bodů, odemčeny další hry');
+        await shot(page, label + '-path-after');
       } catch (e) {
         failures++;
-        console.log('[' + label + '] ' + id + ' FAILED: ' + e.message.split('\n')[0] + ' | status: ' + (await status(page)));
+        console.log('[' + label + '] cesta FAILED: ' + e.message.split('\n')[0]);
+        await shot(page, label + '-path-FAIL');
+      }
+    }
+
+    // 3) všechny hry ve volném hraní
+    await page.evaluate(() => Object.keys(SM.games).forEach((id) => SM.engine.unlockEarly(id)));
+    const ids = await page.evaluate(() => Object.keys(SM.games));
+    for (const id of ids) {
+      try {
+        const res = await playFree(page, base, id, label);
+        console.log('[' + label + '] ' + id.padEnd(10) + ' OK  → ' + res.replace(/\s+/g, ' '));
+      } catch (e) {
+        failures++;
+        console.log('[' + label + '] ' + id + ' FAILED: ' + e.message.split('\n')[0] + ' | ' + (await page.evaluate(() => (document.querySelector('.play-status') || {}).textContent || '')));
         await shot(page, label + '-' + id + '-FAIL');
       }
     }
 
-    // 2) denní trénink od začátku do konce
-    if (label === 'iphone') {
-      await page.goto(base + '?ts=0.1');
-      await page.getByRole('button', { name: /Začít trénink|Pokračovat|Projít trénink znovu/ }).click();
-      for (let step = 0; step < 4; step++) {
-        const btn = page.getByRole('button', { name: /^(Začít|Pokračovat): / });
-        if (step === 0) await btn.click();
-        await page.waitForSelector('.intro-hero');
-        const name = await page.textContent('.intro-hero h1');
-        const id = GAMES.find((g) => name === { pexeso: 'Pexeso', nakup: 'Nákupní seznam', okna: 'Svítící okna', blesk: 'Bleskový pohled', jiny: 'Jeden je jiný', sipky: 'Šipky', barvy: 'Barvy a slova', poradi: 'Popořadě' }[g]);
-        await playOne(page, id, label + '-daily' + step);
-        const next = page.getByRole('button', { name: /Další hra|Dokončit trénink/ });
-        await next.click();
-      }
-      await page.waitForSelector('text=Dnešní trénink je hotový!');
-      console.log('[' + label + '] denní trénink OK');
-      await shot(page, label + '-daily-done');
+    // 4) přehledy a nastavení
+    for (const r of ['hry', 'sbirka', 'pokrok', 'o-treninku']) {
+      await page.goto(base + '?ts=0.1#' + r);
+      await page.waitForTimeout(150);
+      await shot(page, label + '-tab-' + r);
     }
-
-    // 3) přehledové stránky
-    await page.goto(base + '?ts=0.1#pokrok');
-    await page.waitForSelector('.kpis');
-    await shot(page, label + '-progress');
-    await page.goto(base + '?ts=0.1#o-treninku');
-    await page.waitForSelector('.prose');
-    await shot(page, label + '-about');
     await page.goto(base + '?ts=0.1#nastaveni');
     await page.waitForSelector('.settings');
     await page.locator('label[for="scale-3"]').click();
     await page.locator('label[for="theme-dark"]').click();
     const attrs = await page.evaluate(() => [document.documentElement.getAttribute('data-scale'), document.documentElement.getAttribute('data-theme')]);
     if (attrs[0] !== '3' || attrs[1] !== 'dark') { failures++; console.log('[' + label + '] nastavení FAILED', attrs); }
-    await shot(page, label + '-settings-dark');
     await page.goto(base + '?ts=0.1');
-    await page.waitForSelector('.today');
-    await shot(page, label + '-home-dark-large');
-    await page.goto(base + '?ts=0.1#hra-sipky');
-    await page.getByRole('button', { name: 'Začít hru' }).click();
-    await page.waitForSelector('.arrows');
-    await shot(page, label + '-sipky-dark-large');
-
-    // horizontální posun stránky nesmí nastat
+    await page.waitForSelector('.nodes');
+    await page.waitForTimeout(200);
+    await shot(page, label + '-path-dark-large');
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1);
     if (overflow) { failures++; console.log('[' + label + '] stránka přetéká do šířky'); }
 

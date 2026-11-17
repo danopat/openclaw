@@ -15,7 +15,6 @@
     ['🍪', 'sušenky'], ['🥐', 'loupáky'], ['🥖', 'veka'], ['🧂', 'sůl'], ['🍺', 'pivo'], ['🍷', 'víno'], ['🧃', 'džus'],
     ['🥜', 'arašídy'], ['🍦', 'zmrzlina'], ['🎂', 'dort'], ['🧼', 'mýdlo'], ['💐', 'květiny']
   ];
-  const ROUNDS = 2;
 
   SM.registerGame({
     id: 'nakup',
@@ -38,6 +37,7 @@
 
     async run(ctx) {
       const n = ctx.level + 2;
+      const ROUNDS = ctx.short ? 1 : 2;
       let hits = 0, fa = 0;
       const accs = [];
 
@@ -59,7 +59,7 @@
         levelDelta: acc >= 0.9 ? 1 : acc < 0.6 ? -1 : 0,
         big: hits + ' z ' + total,
         bigLabel: U.plural(total, 'položky', 'položek', 'položek') + ' jste si správně zapamatovali',
-        details: [ROUNDS + ' lístky po ' + n + ' položkách', fa ? 'Vybráno navíc: ' + fa : 'Nic navíc'],
+        details: [ROUNDS + ' ' + U.plural(ROUNDS, 'lístek', 'lístky', 'lístků') + ' po ' + n + ' položkách', fa ? 'Vybráno navíc: ' + fa : 'Nic navíc'],
         metric: { hits: hits, fa: fa, n: n }
       });
 

@@ -22,7 +22,6 @@
   const CENTER = [{ e: '🐞', name: 'Beruška' }, { e: '🐝', name: 'Včela' }];
   const TARGET = '🌻';
   const DISTRACT = '🌿';
-  const TRIALS = 16;
   const NAMES8 = ['nahoře', 'vpravo nahoře', 'vpravo', 'vpravo dole', 'dole', 'vlevo dole', 'vlevo', 'vlevo nahoře'];
   const NAMES4 = ['nahoře', 'vpravo', 'dole', 'vlevo'];
 
@@ -48,6 +47,7 @@
 
     async run(ctx) {
       const L = LEVELS[ctx.level - 1];
+      const TRIALS = ctx.short ? 10 : 16;
       const P = L.pos;
       const names = P === 8 ? NAMES8 : NAMES4;
       let dur = L.start, streak = 0, correct = 0;
@@ -166,7 +166,7 @@
         await ctx.sleep(ok ? 1000 : 1800);
       }
 
-      const thr = U.geomean(durs.slice(-8));
+      const thr = U.geomean(durs.slice(ctx.short ? -6 : -8));
       ctx.finish({
         perf: U.clamp(0.5 + Math.log2(L.start / thr), 0, 1),
         levelDelta: thr <= 0.75 * L.start ? 1 : thr >= 1.35 * L.start ? -1 : 0,

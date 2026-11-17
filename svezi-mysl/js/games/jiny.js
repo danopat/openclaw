@@ -20,7 +20,6 @@
     { cols: 6, rows: 6, set: 'hard' },
     { cols: 6, rows: 7, set: 'hard' }
   ];
-  const TRIALS = 10;
   const TIMEOUT = 15000;
 
   SM.registerGame({
@@ -39,6 +38,7 @@
 
     async run(ctx) {
       const L = LEVELS[ctx.level - 1];
+      const TRIALS = ctx.short ? 6 : 10;
       const cells = L.cols * L.rows;
       const rts = [];
       let errors = 0, misses = 0;

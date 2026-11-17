@@ -1,4 +1,4 @@
-/* Svěží mysl — ukládání nastavení a výsledků.
+/* Svěží mysl — ukládání nastavení, výsledků a postupu.
    Vše zůstává jen v tomto zařízení (localStorage). Když úložiště není k dispozici
    (anonymní okno, zablokovaná data), aplikace funguje dál a data drží jen v paměti. */
 (function () {
@@ -6,16 +6,37 @@
   var SM = window.SM;
   var U = SM.util;
   var KEY = 'svezi-mysl.v1';
-  var MAX_HISTORY = 600;
+  var MAX_HISTORY = 1500;
   var data = null;
 
+  function defaultProfile() {
+    return {
+      onboarded: false,
+      goal: 40,          // denní cíl v bodech
+      xp: 0,             // body celkem
+      freezes: 0,        // záchranné dny v zásobě (max. 2)
+      frozen: {},        // dny zachráněné záchranným dnem
+      bestStreak: 0,
+      done: {},          // dokončené uzly cesty: 'u-n' → počet
+      postcards: {},     // id místa → den získání
+      badges: {},        // id odznaku → dosažený stupeň
+      lessons: 0,
+      perfect: 0,
+      early: 0,
+      records: 0,
+      early_unlock: {},  // hry odemčené předčasně
+      seen: {},          // hry, u kterých už hráč viděl úvod
+      streakChecked: null,
+      notice: null       // zpráva na úvodní obrazovku (např. využitý záchranný den)
+    };
+  }
   function defaults() {
     return {
       settings: { scale: 1, theme: 'auto', sound: true, autoSpeak: false },
+      profile: defaultProfile(),
       games: {},
       history: [],
       days: {},
-      daily: { date: null, plan: [], done: [] },
       flags: {}
     };
   }
@@ -26,14 +47,14 @@
     var d = defaults();
     if (raw) {
       try {
-        var parsed = JSON.parse(raw);
-        if (parsed && typeof parsed === 'object') {
-          d.settings = Object.assign(d.settings, parsed.settings || {});
-          d.games = parsed.games || {};
-          d.history = Array.isArray(parsed.history) ? parsed.history : [];
-          d.days = parsed.days || {};
-          d.daily = Object.assign(d.daily, parsed.daily || {});
-          d.flags = parsed.flags || {};
+        var p = JSON.parse(raw);
+        if (p && typeof p === 'object') {
+          d.settings = Object.assign(d.settings, p.settings || {});
+          d.profile = Object.assign(defaultProfile(), p.profile || {});
+          d.games = p.games || {};
+          d.history = Array.isArray(p.history) ? p.history : [];
+          d.days = p.days || {};
+          d.flags = p.flags || {};
         }
       } catch (e) { /* poškozená data: začneme znovu */ }
     }
@@ -46,9 +67,11 @@
 
   var S = (SM.store = {});
   S.load = load;
+  S.save = save;
 
   S.settings = function () { return data.settings; };
   S.setSetting = function (k, v) { data.settings[k] = v; save(); };
+  S.profile = function () { return data.profile; };
 
   S.flag = function (k) { return !!data.flags[k]; };
   S.setFlag = function (k, v) { data.flags[k] = v; save(); };
@@ -60,29 +83,21 @@
     return g;
   };
 
-  /**
-   * Uloží výsledek hry. Vrací { isBest, prevBest }.
-   * entry: { id, level, newLevel, points, ms, metric }
-   */
+  /** Uloží výsledek jedné hry. Vrací { isBest, prevBest }. */
   S.recordResult = function (entry) {
     var g = S.game(entry.id);
     var prevBest = g.best || 0;
-    var isBest = g.plays > 0 && entry.points > prevBest;
-    g.best = Math.max(prevBest, entry.points);
+    var isBest = g.plays > 0 && entry.score > prevBest;
+    g.best = Math.max(prevBest, entry.score);
     g.plays = (g.plays || 0) + 1;
     g.level = entry.newLevel;
     g.last = Date.now();
     data.history.push({
-      g: entry.id,
-      t: Date.now(),
-      lv: entry.level,
-      p: entry.points,
-      ms: Math.round(entry.ms || 0),
-      m: entry.metric || null
+      g: entry.id, t: Date.now(), lv: entry.level, p: entry.score,
+      xp: entry.xp || 0, ms: Math.round(entry.ms || 0), m: entry.metric || null
     });
     if (data.history.length > MAX_HISTORY) data.history.splice(0, data.history.length - MAX_HISTORY);
-    var key = U.dayKey();
-    var day = data.days[key] || (data.days[key] = { n: 0, ms: 0 });
+    var day = S.today();
     day.n += 1;
     day.ms += Math.round(entry.ms || 0);
     save();
@@ -93,18 +108,23 @@
     return id ? data.history.filter(function (h) { return h.g === id; }) : data.history.slice();
   };
 
+  /* ----- Dny ----- */
   S.day = function (key) { return data.days[key] || null; };
-
-  /** Počet dní v řadě s alespoň jednou hrou (dnešek se počítá, jakmile hrajete). */
-  S.streak = function () {
-    var d = new Date();
-    var n = 0;
-    if (!data.days[U.dayKey(d)]) d = U.addDays(d, -1);
-    while (data.days[U.dayKey(d)]) { n++; d = U.addDays(d, -1); }
-    return n;
+  S.today = function () {
+    var key = U.dayKey();
+    var d = data.days[key];
+    if (!d) d = data.days[key] = { n: 0, ms: 0, xp: 0 };
+    if (d.xp == null) d.xp = 0;
+    return d;
   };
-
-  /** Posledních 7 dní (od nejstaršího), každý { date, key, n, ms }. */
+  S.days = function () { return data.days; };
+  S.addXp = function (n) {
+    var d = S.today();
+    d.xp += n;
+    data.profile.xp += n;
+    save();
+  };
+  /** Posledních N dní (od nejstaršího), každý { date, key, n, ms, xp, frozen }. */
   S.lastDays = function (count) {
     count = count || 7;
     var out = [];
@@ -113,30 +133,20 @@
       var d = U.addDays(today, -i);
       var key = U.dayKey(d);
       var rec = data.days[key];
-      out.push({ date: d, key: key, n: rec ? rec.n : 0, ms: rec ? rec.ms : 0 });
+      out.push({ date: d, key: key, n: rec ? rec.n : 0, ms: rec ? rec.ms : 0, xp: rec ? rec.xp || 0 : 0, frozen: !!data.profile.frozen[key] });
     }
     return out;
   };
-
   S.totalGames = function () { return data.history.length; };
-
-  /* ----- Denní trénink ----- */
-  S.daily = function () { return data.daily; };
-  S.setDaily = function (plan) {
-    data.daily = { date: U.dayKey(), plan: plan, done: [] };
-    save();
-    return data.daily;
-  };
-  S.markDailyDone = function (id) {
-    if (data.daily.date !== U.dayKey()) return;
-    if (data.daily.done.indexOf(id) === -1) data.daily.done.push(id);
-    save();
-  };
 
   S.reset = function () {
     var keep = data.settings;
+    var onboarded = data.profile.onboarded;
+    var goal = data.profile.goal;
     data = defaults();
     data.settings = keep;
+    data.profile.onboarded = onboarded;
+    data.profile.goal = goal;
     save();
   };
 

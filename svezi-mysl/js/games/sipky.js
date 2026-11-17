@@ -16,7 +16,6 @@
     { incong: 0.6, deadline: 1100, jitter: true, n: 7 },
     { incong: 0.7, deadline: 900, jitter: true, n: 7 }
   ];
-  const TRIALS = 24;
 
   SM.registerGame({
     id: 'sipky',
@@ -40,6 +39,7 @@
 
     async run(ctx) {
       const L = LEVELS[ctx.level - 1];
+      const TRIALS = ctx.short ? 14 : 24;
       const field = h('div', { class: 'arrow-field' });
       ctx.stage.appendChild(field);
       let answer = null;

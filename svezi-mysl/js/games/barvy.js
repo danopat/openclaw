@@ -22,7 +22,6 @@
     { k: 4, incong: 0.7, deadline: 3000, sw: 0.4 },
     { k: 4, incong: 0.7, deadline: 2400, sw: 0.5 }
   ];
-  const TRIALS = 24;
 
   SM.registerGame({
     id: 'barvy',
@@ -46,6 +45,7 @@
 
     async run(ctx) {
       const L = LEVELS[ctx.level - 1];
+      const TRIALS = ctx.short ? 14 : 24;
       const colors = COLORS.slice(0, L.k);
       let answer = null;
 
