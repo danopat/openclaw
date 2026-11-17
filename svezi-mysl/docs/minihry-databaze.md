@@ -1,12 +1,10 @@
 # Databáze miniher: plán
 
-Stav: návrh ze 17. 11. 2026 (týž den doplněný o strany 72–101), zatím nic z toho není naprogramované. Zdrojem nápadů jsou fotky knihy: kapitola *Myšlenkové schopnosti* (str. 56–77) a část kapitoly *Zkoušejte nové věci* (str. 84–101), celkem 94 cvičení a tipů z 33 stran. Stejná data jsou i v tabulce [`minihry-databaze.csv`](minihry-databaze.csv) pro Excel, Numbers nebo Google Tabulky.
-
-Na fotkách chybí strany 73 (je vidět jen okraj), 74–76, 78–83 a 88–91. Na stranách 88–91 podle odkazu v knize pokračují další paměťové techniky. Až je nafotíte, doplním je.
+Stav: návrh ze 17. 11. 2026 (týž den doplněný o další nafocené strany), zatím nic z toho není naprogramované. Zdrojem nápadů jsou jen vybrané nafocené strany knihy: str. 56–72 a 77 z kapitoly *Myšlenkové schopnosti* a str. 84–87 a 92–101 z kapitoly *Zkoušejte nové věci*, celkem 92 cvičení a tipů z 32 stran. Stejná data jsou i v tabulce [`minihry-databaze.csv`](minihry-databaze.csv) pro Excel, Numbers nebo Google Tabulky.
 
 ## Shrnutí
 
-- **45 nových miniher**: 9 v první vlně (P1), 19 ve druhé (P2), 17 na později (P3).
+- **44 nových miniher**: 9 v první vlně (P1), 19 ve druhé (P2), 16 na později (P3).
 - **7 rozšíření** her, které už v aplikaci jsou (nové režimy).
 - **22 námětů na Hádanku dne**: logické hádanky a chytáky z kapitol Řešení problémů a Rozhodování. Na rychlou adaptivní minihru se nehodí, ale jako jedna klidná hádanka denně ano.
 - **Škola paměti** (nová funkce): 6 krátkých lekcí o paměťových tricích, každá s navazující minihrou.
@@ -69,7 +67,6 @@ Na fotkách chybí strany 73 (je vidět jen okraj), 74–76, 78–83 a 88–91. 
 | PA-06 | Mapa Česka | Paměť | Nová minihra | P3 | L | Nová | 59/12 |
 | RO-04 | Tři hrnky: měnit, nebo ne? | Rozhodování | Nová minihra | P3 | S | Nová (pokus, ne adaptivní hra) | 71/5 |
 | RO-05 | Přesýpací hodiny | Rozhodování | Nová minihra | P3 | M | Nová | 69/19 |
-| RO-06 | Bludiště | Rozhodování | Nová minihra | P3 | M | Nová | 73/4, 73/6 |
 | SL-05 | Slovní kruh | Slova | Nová minihra | P3 | L | Nová | 61/6 |
 | SL-06 | Slovní cikcak | Slova | Nová minihra | P3 | M | Nová | 60/1 |
 | SL-07 | Tajná šifra | Slova | Nová minihra | P3 | S | Nová | 60/3 |
@@ -361,22 +358,6 @@ Na fotkách chybí strany 73 (je vidět jen okraj), 74–76, 78–83 a 88–91. 
 - **Hodnocení:** Vyřešeno a počet kroků.
 - **Krátká verze do lekce:** 1 úloha.
 - **Pozor u seniorů:** Zobrazovat zbývající minuty i číslem.
-
-### RO-06 Bludiště
-
-*Rozhodování · Nová minihra · priorita P3 · pracnost M*
-
-- **Inspirace:** str. 73, č. 4 Bludiště (na fotce jen okraj); str. 73, č. 6 navazující úloha (na fotce jen okraj)
-- **Trénuje:** Plánování cesty dopředu a prostorovou orientaci.
-- **Jak se hraje:**
-  1. Bludiště zobrazené shora, start a cíl. Hráč se posouvá klepnutím na sousední políčko nebo na velké šipky.
-  2. Na vyšších úrovních jsou v bludišti díry, které hráče přenesou jinam, nebo je potřeba cestou sebrat klíč.
-  3. Varianta „v duchu“: projít bludiště jen očima a odpovědět, kolikrát cesta zahne doleva.
-- **Obsah a data:** Generátor bludišť s ověřením, že cesta existuje. Na nízkých úrovních málo slepých uliček.
-- **Úrovně:** 5×5 → 7×7 → 9×9 → s dírami a přenosem → varianta v duchu.
-- **Hodnocení:** Dokončení, počet kroků proti nejkratší cestě a čas.
-- **Krátká verze do lekce:** 1 bludiště 5×5 nebo 7×7.
-- **Pozor u seniorů:** Na telefonu nejvýš 9×9. Žádné tažení prstem, jen klepání. Pozici hráče ukázat výrazně (postavička, ne jen barevné políčko).
 
 ## Slova
 
@@ -941,7 +922,7 @@ Na fotkách chybí strany 73 (je vidět jen okraj), 74–76, 78–83 a 88–91. 
 - **Tajenky a hádanky:** krátká přísloví (část už je v content.js), 60–100 vlastních hádanek s vysvětlením.
 - **Tematické balíčky pro Co k čemu patří:** recepty (bábovka, palačinky, knedlíky, vánočka), ceníky, jízdní řády, narozeniny.
 - **Grafika:** 3–4 půdorysy bytů, 32 mariášových karet ve zjednodušeném stylu, kreslené výrazy obličejů, kreslené portréty, jednoduché ilustrace k hádankám, asi 40 ikon věcí pro Podnos (sdílet s Co se změnilo a Nákupním seznamem), ikony budov pro Cestu podle šipek, 10 obrázků paměťových kolíků.
-- **Generátory s kontrolou řešení:** kreslení staveb z kostek (PL-07, PL-11, PL-12), pyramidy a součtové čtverce s jednoznačným řešením (PL-14, PL-15), bludiště (RO-06), sítě krychle (PL-16), pravidla proměn obrázků (PL-17), dělení tvaru a hadí cesta (PL-10, PL-18).
+- **Generátory s kontrolou řešení:** kreslení staveb z kostek (PL-07, PL-11, PL-12), pyramidy a součtové čtverce s jednoznačným řešením (PL-14, PL-15), sítě krychle (PL-16), pravidla proměn obrázků (PL-17), dělení tvaru a hadí cesta (PL-10, PL-18).
 - **Škola paměti:** 6 krátkých lekcí s vlastními příklady a obrázky.
 - **Křížovky:** otázky se musí psát ručně. Zvážit spolupráci s autorem křížovek.
 - **Mapy:** zjednodušené SVG krajů ČR a okolních států, s ověřenou licencí.
@@ -1022,8 +1003,6 @@ Typy úloh (osmisměrka, sudoku, přelévání vody, hádanky o lhářích, kaku
 | 72 | Koncentrace | 1 | Hledání čísel | PO-02 |
 | 72 | Koncentrace | 2 | Obvodová deska | PO-03 |
 | 72 | Koncentrace | 3 | Nehodící se škrtněte | EX-07 (hra Otočené tvary) |
-| 73 | Koncentrace | 4 | Bludiště (na fotce jen okraj) | RO-06 |
-| 73 | Koncentrace | 6 | navazující úloha k bludišti (na fotce jen okraj) | RO-06 (varianta v duchu) |
 | 77 | 3D vizualizace | 5 | Pohled na krychle | PL-11 |
 | 77 | 3D vizualizace | 6 | Rotující krychle | PL-12 |
 | 77 | 3D vizualizace | 7 | Mistr trasy | PL-13 |
