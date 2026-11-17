@@ -162,6 +162,8 @@ SM.registerGame({
 
 ## Možné další kroky
 
+Podrobný plán dalších miniher (30 nových her, 6 rozšíření a Hádanka dne) je v [`docs/minihry-databaze.md`](docs/minihry-databaze.md), tabulka v [`docs/minihry-databaze.csv`](docs/minihry-databaze.csv).
+
 1. **Vyzkoušet s 5 až 8 seniory** různého věku. Sledovat, jestli rozumí pokynům, jak zvládají dotyk a co je frustruje. Doladit úroveň 1 všech her.
 2. **Denní připomínka**: v Capacitoru jako lokální notifikace, na webu jako Web Push (iOS 16.4+, jen pro aplikaci na ploše).
 3. **Další hry a obsah**: krátké příběhy s otázkami (vybavování), orientace v kalendáři a na mapě, hudební paměť, víc přísloví a slov. Další zastávky cesty (např. Morava, Šumava) s novými pohlednicemi.
