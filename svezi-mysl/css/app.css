@@ -559,7 +559,8 @@ svg { display: block; }
 .note-item .emo { width: 2.2rem; font-size: calc(var(--row) * 0.62); text-align: center; flex: none; }
 .timebar { width: 100%; max-width: 30rem; height: 12px; border-radius: 99px; overflow: hidden; background: var(--meter-track); }
 .timebar i { display: block; height: 100%; border-radius: 99px; background: var(--ink-2); transform-origin: left center; }
-.stack { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; gap: 0.9rem; width: 100%; max-height: 100%; }
+/* Když se obsah na malý displej s velkým písmem nevejde, posune se, místo aby překryl tlačítka dole. */
+.stack { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; gap: 0.9rem; width: 100%; max-height: 100%; overflow-y: auto; touch-action: pan-y; padding-block: 4px 10px; }
 .quiz { display: grid; gap: 1.25rem; justify-items: center; }
 .quiz-q { font-size: var(--fs-3xl); font-weight: 800; font-family: var(--font-num); }
 .quiz-opts { display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; }
@@ -1199,10 +1200,80 @@ body.has-tabs .page { padding-bottom: calc(7rem + env(safe-area-inset-bottom, 0p
 .count-field { position: relative; width: 100%; max-width: 30rem; aspect-ratio: 4 / 3; max-height: 100%; border-radius: 18px; background: var(--surface); box-shadow: inset 0 0 0 2px var(--line); }
 .count-dot { position: absolute; font-size: 2.6rem; line-height: 1; transform: translate(-50%, -50%); }
 
+/* ========== První vlna plánu: krok 1 ========== */
+.kp-value { min-width: 7rem; height: 3.4rem; display: grid; place-items: center; padding: 0 0.6rem; border-bottom: 3px solid var(--line); font-family: var(--font-num); font-size: var(--fs-2xl); font-weight: 700; }
+.kp-value.is-filled { border-color: var(--ink); }
+
+/* Řetězové počty */
+.chain { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.5rem 0.4rem; width: 100%; max-width: 38rem; }
+.chain-num, .chain-op { display: inline-grid; place-items: center; min-width: 3.4rem; height: 3.6rem; padding: 0 0.7rem; border-radius: 14px; font-family: var(--font-num); font-size: var(--fs-xl); font-weight: 700; white-space: nowrap; }
+.chain-num { background: var(--ink); color: var(--bg); }
+.chain-num.is-q { background: var(--surface-2); color: var(--ink); box-shadow: inset 0 0 0 3px var(--ink); }
+.chain-op { background: var(--surface); color: var(--ink); box-shadow: inset 0 0 0 2px var(--line); }
+.chain-arrow { color: var(--ink-2); font-size: var(--fs-l); font-weight: 700; }
+.op-sign { margin-right: 0.15em; }
+.chain-card, .chain-sol { display: grid; justify-items: center; gap: 0.45rem; width: min(20rem, 100%); padding: 1.3rem 1.5rem; border-radius: 22px; background: var(--surface); box-shadow: var(--shadow); text-align: center; }
+.chain-label { color: var(--ink-2); font-size: var(--fs-m); font-weight: 700; }
+.chain-big { font-family: var(--font-num); font-size: clamp(2.5rem, 13vw, 3.75rem); font-weight: 800; line-height: 1.1; overflow-wrap: anywhere; }
+.chain-say { font-size: var(--fs-l); color: var(--ink-2); }
+.chain-sol { justify-items: stretch; gap: 0.3rem; font-family: var(--font-num); font-size: var(--fs-l); text-align: left; }
+.chain-sol-start { color: var(--ink-2); font-family: var(--font-text); }
+.chain-sol .is-last { padding-top: 0.3rem; border-top: 2px solid var(--line); font-weight: 800; }
+
+/* Výhodný nákup */
+.offers-wrap { width: 100%; max-width: 34rem; max-height: 100%; overflow-y: auto; touch-action: pan-y; padding: 2px; }
+.choices.is-offers { max-width: none; }
+.choices.is-offers .choice { min-height: 5rem; padding: 0.6rem 0.9rem; font-size: var(--fs-l); text-align: left; }
+.offer { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 0.25rem 0.75rem; width: 100%; }
+.offer-emo { font-size: 2.4rem; }
+.offer-text { display: grid; justify-items: start; gap: 0.1rem; min-width: 0; }
+.offer-title { font-weight: 800; }
+.offer-line { font-size: var(--fs-m); color: var(--ink-2); }
+.offer-line.is-promo { margin-top: 0.15rem; padding: 0.05rem 0.5rem; border-radius: 8px; background: var(--sun-soft); color: var(--sun-ink); font-weight: 800; }
+.offer-price { display: grid; justify-items: end; font-family: var(--font-num); line-height: 1.2; }
+.offer-price strong { font-size: var(--fs-xl); white-space: nowrap; }
+.offer-kc { font-family: var(--font-text); font-size: 0.7em; }
+.offer-price small { font-family: var(--font-text); font-size: var(--fs-xs); color: var(--ink-2); white-space: nowrap; }
+.offer-after { grid-column: 1 / -1; font-size: var(--fs-m); }
+.offer-after:empty { display: none; }
+.offer-best { grid-column: 1 / -1; justify-self: start; display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.15rem 0.7rem 0.15rem 0.5rem; border-radius: 999px; background: var(--ok); color: var(--on-status); font-size: var(--fs-s); font-weight: 800; }
+.offer-best svg { width: 1.1em; height: 1.1em; }
+
+/* Vyšší, nebo nižší? */
+.guess { display: grid; justify-items: center; align-content: center; gap: 0.7rem; width: 100%; max-width: 30rem; max-height: 100%; overflow-y: auto; touch-action: pan-y; padding: 2px; }
+.guess-hint { min-height: 1.5em; font-size: var(--fs-l); line-height: 1.3; text-align: center; text-wrap: balance; }
+.guess-hint strong { text-transform: uppercase; letter-spacing: 0.02em; }
+.guess-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.45rem; width: 100%; }
+.guess-num { min-height: 3.3rem; padding: 0; background: var(--surface); color: var(--ink); box-shadow: inset 0 0 0 2px var(--line); font-family: var(--font-num); font-size: var(--fs-xl); }
+.guess-num.is-out { background: var(--surface-2); color: var(--ink-2); box-shadow: none; text-decoration: line-through; }
+.guess-num.is-tried { box-shadow: inset 0 0 0 3px var(--ink-2); }
+.guess-num.is-hit { opacity: 1; background: var(--ok); color: var(--on-status); box-shadow: none; text-decoration: none; }
+.cal { display: grid; gap: 0.35rem; width: 100%; }
+.cal-title { font-size: var(--fs-l); font-weight: 800; text-align: center; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 0.3rem; }
+.cal-dow { font-size: var(--fs-s); font-weight: 700; color: var(--ink-2); text-align: center; }
+.cal .guess-num { min-height: 2.6rem; border-radius: 10px; font-size: var(--fs-l); }
+.guess-pad { display: grid; justify-items: center; gap: 0.45rem; width: 100%; }
+.nline { position: relative; width: 100%; height: 1.4rem; border-radius: 99px; background: var(--meter-track); overflow: hidden; }
+.nline-range { position: absolute; top: 0; bottom: 0; left: 0; width: 100%; border-radius: 99px; background: var(--dec); transition: left 0.3s ease, width 0.3s ease; }
+.nline-ends { display: flex; justify-content: space-between; width: 100%; font-family: var(--font-num); font-size: var(--fs-s); color: var(--ink-2); }
+.nline-text { font-size: var(--fs-l); font-weight: 700; }
+.guess-pad .kp-key { min-height: 3.1rem; }
+
+/* Příbuzenstvo */
+.kin-card .blank { min-width: 5.5em; }
+.ftree { display: grid; gap: 0.35rem; width: 100%; max-width: 30rem; max-height: 100%; overflow-y: auto; touch-action: pan-y; padding: 0.75rem 0.9rem; border-radius: 18px; background: var(--surface); box-shadow: var(--shadow); }
+.ftree-top { font-size: var(--fs-m); text-align: center; text-wrap: balance; }
+.ftree-label { color: var(--ink-2); font-size: var(--fs-s); font-weight: 700; }
+.ftree-kids { display: grid; gap: 0.3rem; padding-left: 0.7rem; border-left: 4px solid var(--word); }
+.ftree-branch { padding: 0.3rem 0.6rem; border-radius: 10px; background: var(--surface-2); font-size: var(--fs-m); line-height: 1.35; }
+.ftree-sub { color: var(--ink-2); }
+.ftree-kid { color: var(--ink); font-weight: 700; }
+
 /* ---------- Omezený pohyb ---------- */
 @media (prefers-reduced-motion: reduce) {
   .node-bubble, .node.is-current::after, .modal.is-sheet, .celebrate .postcard { animation: none; }
-  .catch-item.is-in, .catch-item.is-taken, .node { transition: none; }
+  .catch-item.is-in, .catch-item.is-taken, .node, .nline-range { transition: none; }
   .btn, .game-row, .pex-inner, .win, .switch i, .switch i::after { transition: none; }
   .btn:active, .game-row:active { transform: none; }
   .fb.is-ok, .fb.is-bad { animation-name: fb-fade; }

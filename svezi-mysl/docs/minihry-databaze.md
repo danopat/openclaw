@@ -1,6 +1,6 @@
 # Databáze miniher: plán
 
-Stav: návrh ze 17. 11. 2026 (týž den doplněný o další nafocené strany), zatím nic z toho není naprogramované. Zdrojem nápadů jsou jen vybrané nafocené strany knihy: str. 56–72 a 77 z kapitoly *Myšlenkové schopnosti* a str. 84–87 a 92–101 z kapitoly *Zkoušejte nové věci*, celkem 92 cvičení a tipů z 32 stran. Stejná data jsou i v tabulce [`minihry-databaze.csv`](minihry-databaze.csv) pro Excel, Numbers nebo Google Tabulky.
+Stav k 17. 11. 2026: hotové jsou 4 hry z první vlny (Vyšší, nebo nižší?, Příbuzenstvo, Řetězové počty, Výhodný nákup), ostatní je zatím plán. Zdrojem nápadů jsou jen vybrané nafocené strany knihy: str. 56–72 a 77 z kapitoly *Myšlenkové schopnosti* a str. 84–87 a 92–101 z kapitoly *Zkoušejte nové věci*, celkem 92 cvičení a tipů z 32 stran. Stejná data jsou i v tabulce [`minihry-databaze.csv`](minihry-databaze.csv) pro Excel, Numbers nebo Google Tabulky.
 
 ## Shrnutí
 
@@ -39,12 +39,12 @@ Stav: návrh ze 17. 11. 2026 (týž den doplněný o další nafocené strany), 
 | PA-01 | Kde co leží | Paměť | Nová minihra | P1 | M | Nová | 57/6 |
 | PA-02 | Co k čemu patří | Paměť | Nová minihra | P1 | M | Nová | 56/3, 58/9, 58/10 |
 | PO-01 | Kde je kulička? | Postřeh | Nová minihra | P1 | M | Nová | 71/5 |
-| RO-01 | Vyšší, nebo nižší? | Rozhodování | Nová minihra | P1 | S | Nová | 68/14 |
+| RO-01 | Vyšší, nebo nižší? (hotovo) | Rozhodování | Nová minihra | P1 | S | Nová | 68/14 |
 | SL-01 | Osmisměrka s tajenkou | Slova | Nová minihra | P1 | M | Nová | 61/4, 95/V2 |
-| SL-04 | Příbuzenstvo | Slova | Nová minihra | P1 | S | Nová | 64/9 |
-| PL-01 | Řetězové počty | Počty a logika | Nová minihra | P1 | S | Nová | 62/4, 65/15 |
+| SL-04 | Příbuzenstvo (hotovo) | Slova | Nová minihra | P1 | S | Nová | 64/9 |
+| PL-01 | Řetězové počty (hotovo) | Počty a logika | Nová minihra | P1 | S | Nová | 62/4, 65/15 |
 | PL-02 | Sudoku | Počty a logika | Nová minihra | P1 | M | Nová | 63/7, 98/V1, 99/V2, 99/R |
-| PL-03 | Výhodný nákup | Počty a logika | Nová minihra | P1 | S | Nová | 64/11 |
+| PL-03 | Výhodný nákup (hotovo) | Počty a logika | Nová minihra | P1 | S | Nová | 64/11 |
 | PA-03 | Smajlíci | Paměť | Nová minihra | P2 | S | Nová | 56/1 |
 | PA-04 | Oslí můstek | Paměť | Nová minihra | P2 | M | Nová (učí paměťovou techniku, procvičení k TR-02 a TR-03) | 58/8, 86/R, 87/R |
 | PA-05 | Vynesené karty | Paměť | Nová minihra | P2 | M | Nová | 59/14 |
@@ -285,7 +285,7 @@ Stav: návrh ze 17. 11. 2026 (týž den doplněný o další nafocené strany), 
 
 ### RO-01 Vyšší, nebo nižší?
 
-*Rozhodování · Nová minihra · priorita P1 · pracnost S*
+*Rozhodování · Nová minihra · priorita P1 · pracnost S* · **hotovo v aplikaci**
 
 - **Inspirace:** str. 68, č. 14 Hledání v kalendáři
 - **Trénuje:** Plánování a strategii (půlení intervalu), práci s čísly a kalendářem.
@@ -379,7 +379,7 @@ Stav: návrh ze 17. 11. 2026 (týž den doplněný o další nafocené strany), 
 
 ### SL-04 Příbuzenstvo
 
-*Slova · Nová minihra · priorita P1 · pracnost S*
+*Slova · Nová minihra · priorita P1 · pracnost S* · **hotovo v aplikaci**
 
 - **Inspirace:** str. 64, č. 9 Rodinné vztahy
 - **Trénuje:** Jazyk a logické uvažování o vztazích.
@@ -498,7 +498,7 @@ Stav: návrh ze 17. 11. 2026 (týž den doplněný o další nafocené strany), 
 
 ### PL-01 Řetězové počty
 
-*Počty a logika · Nová minihra · priorita P1 · pracnost S*
+*Počty a logika · Nová minihra · priorita P1 · pracnost S* · **hotovo v aplikaci**
 
 - **Inspirace:** str. 62, č. 4 Mozkové řetězce; str. 65, č. 15 Mozkové řetězce
 - **Trénuje:** Počítání zpaměti a pracovní paměť.
@@ -529,7 +529,7 @@ Stav: návrh ze 17. 11. 2026 (týž den doplněný o další nafocené strany), 
 
 ### PL-03 Výhodný nákup
 
-*Počty a logika · Nová minihra · priorita P1 · pracnost S*
+*Počty a logika · Nová minihra · priorita P1 · pracnost S* · **hotovo v aplikaci**
 
 - **Inspirace:** str. 64, č. 11 Bleskurychlá otázka
 - **Trénuje:** Úsudek s čísly v běžném životě: cena za kilo, rychlost, doba.

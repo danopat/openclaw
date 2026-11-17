@@ -156,5 +156,70 @@
     { f: 'malířka', m: 'malíř', e: '🎨' }, { f: 'hasička', m: 'hasič', e: '🚒' }, { f: 'lékařka', m: 'lékař', e: '🩺' }
   ];
 
-  SM.content = { PROVERBS, OPPOSITES, ANAGRAMS, ODD, FACES, NAMES, JOBS };
+  /* Příbuzenstvo: q = věta před vynechaným slovem, a = správně, d = chybné možnosti (stejného rodu),
+     l = skupina: 1 základní vztahy, 2 příbuzní z manželství a pra-, 3 dva kroky. Každá věta má jedinou správnou odpověď. */
+  const KIN = [
+    { l: 1, q: 'Syn mé sestry je můj', a: 'synovec', d: ['bratranec', 'vnuk', 'strýc'] },
+    { l: 1, q: 'Syn mého bratra je můj', a: 'synovec', d: ['bratranec', 'švagr', 'vnuk'] },
+    { l: 1, q: 'Dcera mého bratra je moje', a: 'neteř', d: ['sestřenice', 'vnučka', 'teta'] },
+    { l: 1, q: 'Dcera mé sestry je moje', a: 'neteř', d: ['sestřenice', 'snacha', 'vnučka'] },
+    { l: 1, q: 'Bratr mé matky je můj', a: 'strýc', d: ['bratranec', 'dědeček', 'synovec'] },
+    { l: 1, q: 'Bratr mého otce je můj', a: 'strýc', d: ['bratranec', 'švagr', 'tchán'] },
+    { l: 1, q: 'Sestra mého otce je moje', a: 'teta', d: ['sestřenice', 'babička', 'neteř'] },
+    { l: 1, q: 'Sestra mé matky je moje', a: 'teta', d: ['sestřenice', 'švagrová', 'neteř'] },
+    { l: 1, q: 'Matka mé matky je moje', a: 'babička', d: ['teta', 'prababička', 'tchyně'] },
+    { l: 1, q: 'Otec mého otce je můj', a: 'dědeček', d: ['strýc', 'pradědeček', 'tchán'] },
+    { l: 1, q: 'Otec mé matky je můj', a: 'dědeček', d: ['strýc', 'tchán', 'pradědeček'] },
+    { l: 1, q: 'Syn mého syna je můj', a: 'vnuk', d: ['synovec', 'pravnuk', 'bratranec'] },
+    { l: 1, q: 'Dcera mé dcery je moje', a: 'vnučka', d: ['neteř', 'pravnučka', 'sestřenice'] },
+    { l: 1, q: 'Dcera mého syna je moje', a: 'vnučka', d: ['neteř', 'snacha', 'sestřenice'] },
+    { l: 1, q: 'Syn mého strýce je můj', a: 'bratranec', d: ['synovec', 'strýc', 'švagr'] },
+    { l: 1, q: 'Dcera mé tety je moje', a: 'sestřenice', d: ['neteř', 'teta', 'švagrová'] },
+    { l: 2, q: 'Otec mé manželky je můj', a: 'tchán', d: ['švagr', 'zeť', 'dědeček'] },
+    { l: 2, q: 'Otec mého manžela je můj', a: 'tchán', d: ['švagr', 'strýc', 'zeť'] },
+    { l: 2, q: 'Matka mého manžela je moje', a: 'tchyně', d: ['švagrová', 'snacha', 'teta'] },
+    { l: 2, q: 'Matka mé manželky je moje', a: 'tchyně', d: ['snacha', 'švagrová', 'babička'] },
+    { l: 2, q: 'Manžel mé dcery je můj', a: 'zeť', d: ['švagr', 'tchán', 'synovec'] },
+    { l: 2, q: 'Manželka mého syna je moje', a: 'snacha', d: ['švagrová', 'neteř', 'tchyně'] },
+    { l: 2, q: 'Bratr mé manželky je můj', a: 'švagr', d: ['zeť', 'bratranec', 'tchán'] },
+    { l: 2, q: 'Bratr mého manžela je můj', a: 'švagr', d: ['zeť', 'strýc', 'synovec'] },
+    { l: 2, q: 'Sestra mého manžela je moje', a: 'švagrová', d: ['snacha', 'sestřenice', 'tchyně'] },
+    { l: 2, q: 'Sestra mé manželky je moje', a: 'švagrová', d: ['snacha', 'neteř', 'teta'] },
+    { l: 2, q: 'Manžel mé sestry je můj', a: 'švagr', d: ['zeť', 'strýc', 'tchán'] },
+    { l: 2, q: 'Manželka mého bratra je moje', a: 'švagrová', d: ['snacha', 'teta', 'sestřenice'] },
+    { l: 2, q: 'Manžel mé tety je můj', a: 'strýc', d: ['švagr', 'bratranec', 'tchán'] },
+    { l: 2, q: 'Manželka mého strýce je moje', a: 'teta', d: ['švagrová', 'sestřenice', 'tchyně'] },
+    { l: 2, q: 'Otec mého dědečka je můj', a: 'pradědeček', d: ['dědeček', 'strýc', 'tchán'] },
+    { l: 2, q: 'Matka mé babičky je moje', a: 'prababička', d: ['babička', 'teta', 'tchyně'] },
+    { l: 2, q: 'Syn mého vnuka je můj', a: 'pravnuk', d: ['vnuk', 'synovec', 'bratranec'] },
+    { l: 2, q: 'Dcera mé vnučky je moje', a: 'pravnučka', d: ['vnučka', 'neteř', 'sestřenice'] },
+    { l: 3, q: 'Syn bratra mého otce je můj', a: 'bratranec', d: ['synovec', 'strýc', 'vnuk', 'švagr'] },
+    { l: 3, q: 'Syn sestry mého otce je můj', a: 'bratranec', d: ['synovec', 'strýc', 'švagr', 'vnuk'] },
+    { l: 3, q: 'Dcera sestry mé matky je moje', a: 'sestřenice', d: ['neteř', 'teta', 'vnučka', 'švagrová'] },
+    { l: 3, q: 'Dcera bratra mé matky je moje', a: 'sestřenice', d: ['neteř', 'teta', 'švagrová', 'vnučka'] },
+    { l: 3, q: 'Manžel sestry mé matky je můj', a: 'strýc', d: ['švagr', 'dědeček', 'bratranec', 'tchán'] },
+    { l: 3, q: 'Otec otce mé matky je můj', a: 'pradědeček', d: ['dědeček', 'strýc', 'tchán', 'bratranec'] },
+    { l: 3, q: 'Syn syna mého syna je můj', a: 'pravnuk', d: ['vnuk', 'synovec', 'bratranec', 'zeť'] },
+    { l: 3, q: 'Dcera dcery mé dcery je moje', a: 'pravnučka', d: ['vnučka', 'neteř', 'sestřenice', 'snacha'] },
+    { l: 3, q: 'Dcera mého bratra je pro mou dceru', a: 'sestřenice', d: ['neteř', 'teta', 'vnučka', 'švagrová'] },
+    { l: 3, q: 'Syn mé sestry je pro mého otce', a: 'vnuk', d: ['synovec', 'bratranec', 'pravnuk', 'zeť'] },
+    { l: 3, q: 'Matka mé manželky je pro naši dceru', a: 'babička', d: ['tchyně', 'teta', 'prababička', 'švagrová'] },
+    { l: 3, q: 'Bratr mé manželky je pro našeho syna', a: 'strýc', d: ['bratranec', 'švagr', 'dědeček', 'synovec'] },
+    { l: 3, q: 'Otec mého manžela je pro naše děti', a: 'dědeček', d: ['strýc', 'tchán', 'pradědeček', 'švagr'] },
+    { l: 3, q: 'Manželka mého syna je pro mou manželku', a: 'snacha', d: ['švagrová', 'tchyně', 'neteř', 'sestřenice'] }
+  ];
+
+  /* Jména do rodokmenu. Vnoučata mají i přivlastňovací tvary (Tomášův strýc, Tomášova teta). */
+  const FAMILY = {
+    grand: { f: ['Marie', 'Věra', 'Jiřina', 'Ludmila'], m: ['Josef', 'Jaroslav', 'František', 'Václav'] },
+    parents: { f: ['Jana', 'Petra', 'Lenka', 'Martina', 'Ivana', 'Hana'], m: ['Petr', 'Pavel', 'Martin', 'Michal', 'Jan', 'Zdeněk'] },
+    kids: {
+      f: [['Tereza', 'Terezin', 'Terezina'], ['Anna', 'Annin', 'Annina'], ['Klára', 'Klářin', 'Klářina'], ['Eliška', 'Eliščin', 'Eliščina'],
+        ['Lucie', 'Luciin', 'Luciina'], ['Adéla', 'Adélin', 'Adélina'], ['Kristýna', 'Kristýnin', 'Kristýnina'], ['Barbora', 'Barbořin', 'Barbořina']],
+      m: [['Tomáš', 'Tomášův', 'Tomášova'], ['Jakub', 'Jakubův', 'Jakubova'], ['Matěj', 'Matějův', 'Matějova'], ['Lukáš', 'Lukášův', 'Lukášova'],
+        ['Ondřej', 'Ondřejův', 'Ondřejova'], ['Filip', 'Filipův', 'Filipova'], ['Adam', 'Adamův', 'Adamova'], ['Vojtěch', 'Vojtěchův', 'Vojtěchova']]
+    }
+  };
+
+  SM.content = { PROVERBS, OPPOSITES, ANAGRAMS, ODD, FACES, NAMES, JOBS, KIN, FAMILY };
 })();

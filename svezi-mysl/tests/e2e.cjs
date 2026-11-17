@@ -1,5 +1,5 @@
 /* Automatický test: projde úvodní nastavení, celou první zastávku cesty (lekce, truhla, pohlednice)
-   a všech 22 her ve volném hraní v emulovaném iPhonu a iPadu. Hlídá chyby v konzoli.
+   a všechny hry ve volném hraní v emulovaném iPhonu a iPadu (nové hry i na všech úrovních). Hlídá chyby v konzoli.
    Spuštění:  npm i -D playwright && npx playwright install chromium && node tests/e2e.cjs
    Volitelně:  node tests/e2e.cjs --shots ./screenshots   (uloží snímky obrazovky) */
 const { chromium, devices } = require('playwright');
@@ -257,8 +257,110 @@ const players = {
       await next(page, () => !!document.querySelector('.mosaic-cell.is-hit, .mosaic-cell.is-miss, .mosaic-cell.is-extra'));
     }
   },
-  async sber(page) { await next(page, () => false); }
+  async sber(page) { await next(page, () => false); },
+  async retez(page) {
+    const apply = (v, op, n) => ({ start: n, add: v + n, sub: v - n, mul: v * n, div: v / n, half: v / 2, double: v * 2, quarter: v / 4, pct: v / 10 })[op];
+    let v = 0;
+    let last = '';
+    let answered = 0;
+    for (let k = 0; k < 120; k++) {
+      const st = await next(page, (l) => {
+        const btn = document.querySelector('.play-foot .btn:not([disabled])');
+        const card = document.querySelector('.chain-card');
+        if (card && btn) {
+          const big = card.querySelector('.chain-big');
+          const key = card.querySelector('.chain-label').textContent + '|' + big.textContent;
+          return key !== l ? { kind: 'step', key: key, op: big.dataset.op, n: +big.dataset.n } : false;
+        }
+        if (document.querySelector('.choices:not(.is-locked)')) return { kind: 'choose' };
+        if (document.querySelector('.kp')) return { kind: 'pad' };
+        if (document.querySelector('.chain-sol') && btn) return { kind: 'sol' };
+        return false;
+      }, last);
+      if (!st) return;
+      if (st.kind === 'step') {
+        v = apply(v, st.op, st.n);
+        last = st.key;
+        await page.locator('.play-foot .btn:not([disabled])').click();
+      } else if (st.kind === 'sol') {
+        await page.locator('.play-foot .btn:not([disabled])').click();
+        await next(page, () => !document.querySelector('.chain-sol'));
+      } else {
+        const row = await page.$$eval('.chain [data-op]', (els) => els.map((e) => [e.dataset.op, +e.dataset.n]));
+        if (row.length) { v = 0; for (const [op, n] of row) v = apply(v, op, n); }
+        const wrong = answered === 1;
+        answered++;
+        if (st.kind === 'choose') {
+          const opts = page.locator('.choices:not(.is-locked) .choice');
+          if (wrong) await opts.filter({ hasNotText: new RegExp('^' + v + '$') }).first().click();
+          else await opts.filter({ hasText: new RegExp('^' + v + '$') }).click();
+        } else {
+          for (const d of String(wrong ? v + 1 : v)) await page.locator('.kp-key', { hasText: new RegExp('^' + d + '$') }).click();
+          await page.locator('.kp-ok').click();
+        }
+        await next(page, () => !!document.querySelector('.chain-sol'));
+        v = 0;
+        last = '';
+      }
+    }
+  },
+  async vyhodne(page) {
+    for (let r = 0; r < 14; r++) {
+      const st = await next(page, () => (document.querySelector('.choices:not(.is-locked) .offer') ? 'pick' : document.querySelector('.play-foot .btn:not([disabled])') ? 'next' : false));
+      if (!st) return;
+      if (st === 'next') { await page.locator('.play-foot .btn:not([disabled])').click(); await page.waitForTimeout(40); continue; }
+      const vals = await page.$$eval('.choices:not(.is-locked) .offer', (els) => els.map((e) => +e.dataset.v));
+      let idx = vals.indexOf(Math.min(...vals));
+      if (r === 1) idx = (idx + 1) % vals.length;
+      await page.locator('.choices:not(.is-locked) .choice').nth(idx).click();
+      await next(page, () => !document.querySelector('.choices:not(.is-locked)'));
+    }
+  },
+  async hadani(page) {
+    let last = '';
+    for (let k = 0; k < 80; k++) {
+      const st = await next(page, (l) => {
+        const g = document.querySelector('.guess[data-state="play"]');
+        if (!g) return false;
+        const key = g.dataset.round + ':' + g.dataset.turn;
+        return key !== l ? { key: key, lo: +g.dataset.lo, hi: +g.dataset.hi, kind: g.dataset.kind } : false;
+      }, last);
+      if (!st) return;
+      last = st.key;
+      const mid = Math.floor((st.lo + st.hi) / 2);
+      if (st.kind === 'pad') {
+        for (const d of String(mid)) await page.locator('.kp-key', { hasText: new RegExp('^' + d + '$') }).click();
+        await page.locator('.kp-ok').click();
+      } else await page.locator('.guess-num[data-v="' + mid + '"]').click();
+    }
+  },
+  async rodina(page) {
+    await mcq(page, () => {
+      const card = document.querySelector('.kin-card');
+      if (card) return SM.content.KIN.find((k) => k.q === card.dataset.q).a;
+      const q = document.querySelector('.play-status').textContent;
+      const mids = Array.from(document.querySelectorAll('.ftree-branch')).map((b) => ({
+        n: b.dataset.name, g: b.dataset.g,
+        kids: Array.from(b.querySelectorAll('[data-kid]')).map((k) => ({ n: k.dataset.kid, g: k.dataset.g }))
+      }));
+      const all = [];
+      mids.forEach((m) => m.kids.forEach((k) => all.push({ k: k, m: m })));
+      if (/^Kolik vnoučat/.test(q)) return String(all.length);
+      let m = /^Kolik sourozenců má (\S+)\?/.exec(q);
+      if (m) return String(all.find((e) => e.k.n === m[1]).m.kids.length - 1);
+      m = /^Jak se jmenuje (\S+) (\S+)\?/.exec(q);
+      const kids = SM.content.FAMILY.kids;
+      const row = kids.f.concat(kids.m).find((r) => r[1] === m[1] || r[2] === m[1]);
+      const x = all.find((e) => e.k.n === row[0]);
+      if (m[2] === 'maminka' || m[2] === 'tatínek') return x.m.n;
+      if (m[2] === 'strýc') return mids.find((y) => y !== x.m && y.g === 'm').n;
+      if (m[2] === 'teta') return mids.find((y) => y !== x.m && y.g === 'f').n;
+      const cousins = all.filter((e) => e.m !== x.m).map((e) => e.k);
+      return cousins.find((c) => c.g === (m[2] === 'bratranec' ? 'm' : 'f')).n;
+    });
+  }
 };
+const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina'];
 
 async function mcq(page, answerFn) {
   for (let r = 0; r < 16; r++) {
@@ -402,6 +504,27 @@ async function continueAll(page) {
         failures++;
         console.log('[' + label + '] ' + id + ' FAILED: ' + e.message.split('\n')[0] + ' | ' + (await page.evaluate(() => (document.querySelector('.play-status') || {}).textContent || '')));
         await shot(page, label + '-' + id + '-FAIL');
+      }
+    }
+
+    // 3b) nové hry na všech úrovních obtížnosti
+    if (label === 'iphone') {
+      for (const id of NEW_GAMES) {
+        const max = await page.evaluate((g) => SM.games[g].maxLevel, id);
+        for (let lv = 1; lv <= max; lv++) {
+          // Jiná kotva než #hra-…, jinak by se stejná adresa znovu nenačetla.
+          await page.goto(base + '?ts=0.1#hry');
+          await page.waitForSelector('.game-row');
+          await page.evaluate((a) => { SM.store.game(a[0]).level = a[1]; SM.store.save(); }, [id, lv]);
+          try {
+            const res = await playFree(page, base, id, label + '-lv' + lv);
+            console.log('[' + label + '] ' + (id + ' úroveň ' + lv).padEnd(18) + ' OK  → ' + res.replace(/\s+/g, ' '));
+          } catch (e) {
+            failures++;
+            console.log('[' + label + '] ' + id + ' úroveň ' + lv + ' FAILED: ' + e.message.split('\n')[0] + ' | ' + (await page.evaluate(() => (document.querySelector('.play-status') || {}).textContent || '')));
+            await shot(page, label + '-' + id + '-lv' + lv + '-FAIL');
+          }
+        }
       }
     }
 

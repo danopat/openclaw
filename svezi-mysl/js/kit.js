@@ -43,20 +43,27 @@
     (conf.container || ctx.foot).appendChild(box);
   });
 
-  /** Číselná klávesnice jako na telefonu → Promise<string> s napsanými číslicemi. */
+  /**
+   * Číselná klávesnice jako na telefonu → Promise<string> s napsanými číslicemi.
+   * conf.length = přesný počet číslic (jedno políčko na číslici),
+   * nebo conf.max = číslo o 1 až max číslicích (jedno pole). conf.okLabel = text potvrzovacího tlačítka.
+   */
   K.keypad = (ctx, conf) => new Promise((resolve) => {
-    const len = conf.length;
+    const fixed = !conf.max;
+    const len = fixed ? conf.length : conf.max;
     let val = '';
     let finished = false;
     const disp = h('div', { class: 'kp-display', 'aria-live': 'polite' });
-    const ok = h('button', { class: 'btn btn-primary kp-key kp-ok', type: 'button' }, 'Hotovo');
+    const ok = h('button', { class: 'btn btn-primary kp-key kp-ok', type: 'button' }, conf.okLabel || 'Hotovo');
+    const ready = () => (fixed ? val.length === len : val.length > 0);
     const render = () => {
       disp.textContent = '';
-      for (let i = 0; i < len; i++) disp.appendChild(h('span', { class: 'kp-digit' + (i < val.length ? ' is-filled' : '') }, val[i] || ''));
-      ok.disabled = val.length !== len;
+      if (fixed) for (let i = 0; i < len; i++) disp.appendChild(h('span', { class: 'kp-digit' + (i < val.length ? ' is-filled' : '') }, val[i] || ''));
+      else disp.appendChild(h('span', { class: 'kp-value' + (val ? ' is-filled' : '') }, val));
+      ok.disabled = !ready();
     };
     const finish = () => {
-      if (finished || val.length !== len) return;
+      if (finished || !ready()) return;
       finished = true;
       resolve(val);
     };
@@ -64,6 +71,7 @@
       if (finished || !ctx.alive) return;
       if (k === 'ok') { finish(); return; }
       if (k === 'del') val = val.slice(0, -1);
+      else if (!fixed && !val && k === '0') return; // číslo nezačíná nulou
       else if (val.length < len) val += k;
       ctx.sound.tap();
       render();
@@ -81,6 +89,22 @@
     });
     (conf.container || ctx.stage).appendChild(h('div', { class: 'kp' }, disp, grid));
     render();
+  });
+
+  /** Velké tlačítko dole (např. „Další“), hráč si tempo určuje sám → Promise po klepnutí. */
+  K.next = (ctx, label, conf) => new Promise((resolve) => {
+    conf = conf || {};
+    if (!conf.keep) ctx.foot.textContent = '';
+    const b = h('button', { class: 'btn ' + (conf.quiet ? 'btn-secondary' : 'btn-primary') + ' btn-lg', type: 'button' }, label);
+    let done = false;
+    U.tap(b, () => {
+      if (done || !ctx.alive) return;
+      done = true;
+      ctx.sound.tap();
+      b.disabled = true;
+      resolve();
+    });
+    ctx.foot.appendChild(b);
   });
 
   /** Obvyklé pravidlo pro změnu úrovně podle úspěšnosti. */
