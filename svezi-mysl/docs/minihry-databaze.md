@@ -1,12 +1,12 @@
 # Databáze miniher: plán
 
-Stav: návrh ze 17. 11. 2026 (týž den doplněný o strany 72–97), zatím nic z toho není naprogramované. Zdrojem nápadů jsou fotky knihy: kapitola *Myšlenkové schopnosti* (str. 56–77) a část kapitoly *Zkoušejte nové věci* (str. 84–97), celkem 88 cvičení a tipů z 29 stran. Stejná data jsou i v tabulce [`minihry-databaze.csv`](minihry-databaze.csv) pro Excel, Numbers nebo Google Tabulky.
+Stav: návrh ze 17. 11. 2026 (týž den doplněný o strany 72–101), zatím nic z toho není naprogramované. Zdrojem nápadů jsou fotky knihy: kapitola *Myšlenkové schopnosti* (str. 56–77) a část kapitoly *Zkoušejte nové věci* (str. 84–101), celkem 94 cvičení a tipů z 33 stran. Stejná data jsou i v tabulce [`minihry-databaze.csv`](minihry-databaze.csv) pro Excel, Numbers nebo Google Tabulky.
 
 Na fotkách chybí strany 73 (je vidět jen okraj), 74–76, 78–83 a 88–91. Na stranách 88–91 podle odkazu v knize pokračují další paměťové techniky. Až je nafotíte, doplním je.
 
 ## Shrnutí
 
-- **44 nových miniher**: 9 v první vlně (P1), 19 ve druhé (P2), 16 na později (P3).
+- **45 nových miniher**: 9 v první vlně (P1), 19 ve druhé (P2), 17 na později (P3).
 - **7 rozšíření** her, které už v aplikaci jsou (nové režimy).
 - **22 námětů na Hádanku dne**: logické hádanky a chytáky z kapitol Řešení problémů a Rozhodování. Na rychlou adaptivní minihru se nehodí, ale jako jedna klidná hádanka denně ano.
 - **Škola paměti** (nová funkce): 6 krátkých lekcí o paměťových tricích, každá s navazující minihrou.
@@ -14,7 +14,7 @@ Na fotkách chybí strany 73 (je vidět jen okraj), 74–76, 78–83 a 88–91. 
 
 **Doporučená první vlna (P1):** Kde co leží (PA-01), Co k čemu patří (PA-02), Kde je kulička? (PO-01), Vyšší, nebo nižší? (RO-01), Osmisměrka s tajenkou (SL-01), Příbuzenstvo (SL-04), Řetězové počty (PL-01), Sudoku (PL-02), Výhodný nákup (PL-03). Pokrývá všech pět oblastí, má hodně vazeb na běžný život a obsah se dá z velké části generovat.
 
-**Ze stran 72–97 nejvíc slibují:** Podnos (PA-07), Součty z paměti (PA-08), Sčítací pyramida (PL-14) a Cesta podle šipek (PL-13), k tomu Škola paměti. První tři mají malou pracnost a obsah se generuje. Hodí se na začátek druhé vlny.
+**Ze stran 72–101 nejvíc slibují:** Podnos (PA-07), Součty z paměti (PA-08), Sčítací pyramida (PL-14) a Cesta podle šipek (PL-13), k tomu Škola paměti. První tři mají malou pracnost a obsah se generuje. Hodí se na začátek druhé vlny. Strany 98–101 přidávají hlavně varianty Sudoku a Dělení tvaru a jednu novou logickou hru, Hadí cestu (PL-18).
 
 ## Jak číst databázi
 
@@ -45,7 +45,7 @@ Na fotkách chybí strany 73 (je vidět jen okraj), 74–76, 78–83 a 88–91. 
 | SL-01 | Osmisměrka s tajenkou | Slova | Nová minihra | P1 | M | Nová | 61/4, 95/V2 |
 | SL-04 | Příbuzenstvo | Slova | Nová minihra | P1 | S | Nová | 64/9 |
 | PL-01 | Řetězové počty | Počty a logika | Nová minihra | P1 | S | Nová | 62/4, 65/15 |
-| PL-02 | Sudoku | Počty a logika | Nová minihra | P1 | M | Nová | 63/7 |
+| PL-02 | Sudoku | Počty a logika | Nová minihra | P1 | M | Nová | 63/7, 98/V1, 99/V2, 99/R |
 | PL-03 | Výhodný nákup | Počty a logika | Nová minihra | P1 | S | Nová | 64/11 |
 | PA-03 | Smajlíci | Paměť | Nová minihra | P2 | S | Nová | 56/1 |
 | PA-04 | Oslí můstek | Paměť | Nová minihra | P2 | M | Nová (učí paměťovou techniku, procvičení k TR-02 a TR-03) | 58/8, 86/R, 87/R |
@@ -77,11 +77,12 @@ Na fotkách chybí strany 73 (je vidět jen okraj), 74–76, 78–83 a 88–91. 
 | SL-09 | Křížovka s tajenkou | Slova | Nová minihra | P3 | L | Nová | 95/R |
 | PL-08 | Číselná síť | Počty a logika | Nová minihra | P3 | M | Nová | 62/2 |
 | PL-09 | Křížové počty | Počty a logika | Nová minihra | P3 | L | Nová | 64/10 |
-| PL-10 | Dělení tvaru | Počty a logika | Nová minihra | P3 | L | Nová | 69/16 |
+| PL-10 | Dělení tvaru | Počty a logika | Nová minihra | P3 | L | Nová | 69/16, 100/V1 |
 | PL-11 | Pohled z boku | Počty a logika | Nová minihra | P3 | M | Nová (sdílí kreslení kostek s PL-07) | 77/5 |
 | PL-12 | Otočené stavby | Počty a logika | Nová minihra | P3 | L | Nová (Otočené tvary ve 3D) | 77/6 |
 | PL-15 | Součtové čtverce | Počty a logika | Nová minihra | P3 | L | Nová (příbuzná Sudoku a Křížovým počtům) | 93/V2, 93/R |
 | PL-16 | Skládání krychle | Počty a logika | Nová minihra | P3 | M | Nová | 96/V1 |
+| PL-18 | Hadí cesta | Počty a logika | Nová minihra | P3 | M | Nová | 101/V2 |
 | EX-01 | Co se změnilo: víc změn | Paměť | Rozšíření | P2 | S | Rozšíření hry Co se změnilo | 56/4 |
 | EX-02 | Co se změnilo: co přibylo | Paměť | Rozšíření | P2 | S | Rozšíření hry Co se změnilo | 58/11 |
 | EX-03 | Jména a tváře: portréty a vybavení později | Paměť | Rozšíření | P2 | M | Rozšíření hry Jména a tváře | 57/5, 86/1–2 |
@@ -533,13 +534,14 @@ Na fotkách chybí strany 73 (je vidět jen okraj), 74–76, 78–83 a 88–91. 
 
 *Počty a logika · Nová minihra · priorita P1 · pracnost M*
 
-- **Inspirace:** str. 63, č. 7 Obkličovací sudoku
+- **Inspirace:** str. 63, č. 7 Obkličovací sudoku; str. 98, výzva 1 Sudoku; str. 99, výzva 2 Outside sudoku; str. 99, rámeček Sudoku bez čísel
 - **Trénuje:** Logické vyvozování a soustředění. Sudoku senioři znají a mají rádi.
 - **Jak se hraje:**
-  1. Klepnout na políčko a vybrat číslo z velké klávesnice.
-  2. Volitelně zvýraznit stejná čísla a chyby.
-- **Obsah a data:** Generátor s jedinečným řešením a odhadem obtížnosti (počet zadaných čísel, potřebné postupy).
-- **Úrovně:** 4×4 s obrázky (ovoce místo čísel) → 4×4 čísla → 6×6 → 9×9 snadné → 9×9 střední → varianta s tečkami jako v knize (bonus).
+  1. Před první hrou vyplněná ukázková mřížka, na které se postupně zvýrazní řádek, sloupec a čtverec s pravidlem „každé číslo jen jednou“.
+  2. Klepnout na políčko a vybrat číslo z velké klávesnice.
+  3. Volitelně zvýraznit stejná čísla a chyby.
+- **Obsah a data:** Generátor s jedinečným řešením a odhadem obtížnosti (počet zadaných čísel, potřebné postupy). Pro varianty stačí v generátoru upravit kontrolu pravidel a jednoznačnosti.
+- **Úrovně:** 4×4 s obrázky (ovoce místo čísel) → 4×4 čísla → 6×6 → 9×9 snadné → 9×9 střední → bonusové varianty: s tečkami, s čísly kolem mřížky (outside sudoku), 9×9 s obrázky (těžší, devět obrázků se pamatuje hůř než devět čísel).
 - **Hodnocení:** Vyřešeno, čas, chyby a nápovědy.
 - **Krátká verze do lekce:** 4×4 nebo 6×6. Do lekce se 9×9 nehodí.
 - **Pozor u seniorů:** Velká políčka. 9×9 na telefonu jen na šířku, lépe na iPadu.
@@ -694,14 +696,16 @@ Na fotkách chybí strany 73 (je vidět jen okraj), 74–76, 78–83 a 88–91. 
 
 *Počty a logika · Nová minihra · priorita P3 · pracnost L*
 
-- **Inspirace:** str. 69, č. 16 Problém s pizzou
-- **Trénuje:** Prostorovou představivost.
-- **Jak se hraje:** Tvar ve čtverečkové síti rozdělit obarvením na zadaný počet stejných dílů.
-- **Obsah a data:** Sada úloh s ověřeným řešením.
-- **Úrovně:** 2 díly → 3 → 4.
-- **Hodnocení:** Vyřešeno.
+- **Inspirace:** str. 69, č. 16 Problém s pizzou; str. 100, výzva 1 Řez skládačkou
+- **Trénuje:** Prostorovou představivost a ochotu zkoušet různá řešení.
+- **Jak se hraje:**
+  1. Tvar ve čtverečkové síti rozdělit na zadaný počet stejných dílů. Díly smí být pootočené, ale ne zrcadlené.
+  2. Hráč klepáním obarvuje políčka barvou a číslem dílu. Tlačítka Zpět a Začít znovu, protože se počítá se zkoušením.
+- **Obsah a data:** Generátor: tvar se složí z pootočených kopií náhodného dílku a řešič ověří, že řešení je jen jedno. Jinak ručně vybraná sada úloh.
+- **Úrovně:** 2 díly → 3 → 4 díly → větší tvary.
+- **Hodnocení:** Vyřešeno a počet pokusů.
 - **Krátká verze do lekce:** —
-- **Pozor u seniorů:** Barvy dílů doplnit číslem dílu.
+- **Pozor u seniorů:** Barvy dílů doplnit číslem dílu. Bez časového limitu.
 
 ### PL-11 Pohled z boku
 
@@ -763,6 +767,22 @@ Na fotkách chybí strany 73 (je vidět jen okraj), 74–76, 78–83 a 88–91. 
 - **Hodnocení:** Správnost.
 - **Krátká verze do lekce:** 3 úlohy.
 - **Pozor u seniorů:** Značky velké a odlišné tvarem, ne jen barvou. Animace složení po každé odpovědi.
+
+### PL-18 Hadí cesta
+
+*Počty a logika · Nová minihra · priorita P3 · pracnost M*
+
+- **Inspirace:** str. 101, výzva 2 Had
+- **Trénuje:** Logické vyvozování a plánování cesty.
+- **Jak se hraje:**
+  1. Mřížka se zadaným začátkem a koncem hada. Čísla u řádků a sloupců říkají, kolik políček hada v nich leží.
+  2. Had je jedna nepřerušená cesta sousedními políčky, nevětví se a sám sebe se nedotýká, ani šikmo.
+  3. Klepnutí na políčko přepíná: prázdné → had → křížek („tady had není“).
+- **Obsah a data:** Generátor náhodné cesty podle pravidel a řešič, který ověří, že čísla vedou k jedinému řešení.
+- **Úrovně:** 1) 4×4 s vyřešenou ukázkou. 2) 5×5. 3) 6×6. 4) 8×8. 5) 10×10 jen na iPadu.
+- **Hodnocení:** Vyřešeno, čas a nápovědy.
+- **Krátká verze do lekce:** 1 mřížka 5×5.
+- **Pozor u seniorů:** Na začátku vyřešená ukázka. Chyby zvýraznit až po klepnutí na Zkontrolovat. Velká políčka.
 
 ## Rozšíření stávajících her
 
@@ -921,7 +941,7 @@ Na fotkách chybí strany 73 (je vidět jen okraj), 74–76, 78–83 a 88–91. 
 - **Tajenky a hádanky:** krátká přísloví (část už je v content.js), 60–100 vlastních hádanek s vysvětlením.
 - **Tematické balíčky pro Co k čemu patří:** recepty (bábovka, palačinky, knedlíky, vánočka), ceníky, jízdní řády, narozeniny.
 - **Grafika:** 3–4 půdorysy bytů, 32 mariášových karet ve zjednodušeném stylu, kreslené výrazy obličejů, kreslené portréty, jednoduché ilustrace k hádankám, asi 40 ikon věcí pro Podnos (sdílet s Co se změnilo a Nákupním seznamem), ikony budov pro Cestu podle šipek, 10 obrázků paměťových kolíků.
-- **Generátory s kontrolou řešení:** kreslení staveb z kostek (PL-07, PL-11, PL-12), pyramidy a součtové čtverce s jednoznačným řešením (PL-14, PL-15), bludiště (RO-06), sítě krychle (PL-16), pravidla proměn obrázků (PL-17).
+- **Generátory s kontrolou řešení:** kreslení staveb z kostek (PL-07, PL-11, PL-12), pyramidy a součtové čtverce s jednoznačným řešením (PL-14, PL-15), bludiště (RO-06), sítě krychle (PL-16), pravidla proměn obrázků (PL-17), dělení tvaru a hadí cesta (PL-10, PL-18).
 - **Škola paměti:** 6 krátkých lekcí s vlastními příklady a obrázky.
 - **Křížovky:** otázky se musí psát ručně. Zvážit spolupráci s autorem křížovek.
 - **Mapy:** zjednodušené SVG krajů ČR a okolních států, s ověřenou licencí.
@@ -1024,3 +1044,9 @@ Typy úloh (osmisměrka, sudoku, přelévání vody, hádanky o lhářích, kaku
 | 95 | Slovní rébusy | rámeček | Pokračujte dál: křížovka | SL-09 |
 | 96 | Neverbální uvažování | výzva 1 | Správná krychle | PL-16 |
 | 97 | Neverbální uvažování | výzva 2 | Vizuální transformace | PL-17 |
+| 98 | Logické rébusy | výzva 1 | Sudoku | PL-02 |
+| 99 | Logické rébusy | výzva 2 | Outside sudoku | PL-02 (varianta s čísly kolem mřížky) |
+| 99 | Logické rébusy | rámeček | Pokračujte dál: sudoku bez čísel | PL-02 (úrovně s obrázky) |
+| 99 | Logické rébusy | rámeček | Pokračujte dál: 3D sudoku ve tvaru hvězdy | nezařazeno: na telefonu nepřehledné |
+| 100 | Hlavolamy na kreativní uvažování | výzva 1 | Řez skládačkou | PL-10 |
+| 101 | Hlavolamy na kreativní uvažování | výzva 2 | Had | PL-18 |
