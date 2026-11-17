@@ -528,6 +528,32 @@ async function continueAll(page) {
       }
     }
 
+    // 3c) úspěšnost a rychlost se ukládají a stránka „Vývoj v čase“ se vykreslí
+    const saved = await page.evaluate(() => {
+      const last = SM.store.history().slice(-25);
+      return { acc: last.every((e) => e.a != null && e.a >= 0 && e.a <= 100), rt: last.filter((e) => e.r != null).length };
+    });
+    if (!saved.acc || !saved.rt) { failures++; console.log('[' + label + '] úspěšnost/rychlost se neukládá', saved); }
+    for (const gid of ['retez', 'blesk', 'pexeso']) {
+      try {
+        await page.goto(base + '?ts=0.1#pokrok-' + gid);
+        await page.waitForSelector('.game-progress .tchart');
+        if (await page.$('label[for="metrika-rt"]')) {
+          await page.locator('label[for="metrika-rt"]').click();
+          await page.waitForSelector('.tchart .tc-dot');
+        }
+        await page.locator('label[for="obdobi-vse"]').click();
+        await page.locator('label[for="metrika-lv"]').click();
+        await page.waitForSelector('.tchart .tc-dot');
+        await shot(page, label + '-vyvoj-' + gid);
+        console.log('[' + label + '] vývoj ' + gid.padEnd(8) + ' OK  → ' + (await page.textContent('.tc-read')));
+      } catch (e) {
+        failures++;
+        console.log('[' + label + '] vývoj ' + gid + ' FAILED: ' + e.message.split('\n')[0]);
+        await shot(page, label + '-vyvoj-' + gid + '-FAIL');
+      }
+    }
+
     // 4) přehledy a nastavení
     for (const r of ['hry', 'sbirka', 'pokrok', 'o-treninku']) {
       await page.goto(base + '?ts=0.1#' + r);

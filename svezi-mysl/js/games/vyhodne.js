@@ -173,6 +173,7 @@
     trains: 'úsudek s cenami a množstvím při nakupování',
     short: 'Poznejte, co vyjde levněji.',
     duration: 'asi 2 minuty',
+    pace: { per: 'na nákup' }, // rychlost pro přehled pokroku
     maxLevel: LEVELS.length,
     howTo(level) {
       const L = LEVELS[level - 1];

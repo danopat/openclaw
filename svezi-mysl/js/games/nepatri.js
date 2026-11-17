@@ -13,6 +13,7 @@
     trains: 'třídění pojmů a všeobecný přehled',
     short: 'Najděte slovo, které mezi ostatní nepatří.',
     duration: 'asi 1 až 2 minuty',
+    pace: { per: 'na odpověď' }, // rychlost pro přehled pokroku
     maxLevel: 3,
     howTo: [
       'Uvidíte čtyři slova. Tři k sobě patří, jedno ne.',

@@ -92,6 +92,7 @@
   function route() {
     const r = currentRoute();
     if (r.indexOf('hra-') === 0 && SM.games[r.slice(4)]) { SM.screens.gameIntro(r.slice(4)); return; }
+    if (r.indexOf('pokrok-') === 0 && SM.games[r.slice(7)]) { SM.screens.gameProgress(r.slice(7)); return; }
     (VIEWS[r] || VIEWS[''])();
   }
   function go(r) {
@@ -175,6 +176,7 @@
     const timers = [];
     const rafs = [];
     const listeners = [];
+    const marks = []; // odpovědi { ok, ms } pro úspěšnost a rychlost
     const t0 = performance.now();
     let wake = null;
     try {
@@ -215,6 +217,8 @@
         return t;
       },
       cancel(t) { clearTimeout(t); },
+      /** Zaznamená jednu odpověď (správně/špatně, doba v ms). Výběr z možností to dělá sám. */
+      mark(ok, msVal) { if (msVal > 0) marks.push({ ok: !!ok, ms: msVal }); },
       frame(fn) {
         const r = requestAnimationFrame((ts) => { if (alive) fn(ts); });
         rafs.push(r);
@@ -237,6 +241,11 @@
         const ms = performance.now() - t0;
         stop();
         cleanup = null;
+        // Rychlost: medián doby správných odpovědí (když hra nedodala vlastní míru).
+        if (res.rt == null && marks.length) {
+          const good = marks.filter((m) => m.ok).map((m) => m.ms);
+          res.rt = U.median(good.length ? good : marks.map((m) => m.ms));
+        }
         const meta = SM.engine.recordGame(id, level, res, ms);
         if (opts.onDone) opts.onDone(meta);
       }

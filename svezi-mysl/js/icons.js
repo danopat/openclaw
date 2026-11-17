@@ -68,6 +68,8 @@
     album: ui('<rect x="3.5" y="7.5" width="12.5" height="13" rx="2"/><path d="M8 7.5V5.5a2 2 0 0 1 2-2h8.5a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H16"/>'),
     person: ui('<circle cx="12" cy="8" r="4"/><path d="M4.5 20.5c0-4.2 3.4-7.2 7.5-7.2s7.5 3 7.5 7.2"/>'),
     shield: ui('<path d="M12 3.2 5 5.8v5.7c0 4.4 3 7.7 7 9.2 4-1.5 7-4.8 7-9.2V5.8z"/><path d="M8.8 12.2l2.2 2.2 4.2-4.6"/>'),
+    trendUp: ui('<path d="M4 16.5l5.5-5.5 4 4L20 8.5"/><path d="M14.5 8.5H20V14"/>'),
+    trendDown: ui('<path d="M4 7.5l5.5 5.5 4-4 6.5 6.5"/><path d="M14.5 15.5H20V10"/>'),
     bolt: ui('<path fill="currentColor" d="M13.2 2.5 5.5 13.6h5.3l-1 7.9 7.7-11.2h-5.3z"/>', true),
 
     /* ----- Logo ----- */

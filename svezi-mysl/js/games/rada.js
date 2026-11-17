@@ -45,6 +45,7 @@
     trains: 'logické uvažování a hledání pravidel',
     short: 'Doplňte, co v řadě přijde dál.',
     duration: 'asi 1 až 2 minuty',
+    pace: { per: 'na odpověď' }, // rychlost pro přehled pokroku
     maxLevel: GEN.length,
     howTo: [
       'Uvidíte řadu čísel nebo obrázků, která pokračuje podle nějakého pravidla.',

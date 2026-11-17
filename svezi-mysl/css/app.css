@@ -1270,6 +1270,49 @@ body.has-tabs .page { padding-bottom: calc(7rem + env(safe-area-inset-bottom, 0p
 .ftree-sub { color: var(--ink-2); }
 .ftree-kid { color: var(--ink); font-weight: 700; }
 
+/* ========== Pokrok: úspěšnost, rychlost a vývoj v čase ========== */
+.gp-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); gap: 0.5rem; }
+.gp-stat { display: grid; align-content: start; gap: 0.1rem; padding: 0.55rem 0.75rem; border-radius: 12px; background: var(--surface-2); }
+.gp-stat-label { font-size: var(--fs-s); color: var(--ink-2); }
+.gp-stat-value { font-size: var(--fs-l); font-weight: 800; line-height: 1.2; }
+.gp-more { justify-content: space-between; min-height: 3.1rem; font-size: var(--fs-m); }
+.trend-chip { display: inline-flex; align-items: center; gap: 0.3rem; font-size: var(--fs-s); font-weight: 700; color: var(--ink-2); line-height: 1.25; }
+.trend-chip svg { width: 1.15em; height: 1.15em; flex: none; }
+.trend-chip.is-up { color: var(--ok); }
+.result-stats { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.2rem; font-size: var(--fs-m); }
+.result-stats strong { font-weight: 800; }
+.rs-prev { color: var(--ink-2); white-space: nowrap; }
+.gpd-head { display: flex; align-items: center; gap: 0.9rem; margin-block: 0.4rem 0.6rem; }
+.gpd-head .tile { width: 3.6rem; height: 3.6rem; flex: none; }
+.gpd-head h1 { margin: 0; font-size: var(--fs-xl); }
+.kpis.is-two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.kpis.is-two .kpi:first-child { grid-column: auto; }
+.cmp { display: grid; gap: 0.45rem; }
+.cmp-row { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.15rem 0.75rem; padding: 0.6rem 0.85rem; border-radius: 12px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
+.cmp-label { font-weight: 700; }
+.cmp-values { font-family: var(--font-num); font-size: var(--fs-l); font-weight: 700; white-space: nowrap; }
+.cmp-row .trend-chip { flex-basis: 100%; }
+.game-progress .kpi-value { font-size: var(--fs-xl); white-space: nowrap; }
+.trend-seg { margin-bottom: 0.5rem; }
+.trend-seg span { min-height: 3rem; white-space: normal; }
+.tchart { margin: 0; padding: 0.9rem 1rem 0.8rem; border-radius: var(--radius); background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
+.tc-plot { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.45rem; padding-top: 6px; }
+.tc-axis { position: relative; height: 160px; font-family: var(--font-num); font-size: var(--fs-xs); }
+.tc-tick { position: absolute; right: 0; transform: translateY(-50%); color: var(--ink-2); line-height: 1; white-space: nowrap; pointer-events: none; }
+.tc-area { position: relative; min-width: 0; }
+.tc-area svg { display: block; width: 100%; height: 160px; overflow: visible; touch-action: pan-y; }
+.tc-plot .grid-line { stroke: var(--line); stroke-width: 1; }
+.tc-plot .tline { fill: none; stroke: var(--tile-ink); stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+.tc-plot .cursor { stroke: var(--ink-2); stroke-width: 1; }
+.tc-dot { position: absolute; width: 12px; height: 12px; border-radius: 50%; background: var(--tile-ink); box-shadow: 0 0 0 2px var(--surface); pointer-events: none; }
+.tc-dot.is-hot { width: 16px; height: 16px; margin: -2px 0 0 -2px; background: var(--ink); }
+.tc-x { display: flex; justify-content: space-between; gap: 0.5rem; margin-top: 0.35rem; font-family: var(--font-num); font-size: var(--fs-xs); color: var(--ink-2); }
+.tc-x span { white-space: nowrap; }
+.tc-read { min-height: 1.5em; margin-top: 0.45rem; font-size: var(--fs-m); }
+.tc-note { margin-top: 0.5rem; font-size: var(--fs-s); color: var(--ink-2); }
+.tc-empty { color: var(--ink-2); }
+.gpd-play { margin-top: 1.2rem; }
+
 /* ---------- Omezený pohyb ---------- */
 @media (prefers-reduced-motion: reduce) {
   .node-bubble, .node.is-current::after, .modal.is-sheet, .celebrate .postcard { animation: none; }

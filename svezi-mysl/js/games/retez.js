@@ -143,6 +143,7 @@
     trains: 'počítání zpaměti a udržení mezivýsledku v hlavě',
     short: 'Počítejte v hlavě krok za krokem.',
     duration: 'asi 2 až 3 minuty',
+    pace: { per: 'na příklad' }, // rychlost pro přehled pokroku
     maxLevel: LEVELS.length,
     howTo(level) {
       const L = LEVELS[level - 1];
@@ -156,9 +157,11 @@
       const L = LEVELS[ctx.level - 1];
       const N = ctx.short ? 3 : 5;
       let correct = 0;
+      const times = [];
       for (let i = 0; i < N; i++) {
         ctx.progress((i + 1) + ' / ' + N);
         const chain = makeChain(L);
+        const t1 = performance.now();
 
         if (L.all) {
           ctx.status('Kolik vyjde?');
@@ -189,6 +192,7 @@
           ok = r.correct;
         }
         if (ok) correct++;
+        times.push((performance.now() - t1) / SM.timeScale);
 
         ctx.foot.textContent = '';
         K.show(ctx, solution(chain));
@@ -202,7 +206,7 @@
       }
       const acc = correct / N;
       ctx.finish({
-        perf: acc, levelDelta: K.levelByAcc(acc, 0.8, 0.5),
+        perf: acc, levelDelta: K.levelByAcc(acc, 0.8, 0.5), rt: U.median(times),
         big: correct + ' z ' + N, bigLabel: 'příkladů spočítaných správně',
         details: [], metric: { acc: Math.round(acc * 100) }
       });

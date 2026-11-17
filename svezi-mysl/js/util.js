@@ -99,6 +99,12 @@
     if (!arr.length) return 0;
     return arr.reduce(function (s, x) { return s + x; }, 0) / arr.length;
   };
+  U.median = function (arr) {
+    if (!arr.length) return 0;
+    var a = arr.slice().sort(function (x, y) { return x - y; });
+    var m = Math.floor(a.length / 2);
+    return a.length % 2 ? a[m] : (a[m - 1] + a[m]) / 2;
+  };
   U.geomean = function (arr) {
     if (!arr.length) return 0;
     return Math.exp(U.mean(arr.map(function (x) { return Math.log(Math.max(x, 1e-6)); })));

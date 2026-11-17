@@ -58,9 +58,19 @@ Každá hra má několik úrovní obtížnosti, které se mění podle výsledk�
 
 Další části aplikace:
 
-- **Spodní lišta**: Cesta, Hry (volné hraní a procvičování), Sbírka (pohlednice a odznaky), Pokrok (série, body za týden, výsledky každé hry).
+- **Spodní lišta**: Cesta, Hry (volné hraní a procvičování), Sbírka (pohlednice a odznaky), Pokrok (série, body za týden a u každé hry úroveň, úspěšnost a rychlost).
 - **Nastavení**: denní cíl, velikost písma, vzhled, zvuky, automatické předčítání, smazání výsledků.
 - **O tréninku**: jak funguje cesta, jak trénovat, co mysli pomáhá ještě víc (pohyb, lidé, sluch a zrak, cévy, spánek) a upozornění, že nejde o zdravotnický prostředek.
+
+## Sledování pokroku
+
+Každá hra si ke každému výsledku ukládá **úspěšnost** (podíl správných odpovědí v %) a tam, kde to dává smysl, i **rychlost** (typická doba na jednu odpověď, příklad nebo reakci). U Bleskového pohledu se místo rychlosti sleduje nejkratší doba zobrazení, která ještě stačí. U čistě paměťových her (Pexeso, Nákupní seznam, Svítící okna, Telefonní číslo, Mozaika, Co se změnilo, Jména a tváře) a u hry Vyšší, nebo nižší? se rychlost neukazuje, protože o výsledku nevypovídá.
+
+- **Po každé volné hře**: úspěšnost a rychlost a vedle nich hodnoty z minulé hry.
+- **Pokrok → každá hra**: úroveň, úspěšnost a rychlost z posledních 5 her a šipka, jestli je to lepší, nebo horší než na začátku.
+- **Pokrok → Vývoj v čase**: srovnání prvních a posledních her, graf úspěšnosti, rychlosti a úrovně za posledních 30 dní nebo za celou dobu (jeden bod = jeden den, dokud nejsou výsledky aspoň ze tří dnů, tak jedna hra) a tabulka všech výsledků.
+
+Obtížnost se přizpůsobuje, takže úspěšnost se drží spíš stejně a zlepšení je vidět hlavně na vyšší úrovni a rychlosti. Starší výsledky z doby před touto funkcí se dopočítají ze skóre. Rychlost u nich je jen tam, kde ji hra už dřív měřila.
 
 ## Spuštění
 
@@ -110,6 +120,7 @@ css/app.css           vzhled (barvy jako proměnné, světlý i tmavý režim)
 css/fonts.css         písmo uložené přímo v aplikaci (fonts/, licence SIL OFL)
 js/util.js            pomocné funkce, české datum a množná čísla, opakovatelná náhoda
 js/store.js           ukládání výsledků, postupu a nastavení (localStorage)
+js/stats.js           úspěšnost a rychlost her a jejich vývoj v čase
 js/sound.js           zvuky (Web Audio) a předčítání (Web Speech, cs-CZ)
 js/icons.js           ikony
 js/places.js          zastávky cesty, nové hry v nich a ilustrace pohlednic
@@ -134,16 +145,19 @@ SM.registerGame({
   id: 'nova', name: 'Nová hra', domain: 'pamet',     // pamet | postreh | rozhodovani | slova | logika
   trains: 'co hra trénuje', short: 'Jedna věta do přehledu.', duration: 'asi 2 minuty',
   maxLevel: 8,
+  pace: { per: 'na odpověď' },                       // rychlost do přehledu pokroku (vynechat u paměťových her)
   howTo: ['Krok 1', 'Krok 2'],                         // nebo funkce (level) => [...]
   async run(ctx) {
     // ctx.level, ctx.short (kratší verze v lekci), ctx.stage, ctx.foot, ctx.status(text), ctx.progress(text),
     // await ctx.sleep(ms), ctx.after(ms, fn), ctx.frame(fn), ctx.on(el, typ, fn),
-    // ctx.size(), ctx.feedback(správně), ctx.sound
+    // ctx.size(), ctx.feedback(správně), ctx.sound, ctx.mark(správně, ms) = jedna odpověď pro rychlost
+    // (výběr z možností přes SM.kit.choose ji zaznamená sám)
     ctx.finish({
       perf: 0.8,                 // výkon 0–1 v rámci úrovně
       levelDelta: 1,             // +1 / 0 / −1 (nebo newLevel)
       big: '12 z 15', bigLabel: 'správných odpovědí',
-      details: ['Čas: 1 min 20 s'], metric: { /* uloží se do historie */ }
+      details: ['Čas: 1 min 20 s'], metric: { /* uloží se do historie */ },
+      acc: 0.8, rt: 2100        // volitelně: úspěšnost 0–1 a rychlost v ms (jinak z perf a ctx.mark)
     });
   }
 });

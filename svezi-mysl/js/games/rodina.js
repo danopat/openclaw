@@ -115,6 +115,7 @@
     trains: 'jazyk a uvažování o rodinných vztazích',
     short: 'Kdo je komu kdo v rodině?',
     duration: 'asi 1 až 2 minuty',
+    pace: { per: 'na odpověď' }, // rychlost pro přehled pokroku
     maxLevel: LEVELS.length,
     howTo(level) {
       if (LEVELS[level - 1].tree) return [

@@ -20,6 +20,7 @@
     trains: 'práci se slovy a soustředění',
     short: 'Složte slovo z přeházených písmen.',
     duration: 'asi 2 minuty',
+    pace: { per: 'na slovo' }, // rychlost pro přehled pokroku
     maxLevel: LEVELS.length,
     howTo(level) {
       const L = LEVELS[level - 1];
@@ -45,6 +46,7 @@
         for (let t = 0; t < 20 && scrambled.join('') === it.w; t++) scrambled = U.shuffle(letters);
         let tries = 0;
         let solved = false;
+        const t1 = performance.now();
         while (!solved && tries < 2 && ctx.alive) {
           ctx.status('Složte slovo z písmen.');
           const result = await round(it, letters, scrambled);
@@ -53,6 +55,7 @@
           ctx.feedback(false);
           if (tries < 2) { ctx.status('To není ono. Zkuste to ještě jednou.'); await ctx.sleep(1300); }
         }
+        ctx.mark(solved && tries === 0, (performance.now() - t1) / SM.timeScale);
         if (solved) {
           ctx.feedback(true);
           ctx.status('Správně: ' + it.w + '!');

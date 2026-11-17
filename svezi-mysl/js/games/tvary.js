@@ -66,6 +66,7 @@
     trains: 'prostorovou představivost',
     short: 'Je tvar jen otočený, nebo obrácený?',
     duration: 'asi 1 až 2 minuty',
+    pace: { per: 'na odpověď' }, // rychlost pro přehled pokroku
     maxLevel: SIZES.length,
     howTo: [
       'Uvidíte dva tvary z kostiček.',

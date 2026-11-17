@@ -94,7 +94,9 @@
     g.last = Date.now();
     data.history.push({
       g: entry.id, t: Date.now(), lv: entry.level, p: entry.score,
-      xp: entry.xp || 0, ms: Math.round(entry.ms || 0), m: entry.metric || null
+      xp: entry.xp || 0, ms: Math.round(entry.ms || 0), m: entry.metric || null,
+      a: entry.acc != null ? Math.round(entry.acc * 100) : null, // úspěšnost v %
+      r: entry.rt != null ? Math.round(entry.rt) : null          // rychlost: ms na odpověď (méně = lépe)
     });
     if (data.history.length > MAX_HISTORY) data.history.splice(0, data.history.length - MAX_HISTORY);
     var day = S.today();

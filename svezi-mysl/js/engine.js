@@ -198,10 +198,14 @@
     const newLevel = U.clamp(res.newLevel != null ? res.newLevel : level + (res.levelDelta || 0), 1, g.maxLevel);
     const score = Math.round((level - 1) * 10 + perf * 10);
     const xp = E.gameXp(perf);
-    const rec = store.recordResult({ id: id, level: level, newLevel: newLevel, score: score, xp: xp, ms: ms, metric: res.metric });
+    // Úspěšnost (0–1) a rychlost (ms na odpověď) pro sledování pokroku; hra je může dodat sama.
+    const acc = U.clamp(res.acc != null ? res.acc : perf, 0, 1);
+    const rt = res.rt != null && isFinite(res.rt) && res.rt > 0 ? res.rt : null;
+    const prev = store.history(id).slice(-1)[0] || null;
+    const rec = store.recordResult({ id: id, level: level, newLevel: newLevel, score: score, xp: xp, ms: ms, metric: res.metric, acc: acc, rt: rt });
     store.addXp(xp);
     if (rec.isBest) { P().records = (P().records || 0) + 1; store.save(); }
-    return { id: id, level: level, newLevel: newLevel, score: score, isBest: rec.isBest, xp: xp, perf: perf, res: res, ms: ms };
+    return { id: id, level: level, newLevel: newLevel, score: score, isBest: rec.isBest, xp: xp, perf: perf, acc: acc, rt: rt, prev: prev, res: res, ms: ms };
   };
 
   /**

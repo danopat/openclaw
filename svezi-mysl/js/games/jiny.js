@@ -29,6 +29,7 @@
     trains: 'postřeh, soustředění a rychlé prohledávání očima',
     short: 'Najděte obrázek, který se liší.',
     duration: 'asi 1 až 2 minuty',
+    pace: { per: 'na nalezení' }, // rychlost pro přehled pokroku
     maxLevel: LEVELS.length,
     howTo: [
       'Uvidíte mřížku stejných obrázků. Jeden z nich je ale jiný.',
@@ -116,6 +117,7 @@
       const perf = rts.length ? U.clamp(1 - (meanRT - 0.6 * T) / (1.6 * T), 0, 1) * (1 - Math.min(0.5, 0.05 * errors)) : 0;
       ctx.finish({
         perf: perf,
+        acc: rts.length / Math.max(1, rts.length + misses + errors), rt: rts.length ? meanRT : null,
         levelDelta: misses === 0 && meanRT <= T && errors <= 1 ? 1 : meanRT > 2.2 * T || misses >= 3 ? -1 : 0,
         big: U.num(meanRT / 1000, 1) + ' s',
         bigLabel: 'průměrně vám trvalo najít jiný obrázek',

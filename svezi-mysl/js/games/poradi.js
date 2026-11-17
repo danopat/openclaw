@@ -36,6 +36,7 @@
     trains: 'rychlé hledání očima a přepínání mezi dvěma řadami',
     short: 'Klepejte na čísla a písmena popořadě.',
     duration: 'asi 1 až 3 minuty',
+    pace: { per: 'na políčko' }, // rychlost pro přehled pokroku
     maxLevel: LEVELS.length,
     howTo(level) {
       const L = LEVELS[level - 1];
@@ -77,6 +78,7 @@
       const good = L.alt ? 2.4 : 1.5;
       ctx.finish({
         perf: U.clamp(1 - (perItem - fast) / (slowT - fast), 0, 1) * (1 - Math.min(0.4, errors * 0.04)),
+        acc: items / (items + errors), rt: perItem * 1000,
         levelDelta: perItem <= good && errors <= 2 && hints === 0 ? 1 : perItem >= slowT || errors >= 6 ? -1 : 0,
         big: U.fmtTime(totalMs),
         bigLabel: BOARDS === 1 ? 'celkový čas' : 'celkový čas za ' + BOARDS + ' kola',

@@ -52,6 +52,7 @@
     trains: 'orientaci v čase a prostorové vnímání',
     short: 'Kolik ukazují ručičkové hodiny?',
     duration: 'asi 1 až 2 minuty',
+    pace: { per: 'na odpověď' }, // rychlost pro přehled pokroku
     maxLevel: LEVELS.length,
     howTo(level) {
       const steps = [

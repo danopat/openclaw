@@ -35,6 +35,7 @@
     trains: 'počítání v hlavě a zacházení s penězi',
     short: 'Zaplaťte přesnou částku.',
     duration: 'asi 2 minuty',
+    pace: { per: 'na úlohu' }, // rychlost pro přehled pokroku
     maxLevel: LEVELS.length,
     howTo(level) {
       const steps = [
@@ -74,6 +75,8 @@
         return new Promise((resolve) => {
           let tries = 0;
           const onTable = [];
+          const t1 = performance.now();
+          const took = () => (performance.now() - t1) / SM.timeScale;
           ctx.status('Zaplaťte přesně ' + price + ' Kč.');
           ctx.stage.textContent = '';
           ctx.foot.textContent = '';
@@ -103,6 +106,7 @@
             const s = sum();
             if (s === price) {
               pay.disabled = true;
+              ctx.mark(tries === 0, took());
               ctx.feedback(true);
               const best = onTable.length <= minPieces(price);
               ctx.status(best ? 'Přesně tak, a nejmenším počtem mincí!' : 'Správně zaplaceno!');
@@ -114,6 +118,7 @@
             ctx.feedback(false);
             if (tries >= 2) {
               pay.disabled = true;
+              ctx.mark(false, took());
               onTable.length = 0;
               [200, 100, 50, 20, 10, 5, 2, 1].forEach((v) => { if (L.money.indexOf(v) !== -1) { while (sum() + v <= price) onTable.push(v); } });
               render();

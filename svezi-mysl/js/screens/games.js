@@ -114,6 +114,14 @@
       if (e.type === 'goal') chips.push(h('span', { class: 'xp-chip is-up' }, ui.icon('target'), 'Denní cíl splněn'));
     });
     const big = sum.events.filter((e) => e.type === 'badge' || e.type === 'freeze');
+    const ST = SM.stats;
+    const prev = meta.prev;
+    const vs = (txt) => h('span', { class: 'rs-prev' }, ' · minule ' + txt);
+    const stats = [h('li', null, 'Úspěšnost ', h('strong', null, ST.fmtAcc(meta.acc * 100)), prev ? vs(ST.fmtAcc(ST.acc(prev))) : null)];
+    if (ST.pace(id) && meta.rt != null) {
+      const prt = prev ? ST.rt(prev) : null;
+      stats.push(h('li', null, ST.speedTitle(id) + ' ', h('strong', null, ST.fmtRt(id, meta.rt, true)), prt != null ? vs(ST.fmtRt(id, prt)) : null));
+    }
 
     const page = h('main', { class: 'page' });
     const box = h('section', { class: 'result' },
@@ -121,6 +129,7 @@
       h('h1', null, praise),
       h('p', { class: 'result-figure' }, h('span', { class: 'result-big' }, res.big), h('span', { class: 'result-big-label' }, res.bigLabel)),
       res.details && res.details.length ? h('ul', { class: 'result-details' }, res.details.map((d) => h('li', null, d))) : null,
+      h('ul', { class: 'result-stats' }, stats),
       h('p', { class: 'gate-chips' },
         h('span', { class: 'xp-chip' }, ui.icon('star'), '+' + sum.xp + ' bodů'),
         meta.isBest ? h('span', { class: 'xp-chip is-record' }, 'Nový osobní rekord') : null,
@@ -130,7 +139,8 @@
     const after = (fn) => () => (big.length ? SM.screens.celebrate(big, fn) : fn());
     box.appendChild(h('div', { class: 'result-actions' },
       h('button', { class: 'btn btn-primary btn-lg btn-block', type: 'button', onclick: after(() => play(id)) }, ui.icon('replay'), 'Hrát znovu'),
-      h('button', { class: 'btn btn-secondary btn-block', type: 'button', onclick: after(() => ui.go('hry')) }, ui.icon('grid'), 'Zpět na hry')));
+      h('button', { class: 'btn btn-secondary btn-block', type: 'button', onclick: after(() => ui.go('hry')) }, ui.icon('grid'), 'Zpět na hry'),
+      h('button', { class: 'btn btn-quiet btn-block', type: 'button', onclick: after(() => ui.go('pokrok-' + id)) }, ui.icon('chart'), 'Vývoj v čase')));
     page.appendChild(box);
     ui.setScreen(page);
     if (meta.newLevel > meta.level) SM.sound.levelUp(); else SM.sound.done();

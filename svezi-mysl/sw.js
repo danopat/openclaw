@@ -1,5 +1,5 @@
 /* Svěží mysl — offline režim. Při změně souborů zvyšte číslo verze. */
-const VERSION = 'svezi-mysl-v3';
+const VERSION = 'svezi-mysl-v4';
 const ASSETS = [
   './',
   'index.html',
@@ -12,6 +12,7 @@ const ASSETS = [
   'fonts/atkinson-mono-latin-ext.woff2',
   'js/util.js',
   'js/store.js',
+  'js/stats.js',
   'js/sound.js',
   'js/icons.js',
   'js/places.js',

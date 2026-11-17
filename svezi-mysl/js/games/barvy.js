@@ -30,6 +30,7 @@
     trains: 'sebeovládání a pružné přepínání pozornosti',
     short: 'Odpovězte barvou písma, ne slovem.',
     duration: 'asi 2 minuty',
+    pace: { per: 'na reakci' }, // rychlost pro přehled pokroku
     maxLevel: LEVELS.length,
     howTo(level) {
       const L = LEVELS[level - 1];
@@ -130,6 +131,7 @@
       if (slow) details.push('Pozdě: ' + slow + '×');
       ctx.finish({
         perf: 0.7 * U.clamp((acc - 0.5) / 0.5, 0, 1) + 0.3 * (rts.length ? U.clamp((2600 - meanRT) / 1800, 0, 1) : 0),
+        acc: acc, rt: rts.length ? meanRT : null,
         levelDelta: acc >= 0.9 ? 1 : acc < 0.7 ? -1 : 0,
         big: correct + ' z ' + TRIALS,
         bigLabel: 'správných odpovědí',

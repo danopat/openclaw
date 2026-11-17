@@ -23,6 +23,7 @@
     trains: 'rychlé rozhodování a sebeovládání',
     short: 'Sbírejte jen ovoce, nic jiného.',
     duration: 'asi 1 minuta',
+    pace: { per: 'na reakci' }, // rychlost pro přehled pokroku
     maxLevel: LEVELS.length,
     howTo(level) {
       const L = LEVELS[level - 1];
@@ -76,6 +77,7 @@
       const acc = (hits + cr) / N;
       ctx.finish({
         perf: 0.75 * acc + 0.25 * (rts.length ? U.clamp((L.T - U.mean(rts)) / L.T, 0, 1) : 0),
+        acc: acc, rt: rts.length ? U.mean(rts) : null,
         levelDelta: acc >= 0.9 ? 1 : acc < 0.7 ? -1 : 0,
         big: Math.round(acc * 100) + ' %', bigLabel: 'správných rozhodnutí',
         details: ['V košíku: ' + hits + ' ks ovoce', fa ? 'Omylem sebráno: ' + fa : 'Nic navíc', misses ? 'Uteklo: ' + misses : 'Nic neuteklo'],

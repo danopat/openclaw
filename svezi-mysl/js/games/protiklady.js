@@ -13,6 +13,7 @@
     trains: 'slovní zásobu a pohotovost',
     short: 'Najděte slovo s opačným významem.',
     duration: 'asi 1 minuta',
+    pace: { per: 'na odpověď' }, // rychlost pro přehled pokroku
     maxLevel: 3,
     howTo: [
       'Uvidíte jedno slovo, například VYSOKÝ.',

@@ -22,6 +22,7 @@
     trains: 'rychlé vnímání množství',
     short: 'Kolik věcí se na okamžik ukázalo?',
     duration: 'asi 1 minuta',
+    pace: { per: 'na odpověď' }, // rychlost pro přehled pokroku
     maxLevel: LEVELS.length,
     howTo: [
       'Na okamžik se objeví několik stejných obrázků.',

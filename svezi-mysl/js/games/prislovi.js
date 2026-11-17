@@ -13,6 +13,7 @@
     trains: 'slovní zásobu a dlouhodobou paměť',
     short: 'Doplňte chybějící slovo do přísloví.',
     duration: 'asi 1 až 2 minuty',
+    pace: { per: 'na odpověď' }, // rychlost pro přehled pokroku
     maxLevel: 2,
     howTo(level) {
       return [

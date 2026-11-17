@@ -24,6 +24,7 @@
     trains: 'soustředění a rychlé rozhodování, když vás něco plete',
     short: 'Řiďte se jen prostřední šipkou.',
     duration: 'asi 1 až 2 minuty',
+    pace: { per: 'na reakci' }, // rychlost pro přehled pokroku
     maxLevel: LEVELS.length,
     howTo(level) {
       const L = LEVELS[level - 1];
@@ -140,6 +141,7 @@
       if (slow) details.push('Pozdě: ' + slow + '×');
       ctx.finish({
         perf: 0.7 * U.clamp((acc - 0.5) / 0.5, 0, 1) + 0.3 * speed,
+        acc: acc, rt: all.length ? meanRT : null,
         levelDelta: acc >= 0.9 ? 1 : acc < 0.7 ? -1 : 0,
         big: correct + ' z ' + TRIALS,
         bigLabel: 'správných odpovědí',

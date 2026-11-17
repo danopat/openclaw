@@ -32,6 +32,7 @@
     trains: 'rychlost vnímání a pozornost na okraji zorného pole',
     short: 'Zachyťte, co se na okamžik mihlo.',
     duration: 'asi 2 minuty',
+    pace: { title: 'Doba zobrazení', short: 'Doba', ms: true }, // rychlost pro přehled pokroku
     maxLevel: LEVELS.length,
     howTo(level) {
       const L = LEVELS[level - 1];
@@ -169,6 +170,7 @@
       const thr = U.geomean(durs.slice(ctx.short ? -6 : -8));
       ctx.finish({
         perf: U.clamp(0.5 + Math.log2(L.start / thr), 0, 1),
+        acc: correct / TRIALS, rt: thr,
         levelDelta: thr <= 0.75 * L.start ? 1 : thr >= 1.35 * L.start ? -1 : 0,
         big: U.num(thr / 1000, 2) + ' s',
         bigLabel: 'tak krátce vám stačilo obrázky vidět',

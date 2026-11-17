@@ -31,11 +31,13 @@
         if (done || !ctx.alive) return;
         done = true;
         const ok = o.value === conf.answer;
+        const rt = (performance.now() - start) / SM.timeScale;
+        if (!conf.noMark && ctx.mark) ctx.mark(ok, rt);
         b.classList.add(ok ? 'is-correct' : 'is-wrong');
         if (!ok) btns.forEach((x, i) => { if (options[i].value === conf.answer) x.classList.add('is-correct'); });
         box.classList.add('is-locked');
         if (!conf.silent) ctx.feedback(ok);
-        resolve({ value: o.value, correct: ok, rt: (performance.now() - start) / SM.timeScale });
+        resolve({ value: o.value, correct: ok, rt: rt });
       });
       box.appendChild(b);
       return b;
