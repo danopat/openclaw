@@ -111,6 +111,8 @@
     page.appendChild(SM.screens.pageTitle('Cesta po Česku', E.finished() ? 'Celou cestu máte za sebou. Výborně!' :
       'Zastávka ' + (pos.u + 1) + ' z ' + UNITS.length + ': ' + UNITS[pos.u].name + '. Za každou zastávku získáte pohlednici.'));
     if (SM.screens.riddleCard) page.appendChild(SM.screens.riddleCard());
+    const school = SM.screens.schoolCard ? SM.screens.schoolCard() : null;
+    if (school) page.appendChild(school);
 
     let currentEl = null;
     UNITS.forEach((unit, u) => {

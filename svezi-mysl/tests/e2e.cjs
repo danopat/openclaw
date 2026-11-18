@@ -959,7 +959,7 @@ async function continueAll(page) {
       if (bad.length) throw new Error('chybné hádanky: ' + bad.join(', '));
       await page.goto(base + '?ts=0.1');
       await page.waitForSelector('.riddle-card');
-      await page.locator('.riddle-card .btn').click();
+      await page.locator('.riddle-card:not(.school-card) .btn').click();
       await page.waitForSelector('.riddle-opts .choice');
       const xp0 = await page.evaluate(() => SM.store.profile().xp);
       await page.locator('.riddle-opts .choice').first().click();
@@ -975,6 +975,42 @@ async function continueAll(page) {
       failures++;
       console.log('[' + label + '] hádanka dne FAILED: ' + e.message.split('\n')[0]);
       await shot(page, label + '-hadanka-FAIL');
+    }
+
+    // 3e) Škola paměti: karta na cestě, první trik celý, odemčení dalšího
+    try {
+      const bad = await page.evaluate(() => SM.school.LIST.filter((t) => !t.questions.length || t.questions.some((q) => new Set(q.opts).size !== q.opts.length) || !SM.games[t.game]).map((t) => t.id));
+      if (bad.length) throw new Error('chybné triky: ' + bad.join(', '));
+      await page.goto(base + '?ts=0.1');
+      await page.waitForSelector('.school-card');
+      await page.locator('.school-card .btn').click();
+      await page.waitForSelector('.trick-page');
+      const id = await page.getAttribute('.trick-page', 'data-id');
+      const xp0 = await page.evaluate(() => SM.store.profile().xp);
+      await shot(page, label + '-trik');
+      await page.getByRole('button', { name: 'Ukázka' }).click();
+      await page.getByRole('button', { name: 'Vyzkoušet' }).click();
+      await page.getByRole('button', { name: 'Mám zapamatováno' }).click();
+      const qs = await page.evaluate((tid) => SM.school.byId(tid).questions.map((q) => q.opts[0]), id);
+      for (let k = 0; k < qs.length; k++) {
+        await page.locator('.trick-opts .choice[data-v="' + qs[k] + '"]').click();
+        await page.getByRole('button', { name: k + 1 < qs.length ? 'Další otázka' : 'Pokračovat' }).click();
+      }
+      await page.getByRole('button', { name: 'Hotovo' }).click();
+      for (let c = 0; c < 6 && !(await page.$('.trick-list')); c++) {
+        await page.waitForSelector('.trick-list, .celebrate');
+        if (await page.$('.celebrate')) await page.getByRole('button', { name: 'Pokračovat' }).click();
+        await page.waitForTimeout(80);
+      }
+      await page.waitForSelector('.trick-list');
+      const st = await page.evaluate((tid) => ({ done: !!SM.store.profile().tricks[tid], next: SM.engine.trickState(SM.school.LIST[1].id), xp: SM.store.profile().xp }), id);
+      if (!st.done || st.next !== 'open') throw new Error('trik se neuložil nebo se neodemkl další');
+      await shot(page, label + '-skola');
+      console.log('[' + label + '] škola paměti OK  → trik ' + id + ', +' + (st.xp - xp0) + ' bodů, další odemčen');
+    } catch (e) {
+      failures++;
+      console.log('[' + label + '] škola paměti FAILED: ' + e.message.split('\n')[0]);
+      await shot(page, label + '-skola-FAIL');
     }
 
     // 4) přehledy a nastavení

@@ -177,7 +177,9 @@
     { id: 'rekord', name: 'Rekordy', icon: 'trophy', tiers: [3, 10, 30], value: () => P().records || 0,
       text: (n) => 'Překonejte ' + n + '× svůj osobní rekord ve hře.' },
     { id: 'lustitel', name: 'Luštitel', icon: 'bulb', tiers: [1, 10, 30, 100], value: () => Object.keys(P().riddles || {}).length,
-      text: (n) => (n === 1 ? 'Vyluštěte hádanku dne.' : 'Vyluštěte ' + n + ' hádanek dne.') }
+      text: (n) => (n === 1 ? 'Vyluštěte hádanku dne.' : 'Vyluštěte ' + n + ' hádanek dne.') },
+    { id: 'mistr', name: 'Mistr paměti', icon: 'cap', tiers: [3, 6], value: () => Object.keys(P().tricks || {}).length,
+      text: (n) => (n === 6 ? 'Projděte všech 6 triků ve Škole paměti.' : 'Projděte ' + n + ' triky ve Škole paměti.') }
   ];
   E.badgeTier = (b) => b.tiers.filter((t) => b.value() >= t).length;
   E.checkBadges = () => {
@@ -198,6 +200,24 @@
     return { key: key, r: list[U.dayNumber() % list.length], done: (P().riddles || {})[key] || null };
   };
   /** Uloží odpověď na dnešní hádanku a připíše body (správně 10, jinak 5). */
+  /* ---------- Škola paměti ---------- */
+  E.tricksDone = () => Object.keys(P().tricks || {}).length;
+  /** Stav triku: done = probraný, open = na řadě, locked = čeká na předchozí. */
+  E.trickState = (id) => {
+    const list = SM.school ? SM.school.LIST : [];
+    const i = list.findIndex((t) => t.id === id);
+    const done = P().tricks || {};
+    if (done[id]) return 'done';
+    return i >= 0 && list.slice(0, i).every((t) => done[t.id]) ? 'open' : 'locked';
+  };
+  E.finishTrick = (snap, id) => {
+    const p = P();
+    p.tricks = p.tricks || {};
+    const first = !p.tricks[id];
+    if (first) p.tricks[id] = U.dayKey();
+    return E.finish(snap, { kind: 'trick', first: first });
+  };
+
   E.answerRiddle = (snap, r, ok, value) => {
     const p = P();
     p.riddles = p.riddles || {};
@@ -251,6 +271,7 @@
     }
     if (info.kind === 'chest') { bonus += CHEST_XP; parts.push({ label: 'Truhla', xp: CHEST_XP }); }
     if (info.kind === 'riddle') { const x = info.ok ? 10 : 5; bonus += x; parts.push({ label: 'Hádanka dne', xp: x }); }
+    if (info.kind === 'trick') { const x = info.first ? 10 : 3; bonus += x; parts.push({ label: 'Škola paměti', xp: x }); }
     if (bonus) store.addXp(bonus);
 
     if ((info.kind === 'lesson' || info.kind === 'chest') && info.u != null) {

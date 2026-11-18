@@ -1695,6 +1695,42 @@ button.room { cursor: pointer; touch-action: manipulation; }
 .trasa-pad.is-locked .trasa-key { pointer-events: none; opacity: 0.5; }
 .play-foot .trasa-back { flex: 0 1 auto; min-height: 2.6rem; }
 
+/* ---------- Škola paměti ---------- */
+.school-card { background: var(--dec-soft); }
+.school-card > svg { color: var(--dec-ink); }
+.trick-list { display: grid; gap: 0.7rem; margin: 1rem 0 0; padding: 0; list-style: none; }
+.trick-row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 0.5rem 0.8rem; padding: 0.8rem 1rem; border-radius: var(--radius); background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
+.trick-row.is-open { box-shadow: inset 0 0 0 3px var(--dec); }
+.trick-row.is-locked { color: var(--ink-2); }
+.trick-no { width: 2.4rem; height: 2.4rem; display: grid; place-items: center; border-radius: 50%; background: var(--dec-soft); color: var(--dec-ink); font-family: var(--font-num); font-weight: 800; }
+.trick-no svg { width: 1.3rem; height: 1.3rem; }
+.trick-row.is-done .trick-no { background: var(--ok-soft); color: var(--ok); }
+.trick-row.is-locked .trick-no { background: var(--surface-2); color: var(--ink-2); }
+.trick-title { font-size: var(--fs-m); font-weight: 800; }
+.trick-sub { font-size: var(--fs-s); color: var(--ink-2); }
+.school-note { margin-top: 1.2rem; }
+.trick-bar { margin: 0.4rem 0 0.8rem; }
+.trick-body { display: grid; gap: 0.9rem; }
+.trick-kicker { font-size: var(--fs-s); font-weight: 700; color: var(--dec-ink); }
+.trick-pic { display: flex; align-items: center; justify-content: center; min-height: 5.5rem; padding: 0.8rem; border-radius: var(--radius); background: var(--dec-soft); font-family: var(--font-text), "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji"; font-size: var(--fs-2xl); font-weight: 800; text-align: center; }
+.trick-pic span { max-width: 100%; white-space: nowrap; }
+.trick-q { font-size: var(--fs-xl); line-height: 1.25; }
+.trick-pic.is-face { font-size: 3.4rem; min-height: 0; }
+.trick-p { font-size: var(--fs-m); line-height: 1.45; }
+.trick-example { padding: 1rem 1.1rem; border-radius: var(--radius); background: var(--surface); box-shadow: inset 0 0 0 2px var(--line); font-size: var(--fs-l); line-height: 1.4; }
+.trick-example.is-task { box-shadow: inset 0 0 0 3px var(--dec); }
+.trick-items { display: grid; gap: 0.5rem; margin: 0; padding: 0; list-style: none; }
+.trick-items li { display: flex; align-items: center; gap: 0.8rem; padding: 0.6rem 0.9rem; border-radius: 14px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
+.trick-items .emo { flex: none; font-size: 2rem; }
+.trick-item-text { display: grid; gap: 0.1rem; min-width: 0; }
+.trick-item-text b { font-size: var(--fs-l); }
+.trick-item-text span { font-size: var(--fs-s); color: var(--ink-2); }
+.trick-word { text-align: center; font-family: var(--font-num); font-size: var(--fs-3xl); font-weight: 800; letter-spacing: 0.2em; color: var(--dec-ink); }
+.trick-opts .choice { justify-content: flex-start; min-height: 3.6rem; padding: 0.6rem 1rem; font-size: var(--fs-m); text-align: left; }
+.trick-opts.is-locked .choice { pointer-events: none; }
+.trick-after { display: grid; gap: 0.8rem; }
+.trick-score { font-size: var(--fs-m); color: var(--ink-2); }
+
 /* ---------- Omezený pohyb ---------- */
 @media (prefers-reduced-motion: reduce) {
   .node-bubble, .node.is-current::after, .modal.is-sheet, .celebrate .postcard { animation: none; }

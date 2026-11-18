@@ -93,6 +93,7 @@
     const r = currentRoute();
     if (r.indexOf('hra-') === 0 && SM.games[r.slice(4)]) { SM.screens.gameIntro(r.slice(4)); return; }
     if (r.indexOf('pokrok-') === 0 && SM.games[r.slice(7)]) { SM.screens.gameProgress(r.slice(7)); return; }
+    if (r.indexOf('trik-') === 0 && SM.school && SM.school.byId(r.slice(5))) { SM.screens.trick(r.slice(5)); return; }
     (VIEWS[r] || VIEWS[''])();
   }
   function go(r) {

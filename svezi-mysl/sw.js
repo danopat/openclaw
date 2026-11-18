@@ -1,5 +1,5 @@
 /* Svěží mysl — offline režim. Při změně souborů zvyšte číslo verze. */
-const VERSION = 'svezi-mysl-v10';
+const VERSION = 'svezi-mysl-v11';
 const ASSETS = [
   './',
   'index.html',
@@ -18,6 +18,7 @@ const ASSETS = [
   'js/places.js',
   'js/content.js',
   'js/riddles.js',
+  'js/school.js',
   'js/kit.js',
   'js/fx.js',
   'js/games/pexeso.js',
@@ -65,6 +66,7 @@ const ASSETS = [
   'js/screens/progress.js',
   'js/screens/settings.js',
   'js/screens/riddle.js',
+  'js/screens/school.js',
   'js/main.js',
   'icons/icon.svg',
   'icons/icon-192.png',

@@ -898,7 +898,7 @@ Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co 
 ## Škola paměti (nová funkce)
 
 - Krátké lekce o paměťových tricích, asi 2 minuty. Každá má čtyři kroky: vysvětlení ve dvou třech větách s obrázkem, ukázka na vlastním příkladu, hned procvičení v navazující minihře a úkol do běžného života („Dnes si takhle zkuste zapamatovat nákup“).
-- Na Cestě jako zvláštní zastávka „Trik“ (ikona žárovky), po jedné v nových jednotkách druhé vlny. Za všech 6 triků odznak Mistr paměti.
+- **Stav: hotovo v aplikaci** (vlastní příklady). Na Cestě je karta Škola paměti, triky se odemykají jeden po druhém, každý má procvičení přímo v lekci a odkaz na navazující hru. Za všech 6 triků odznak Mistr paměti. Samostatné hry Oslí můstek (PA-04) a Paměťové kolíky (PA-09) zatím chybí.
 - Proč: paměťové strategie se dají naučit v každém věku. Ve velké americké studii ACTIVE (přes 2 800 lidí nad 65 let) zlepšila výuka strategií výsledky v paměťových úlohách a účinek byl měřitelný ještě po 5 letech. Prevenci demence to ale neprokazuje, takže ji aplikace slibovat nesmí.
 - Příklady (jména, slova, věty, kolíky) budou vlastní. Z knihy přebíráme jen samotné techniky, které jsou obecně známé.
 

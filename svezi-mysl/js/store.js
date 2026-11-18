@@ -28,7 +28,8 @@
       seen: {},          // hry, u kterých už hráč viděl úvod
       streakChecked: null,
       notice: null,      // zpráva na úvodní obrazovku (např. využitý záchranný den)
-      riddles: {}        // Hádanka dne: den → { id, ok, v }
+      riddles: {},       // Hádanka dne: den → { id, ok, v }
+      tricks: {}         // Škola paměti: trik → den, kdy byl probraný
     };
   }
   function defaults() {
