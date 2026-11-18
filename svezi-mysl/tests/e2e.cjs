@@ -524,9 +524,144 @@ const players = {
       await next(page, () => !!document.querySelector('.sud.is-done'));
       await page.waitForTimeout(40);
     }
+  },
+  async podnos(page) {
+    let tray = null;
+    let round = 0;
+    const COLOR = { cervena: 'červenou', modra: 'modrou', zluta: 'žlutou', bila: 'bílou' };
+    for (let k = 0; k < 40; k++) {
+      const st = await next(page, () => {
+        const p = document.querySelector('.podnos');
+        if (!p) return false;
+        const a = p.dataset.ask;
+        const foot = document.querySelector('.play-foot .btn:not([disabled])');
+        if (a === 'study') return foot && !document.querySelector('.tray-cloth') ? 'study' : false;
+        if (a === 'pick') return document.querySelector('.pick-grid.is-locked') ? (foot ? 'next' : false) : 'pick';
+        return document.querySelector('.choices:not(.is-locked)') ? a : false;
+      });
+      if (!st) return;
+      if (st === 'study') {
+        tray = await page.$$eval('.tray-item', (els) => {
+          const m = { n: {}, c: {} };
+          els.forEach((e) => { m.n[e.dataset.name] = (m.n[e.dataset.name] || 0) + 1; if (e.dataset.color) m.c[e.dataset.name] = e.dataset.color; });
+          return m;
+        });
+        await page.getByRole('button', { name: 'Mám zapamatováno' }).click();
+        await next(page, () => !document.querySelector('.podnos[data-ask="study"]'));
+      } else if (st === 'pick') {
+        const names = Object.keys(tray.n);
+        // V prvním kole schválně jednu věc vynechat a jednu přidat navíc.
+        for (let j = round === 0 ? 1 : 0; j < names.length; j++) await page.locator('.pick[data-name="' + names[j] + '"]').click();
+        if (round === 0) {
+          const extra = await page.$$eval('.pick', (els, ns) => { const b = els.find((e) => ns.indexOf(e.dataset.name) === -1); return b ? b.dataset.name : null; }, names);
+          if (extra) await page.locator('.pick[data-name="' + extra + '"]').click();
+        }
+        round++;
+        await page.getByRole('button', { name: 'Hotovo' }).click();
+        await next(page, () => !!document.querySelector('.pick-grid.is-locked'));
+      } else if (st === 'next') {
+        await page.locator('.play-foot .btn:not([disabled])').first().click();
+        await next(page, () => !document.querySelector('.pick-grid.is-locked'));
+      } else {
+        const nm = await page.getAttribute('.podnos', 'data-name');
+        const ans = st === 'count' ? String(tray.n[nm]) : COLOR[tray.c[nm]];
+        await page.locator('.choices:not(.is-locked) .choice', { hasText: new RegExp('^' + esc(ans) + '$') }).click();
+        await next(page, () => !document.querySelector('.choices:not(.is-locked)'));
+      }
+    }
+  },
+  async sumy(page) {
+    let nums = [];
+    let round = 0;
+    const canMake = (v, size) => {
+      for (let mask = 1; mask < (1 << nums.length); mask++) {
+        const parts = nums.filter((_, i) => mask & (1 << i));
+        if (parts.length >= 2 && parts.length <= size && parts.reduce((a, b) => a + b, 0) === v) return true;
+      }
+      return false;
+    };
+    for (let k = 0; k < 40; k++) {
+      const st = await next(page, () => {
+        const s = document.querySelector('.sumy');
+        if (!s) return false;
+        const foot = document.querySelector('.play-foot .btn-primary:not([disabled])');
+        if (s.dataset.ask === 'study') return foot ? 'study' : false;
+        if (document.querySelector('.sumy-cands.is-locked')) return foot ? 'next' : false;
+        return 'pick';
+      });
+      if (!st) return;
+      if (st === 'study') {
+        nums = await page.$$eval('.sumy[data-ask="study"] .sumy-card', (els) => els.map((e) => +e.textContent));
+        await page.getByRole('button', { name: 'Mám zapamatováno' }).click();
+        await next(page, () => !document.querySelector('.sumy[data-ask="study"]'));
+      } else if (st === 'pick') {
+        const size = +(await page.getAttribute('.sumy', 'data-size'));
+        const cands = await page.$$eval('.sumy-cand', (els) => els.map((e) => +e.dataset.v));
+        const valid = cands.filter((v) => canMake(v, size));
+        if (!valid.length) throw new Error('žádný platný součet v nabídce');
+        if (round === 1) {
+          await page.getByRole('button', { name: 'Ukázat čísla' }).click();
+          await page.waitForSelector('.sumy-peek .sumy-card');
+        }
+        for (const v of valid) await page.locator('.sumy-cand[data-v="' + v + '"]').click();
+        if (round === 0) {
+          const bad = cands.find((v) => valid.indexOf(v) === -1);
+          if (bad != null) await page.locator('.sumy-cand[data-v="' + bad + '"]').click();
+        }
+        round++;
+        await page.getByRole('button', { name: 'Hotovo' }).click();
+        await next(page, () => !!document.querySelector('.sumy-cands.is-locked'));
+      } else {
+        await page.locator('.play-foot .btn-primary:not([disabled])').first().click();
+        await next(page, () => !document.querySelector('.sumy-cands.is-locked'));
+      }
+    }
+  },
+  async pyramida(page) {
+    for (let k = 0; k < 20; k++) {
+      const st = await next(page, () => (document.querySelector('.pyr.is-example') ? 'ex'
+        : document.querySelector('.pyr:not(.is-done) .pyr-brick.is-blank:not(.is-filled)') ? 'play' : false));
+      if (!st) return;
+      if (st === 'ex') { await page.locator('.play-foot .btn:not([disabled])').first().click(); await page.waitForTimeout(40); continue; }
+      const info = await page.evaluate(() => {
+        const bricks = Array.from(document.querySelectorAll('.pyr .pyr-brick'));
+        const N = bricks.length;
+        const R = Math.round((Math.sqrt(8 * N + 1) - 1) / 2);
+        const idx = (r, c) => (r * (r + 1)) / 2 + c;
+        const v = bricks.map((b) => (b.dataset.given ? +b.dataset.given : null));
+        let changed = true;
+        while (changed) {
+          changed = false;
+          for (let r = 0; r < R; r++) for (let c = 0; c <= r; c++) {
+            const i = idx(r, c);
+            if (v[i] != null) continue;
+            if (r < R - 1 && v[idx(r + 1, c)] != null && v[idx(r + 1, c + 1)] != null) v[i] = v[idx(r + 1, c)] + v[idx(r + 1, c + 1)];
+            else if (r > 0 && c > 0 && v[idx(r - 1, c - 1)] != null && v[idx(r, c - 1)] != null) v[i] = v[idx(r - 1, c - 1)] - v[idx(r, c - 1)];
+            else if (r > 0 && c < r && v[idx(r - 1, c)] != null && v[idx(r, c + 1)] != null) v[i] = v[idx(r - 1, c)] - v[idx(r, c + 1)];
+            if (v[i] != null) changed = true;
+          }
+        }
+        return { v: v, blanks: bricks.map((b, i) => (b.dataset.given ? -1 : i)).filter((i) => i >= 0) };
+      });
+      if (info.v.some((x) => x == null)) throw new Error('pyramida nejde dopočítat');
+      const type = async (n) => {
+        for (const d of String(n)) await page.locator('.pyr-pad .kp-key[data-k="' + d + '"]').click();
+        await page.locator('.pyr-pad .kp-key[data-k="ok"]').click();
+      };
+      for (let j = 0; j < info.blanks.length; j++) {
+        const i = info.blanks[j];
+        await page.locator('.pyr-brick[data-i="' + i + '"]').click();
+        if (j === 0) await type(info.v[i] + 1);
+        if (j === 1) await page.getByRole('button', { name: 'Nápověda' }).click();
+        await page.locator('.pyr-brick[data-i="' + i + '"]').click();
+        await type(info.v[i]);
+      }
+      await next(page, () => !!document.querySelector('.pyr.is-done'));
+      await page.waitForTimeout(40);
+    }
   }
 };
-const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina', 'kulicka', 'dvojice', 'byt', 'osmismerka', 'sudoku'];
+const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina', 'kulicka', 'dvojice', 'byt', 'osmismerka', 'sudoku', 'podnos', 'sumy', 'pyramida'];
 
 async function mcq(page, answerFn) {
   for (let r = 0; r < 16; r++) {

@@ -174,6 +174,21 @@
         '<g stroke="#b07a49" stroke-width="2"><path d="M96 98h24M232 96h20M98 140h20M226 136h26M140 66h60"/></g>' +
         '<path d="M0 168C60 150 120 160 170 152S270 146 320 156V200H0Z" fill="#5a8a62"/>' +
         pines([[20, 196, 1.1], [48, 200, 1.3], [140, 198, 1], [196, 200, 1.2], [286, 198, 1.2], [310, 200, 1]], '#2f5a3c');
+    },
+    sumava(id) {
+      return sky(id, '#a9cbe6', '#eef4f1') +
+        '<path d="M0 96L46 74L84 88L128 62L170 80L214 66L262 86L320 70V200H0Z" fill="#8fa9a0"/>' +
+        '<path d="M126 132C150 104 176 70 204 64C236 58 262 76 284 92C300 104 312 114 320 118V140H126Z" fill="#5b7868"/>' +
+        '<path d="M206 70l-8 20 12 8-6 16M246 76l-4 16 10 10M276 92l-6 14" fill="none" stroke="#4a6455" stroke-width="2.5" stroke-linecap="round"/>' +
+        pines([[150, 128, .8], [170, 124, .9], [190, 116, .8], [298, 124, .9], [316, 128, .8]], '#36574a') +
+        '<path d="M0 118C34 108 70 110 100 118L126 132H0Z" fill="#4c6b58"/>' +
+        pines([[10, 128, 1], [32, 124, 1.1], [56, 126, .9], [80, 128, 1], [104, 132, .9]], '#2f5040') +
+        '<path d="M0 132H320V172H0Z" fill="#2d4c5c"/>' +
+        '<path d="M150 134c20 8 40 10 70 6s50-2 70 4" fill="none" stroke="#5f8496" stroke-width="2" opacity=".55"/>' +
+        '<path d="M24 146h64M120 152h96M44 162h52M236 158h56" stroke="#7da3b4" stroke-width="2" stroke-linecap="round" opacity=".55"/>' +
+        '<path d="M0 170C60 162 130 164 180 170S280 174 320 166V200H0Z" fill="#5d7f4f"/>' +
+        '<ellipse cx="98" cy="176" rx="15" ry="6" fill="#8b928a"/><ellipse cx="122" cy="181" rx="9" ry="4.5" fill="#9aa199"/><ellipse cx="226" cy="178" rx="12" ry="5" fill="#8b928a"/>' +
+        pines([[16, 200, 1.6], [46, 204, 1.9], [282, 202, 1.7], [310, 204, 1.5]], '#24402f');
     }
   };
 
@@ -200,8 +215,10 @@
       fact: 'Nad Brnem se tyčí hrad Špilberk a katedrála na Petrově. Její zvony odbíjejí poledne už v 11 hodin.' },
     { id: 'litomysl', gen: 'Litomyšle', name: 'Litomyšl', color: '#5c4d80', intro: ['dvojice', 'osmismerka'],
       fact: 'V Litomyšli se v roce 1824 narodil skladatel Bedřich Smetana. Zdejší zámek zdobí tisíce sgrafit.' },
-    { id: 'svycarsko', gen: 'Českého Švýcarska', name: 'České Švýcarsko', color: '#86501f', intro: ['sudoku'],
-      fact: 'Pravčická brána je největší přírodní pískovcová brána v Evropě.' }
+    { id: 'svycarsko', gen: 'Českého Švýcarska', name: 'České Švýcarsko', color: '#86501f', intro: ['sudoku', 'pyramida'],
+      fact: 'Pravčická brána je největší přírodní pískovcová brána v Evropě.' },
+    { id: 'sumava', gen: 'Šumavy', name: 'Šumava', color: '#2f5d50', intro: ['podnos', 'sumy'],
+      fact: 'Černé jezero na Šumavě je největší a nejhlubší přírodní jezero v Česku. Je hluboké skoro 40 metrů.' }
   ];
 
   SM.places = {

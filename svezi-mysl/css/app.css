@@ -1433,6 +1433,168 @@ button.room { cursor: pointer; touch-action: manipulation; }
 .tc-empty { color: var(--ink-2); }
 .gpd-play { margin-top: 1.2rem; }
 
+/* ---------- Podnos ---------- */
+.tray {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--cols), var(--cw));
+  grid-auto-rows: var(--chh);
+  gap: 6px;
+  justify-content: center;
+  padding: 12px;
+  border-radius: 24px;
+  background: radial-gradient(ellipse at 50% 35%, #eed5b2 0%, #dbb588 68%, #cfa676 100%);
+  box-shadow: inset 0 0 0 6px #a5784a, inset 0 0 0 8px #8c6239, 0 8px 18px rgba(60, 40, 20, 0.18);
+  overflow: hidden;
+}
+.tray-item { display: grid; grid-template-rows: minmax(0, 1fr) auto; justify-items: center; align-items: center; min-width: 0; }
+.tray-pic { display: grid; place-items: center; }
+.tray-item .emo { font-size: calc(var(--chh) * 0.44); }
+.tray-svg { display: block; flex: none; width: calc(var(--chh) * 0.56); height: calc(var(--chh) * 0.56); }
+.tray-svg svg { display: block; width: 100%; height: 100%; }
+.tray-lbl {
+  max-width: 100%;
+  padding: 0 5px;
+  border-radius: 7px;
+  background: rgba(255, 252, 245, 0.75);
+  color: #2b2017;
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+.tray-cloth {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: repeating-linear-gradient(45deg, #f4efe4 0 12px, #e4dac7 12px 24px);
+  box-shadow: inset 0 0 0 6px #a5784a;
+  animation: cloth-in 0.7s ease-out both;
+}
+.tray-cloth.is-still { animation: none; }
+@keyframes cloth-in { from { transform: translateY(-104%); } to { transform: none; } }
+.podnos .pick-grid { padding-top: 0.6rem; row-gap: 0.75rem; }
+.pick.is-v { flex-direction: column; justify-content: center; gap: 0.1rem; padding: 0.3rem 0.25rem; font-size: 0.8rem; text-align: center; }
+.pick.is-v .emo { font-size: calc(var(--ph) * 0.4); }
+.pick.is-v .tray-svg { width: calc(var(--ph) * 0.46); height: calc(var(--ph) * 0.46); }
+.pick.is-v .lbl { flex: none; max-width: 100%; overflow-wrap: anywhere; }
+.pick.is-v .mark { position: absolute; top: 4px; right: 4px; width: 1.35rem; height: 1.35rem; }
+.pick.is-v.is-miss { padding-top: 0.75rem; }
+.pick.is-v .tag {
+  position: absolute;
+  top: -0.6rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0 0.45rem;
+  border-radius: 99px;
+  background: var(--warn);
+  color: var(--on-status);
+  font-size: 0.72rem;
+  line-height: 1.15rem;
+  white-space: nowrap;
+}
+.podnos-q { display: grid; justify-items: center; gap: 0.35rem; min-width: 11rem; padding: 0.9rem 1.4rem; border-radius: var(--radius); background: var(--surface); box-shadow: inset 0 0 0 2px var(--line); }
+.podnos-q .emo.is-big { font-size: 3.4rem; }
+.podnos-q .tray-svg.is-big { width: 4.2rem; height: 4.2rem; }
+.podnos-q p { font-size: var(--fs-l); font-weight: 800; }
+.color-opt { display: inline-flex; align-items: center; gap: 0.6rem; }
+.choices.is-colors .choice { justify-content: flex-start; min-height: 3.4rem; padding-inline: 0.9rem; }
+.swatch { flex: none; width: 1.7rem; height: 1.7rem; border-radius: 50%; box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.45); }
+
+/* ---------- Součty z paměti ---------- */
+.sumy-cards { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem; }
+.sumy-card {
+  min-width: 5rem;
+  height: 5rem;
+  padding: 0 0.6rem;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: var(--surface);
+  box-shadow: inset 0 0 0 3px var(--ink);
+  color: var(--ink);
+  font-family: var(--font-num);
+  font-size: var(--fs-3xl);
+  font-weight: 800;
+}
+.sumy-cards.is-small { gap: 0.5rem; }
+.sumy-cards.is-small { flex-wrap: nowrap; }
+.sumy-cards.is-small .sumy-card { min-width: 2.6rem; height: 2.5rem; padding: 0 0.4rem; border-radius: 8px; box-shadow: inset 0 0 0 2px var(--ink); font-size: var(--fs-l); }
+.sumy-peek { min-height: 3.4rem; display: grid; place-items: center; }
+.sumy-cands { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.7rem 0.9rem; max-width: 30rem; padding-top: 0.5rem; }
+.sumy-slot { position: relative; display: grid; justify-items: center; align-content: start; gap: 0.25rem; min-width: var(--d, 4.6rem); }
+.sumy-tag {
+  position: absolute;
+  top: -0.55rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0 0.45rem;
+  border-radius: 99px;
+  background: var(--warn);
+  color: var(--on-status);
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.15rem;
+  white-space: nowrap;
+}
+.sumy-cand {
+  width: var(--d, 4.6rem);
+  height: var(--d, 4.6rem);
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--surface);
+  box-shadow: inset 0 0 0 2px var(--line);
+  color: var(--ink);
+  font-family: var(--font-num);
+  font-size: min(var(--fs-xl), calc(var(--d, 4.6rem) * 0.36));
+  font-weight: 800;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.sumy-cand[aria-pressed="true"] { background: var(--surface-2); box-shadow: inset 0 0 0 5px var(--ink); }
+.sumy-cand.is-hit { background: var(--ok-soft); box-shadow: inset 0 0 0 5px var(--ok); }
+.sumy-cand.is-false { background: var(--bad-soft); box-shadow: inset 0 0 0 5px var(--bad); }
+.sumy-cand.is-miss { background: var(--warn-soft); box-shadow: inset 0 0 0 3px var(--warn); }
+.sumy-cands.is-locked .sumy-cand { cursor: default; }
+.sumy-why { min-height: 1.3em; font-family: var(--font-num); font-size: var(--fs-xs); font-weight: 700; color: var(--ink-2); text-align: center; line-height: 1.25; white-space: nowrap; }
+
+/* ---------- Sčítací pyramida ---------- */
+.pyr { display: grid; justify-items: center; gap: var(--gap); padding: 2px; }
+.pyr-row { display: flex; gap: var(--gap); }
+.pyr-brick {
+  width: var(--bw);
+  height: var(--bh);
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: var(--logic-soft);
+  color: var(--ink);
+  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.12), inset 0 0 0 1px var(--line);
+  font-family: var(--font-num);
+  font-size: min(calc(var(--bh) * 0.52), calc(var(--bw) * 0.34));
+  font-weight: 800;
+  line-height: 1;
+  touch-action: manipulation;
+}
+.pyr-brick.is-blank { background: var(--surface); border: 2px dashed var(--ink-2); box-shadow: none; cursor: pointer; }
+.pyr-brick.is-sel { border: 0; background: var(--surface-2); box-shadow: inset 0 0 0 4px var(--ink); }
+.pyr-brick.is-filled { border: 0; background: var(--ok-soft); box-shadow: inset 0 0 0 2px var(--ok); cursor: default; }
+.pyr-brick.is-wrong { border: 0; background: var(--bad-soft); box-shadow: inset 0 0 0 3px var(--bad); color: var(--bad); }
+.pyr-brick.is-sel.is-wrong { box-shadow: inset 0 0 0 4px var(--bad); }
+.pyr-brick.is-src { box-shadow: inset 0 0 0 3px var(--focus); }
+.pyr-brick.is-hint { border: 0; box-shadow: inset 0 0 0 5px var(--focus); }
+.pyr-brick.is-shake { animation: shake 0.3s ease; }
+.pyr.is-done .pyr-brick { cursor: default; }
+.pyr-pad { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)) minmax(0, 1.7fr); gap: 0.4rem; width: 100%; max-width: 32rem; flex: 1 1 100%; }
+.pyr-pad .kp-key { min-height: 2.6rem; }
+.play-foot .pyr-hint { min-height: 2.5rem; }
+.pyr-pad .kp-del, .pyr-pad .kp-ok { font-size: var(--fs-s); }
+.pyr-pad.is-locked .kp-key { pointer-events: none; opacity: 0.5; }
+
 /* ---------- Omezený pohyb ---------- */
 @media (prefers-reduced-motion: reduce) {
   .node-bubble, .node.is-current::after, .modal.is-sheet, .celebrate .postcard { animation: none; }
@@ -1442,4 +1604,5 @@ button.room { cursor: pointer; touch-action: manipulation; }
   .fb.is-ok, .fb.is-bad { animation-name: fb-fade; }
   .odd-cell.is-wrong, .dot.is-wrong { animation: none; }
   .odd-cell.is-hint, .dot.is-hint, .ws-cell.is-hint, .ws-cell.is-shake, .sud-cell.is-shake { animation: none; }
+  .tray-cloth, .pyr-brick.is-shake { animation: none; }
 }
