@@ -1,6 +1,6 @@
 # Databáze miniher: plán
 
-Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co k čemu patří, Kde je kulička?, Vyšší, nebo nižší?, Osmisměrka s tajenkou, Příbuzenstvo, Řetězové počty, Sudoku, Výhodný nákup), z druhé vlny jsou hotové 3 hry (Podnos, Součty z paměti, Sčítací pyramida), ostatní je zatím plán. Zdrojem nápadů jsou jen vybrané nafocené strany knihy: str. 56–72 a 77 z kapitoly *Myšlenkové schopnosti* a str. 84–87 a 92–101 z kapitoly *Zkoušejte nové věci*, celkem 92 cvičení a tipů z 32 stran. Stejná data jsou i v tabulce [`minihry-databaze.csv`](minihry-databaze.csv) pro Excel, Numbers nebo Google Tabulky.
+Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co k čemu patří, Kde je kulička?, Vyšší, nebo nižší?, Osmisměrka s tajenkou, Příbuzenstvo, Řetězové počty, Sudoku, Výhodný nákup), z druhé vlny jsou hotové 4 hry (Podnos, Součty z paměti, Cesta podle šipek, Sčítací pyramida), ostatní je zatím plán. Zdrojem nápadů jsou jen vybrané nafocené strany knihy: str. 56–72 a 77 z kapitoly *Myšlenkové schopnosti* a str. 84–87 a 92–101 z kapitoly *Zkoušejte nové věci*, celkem 92 cvičení a tipů z 32 stran. Stejná data jsou i v tabulce [`minihry-databaze.csv`](minihry-databaze.csv) pro Excel, Numbers nebo Google Tabulky.
 
 ## Shrnutí
 
@@ -61,7 +61,7 @@ Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co 
 | PL-05 | Balonky | Počty a logika | Nová minihra | P2 | S | Nová | 63/8 |
 | PL-06 | Slovní úlohy | Počty a logika | Nová minihra | P2 | M | Nová | 62/3, 63/5, 64/12, 64/13, 65/14 |
 | PL-07 | Stavba z kostek | Počty a logika | Nová minihra | P2 | M | Nová | 63/6 |
-| PL-13 | Cesta podle šipek | Počty a logika | Nová minihra | P2 | M | Nová | 77/7 |
+| PL-13 | Cesta podle šipek (hotovo) | Počty a logika | Nová minihra | P2 | M | Nová | 77/7 |
 | PL-14 | Sčítací pyramida (hotovo) | Počty a logika | Nová minihra | P2 | S | Nová | 92/V1 |
 | PL-17 | Najdi pravidlo | Počty a logika | Nová minihra | P2 | M | Nová (příbuzná hře Co bude dál) | 97/V2 |
 | PA-06 | Mapa Česka | Paměť | Nová minihra | P3 | L | Nová | 59/12 |
@@ -602,7 +602,7 @@ Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co 
 
 ### PL-13 Cesta podle šipek
 
-*Počty a logika · Nová minihra · priorita P2 · pracnost M*
+*Počty a logika · Nová minihra · priorita P2 · pracnost M* · **hotovo v aplikaci**
 
 - **Inspirace:** str. 77, č. 7 Mistr trasy
 - **Trénuje:** Prostorovou orientaci (vlevo a vpravo z pohledu chodce) a sledování řady pokynů.
@@ -914,7 +914,7 @@ Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co 
 ## Návrh postupu
 
 1. **První vlna:** 9 her P1 a Hádanka dne se 30 hádankami. Zastávky 8–12 (Telč, Třeboň, Brno, Litomyšl, České Švýcarsko) dnes žádné nové hry nepřinášejí, takže každá dostane 2 hry z první vlny.
-2. **Druhá vlna:** 19 her P2, rozšíření EX-01 až EX-03 a EX-07 a Škola paměti. Začít hrami s malou pracností: Podnos, Součty z paměti a Sčítací pyramida už jsou hotové (Šumava a České Švýcarsko). Cesta pokračuje novými zastávkami (např. Pálava, Kroměříž, Ještěd, Ostrava) s novými pohlednicemi.
+2. **Druhá vlna:** 19 her P2, rozšíření EX-01 až EX-03 a EX-07 a Škola paměti. Hotové jsou už Podnos, Součty z paměti, Sčítací pyramida (Šumava a České Švýcarsko) a Cesta podle šipek (Kroměříž). Cesta pokračuje dalšími zastávkami (např. Pálava, Ještěd, Ostrava) s novými pohlednicemi.
 3. **Třetí vlna:** P3 podle toho, co se osvědčí při zkoušení se seniory. Pohled z boku a Otočené stavby (PL-11, PL-12) postavit na kreslení kostek ze Stavby z kostek (PL-07) z druhé vlny.
 
 ## Obsah, který bude potřeba vytvořit

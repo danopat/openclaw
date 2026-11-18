@@ -23,6 +23,10 @@
   --word: #e87ba4; --word-ink: #9b2c5c; --word-soft: #fbe4ee;
   --logic: #eda100; --logic-ink: #7a5300; --logic-soft: #fdf0cc;
 
+  /* Plánek městečka (Cesta podle šipek) */
+  --pond: #bcdcf0;
+  --works: #f7e2a6;
+
   /* Stavové barvy (vždy s ikonou nebo textem) */
   --ok: #1e7b3a;   --ok-soft: #dcf0e2;
   --bad: #b3261e;  --bad-soft: #f9dedc;
@@ -117,6 +121,8 @@
     --dec: #3987e5;  --dec-ink: #a3c9ff;  --dec-soft: #172a44;
     --word: #d55181; --word-ink: #ffb0cf; --word-soft: #3d1a2a;
     --logic: #c98500; --logic-ink: #ffd27a; --logic-soft: #3a2c0c;
+    --pond: #1f3d52;
+    --works: #43391a;
     --ok: #3fae66;   --ok-soft: #173524;
     --bad: #e5534b;  --bad-soft: #3f1c1a;
     --warn: #e09a3c; --warn-soft: #3a2a12;
@@ -152,6 +158,8 @@
   --dec: #3987e5;  --dec-ink: #a3c9ff;  --dec-soft: #172a44;
   --word: #d55181; --word-ink: #ffb0cf; --word-soft: #3d1a2a;
   --logic: #c98500; --logic-ink: #ffd27a; --logic-soft: #3a2c0c;
+  --pond: #1f3d52;
+  --works: #43391a;
   --ok: #3fae66;   --ok-soft: #173524;
   --bad: #e5534b;  --bad-soft: #3f1c1a;
   --warn: #e09a3c; --warn-soft: #3a2a12;
@@ -1595,6 +1603,95 @@ button.room { cursor: pointer; touch-action: manipulation; }
 .pyr-pad .kp-del, .pyr-pad .kp-ok { font-size: var(--fs-s); }
 .pyr-pad.is-locked .kp-key { pointer-events: none; opacity: 0.5; }
 
+/* ---------- Cesta podle šipek ---------- */
+.town {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--n), var(--cell));
+  grid-auto-rows: var(--cell);
+  gap: var(--gap);
+  padding: 6px;
+  border-radius: 16px;
+  background: var(--surface-2);
+}
+.town-cell {
+  position: relative;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 1px;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+}
+.town-cell .emo { font-size: calc(var(--cell) * 0.42); line-height: 1; }
+.town-lbl { max-width: 100%; padding: 0 2px; font-size: min(0.72rem, calc(var(--cell) * 0.23)); font-weight: 700; line-height: 1.1; white-space: nowrap; overflow: hidden; }
+.town-cell.is-place { background: var(--logic-soft); box-shadow: inset 0 0 0 2px var(--logic); cursor: pointer; touch-action: manipulation; }
+.town-cell.is-rybnik { background: var(--pond); }
+.town-cell.is-stavba { background: var(--works); }
+.town-cell.is-target { box-shadow: inset 0 0 0 4px var(--dec); }
+.town-cell.is-correct { background: var(--ok-soft); box-shadow: inset 0 0 0 4px var(--ok); }
+.town-cell.is-wrong { background: var(--bad-soft); box-shadow: inset 0 0 0 4px var(--bad); }
+.town-cell.is-trail::after { content: ""; position: absolute; width: 24%; height: 24%; border-radius: 50%; background: var(--dec); opacity: 0.55; }
+.town.is-locked .town-cell { cursor: default; }
+.walker {
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  z-index: 2;
+  width: var(--cell);
+  height: var(--cell);
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  transition: transform 0.45s ease;
+}
+.walker svg { width: 74%; height: 74%; filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35)); }
+.walker circle { fill: var(--dec); stroke: #ffffff; stroke-width: 2.5; }
+.walker path { fill: #ffffff; }
+.walker.is-shake svg { animation: shake 0.3s ease; }
+.town.is-still .walker { transition: none; }
+.route { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.35rem; max-width: 34rem; }
+.route-step {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-height: 2rem;
+  padding: 0.2rem 0.6rem 0.2rem 0.4rem;
+  border-radius: 99px;
+  background: var(--surface);
+  box-shadow: inset 0 0 0 2px var(--line);
+  color: var(--ink);
+  font-size: var(--fs-s);
+  font-weight: 700;
+  line-height: 1.2;
+}
+.route-step svg { flex: none; width: 1.25rem; height: 1.25rem; }
+.route-step[data-s="L"], .route-step[data-s="R"] { box-shadow: inset 0 0 0 2px var(--dec); }
+.route-step.is-now { background: var(--dec); color: #ffffff; box-shadow: none; }
+.route-step.is-done { opacity: 0.55; }
+.route.is-small .route-step { min-height: 0; padding: 0.25rem; }
+.route.is-small .route-step b { padding-right: 0.2rem; font-family: var(--font-num); font-size: var(--fs-s); }
+.route.is-hidden .route-step { justify-content: center; min-width: 2.4rem; color: var(--ink-2); }
+.route.is-build { align-content: flex-start; }
+.route-empty { color: var(--ink-2); font-size: var(--fs-s); }
+.route-note { font-size: var(--fs-s); color: var(--ink-2); text-align: center; }
+.route-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.3rem 0.9rem; font-size: var(--fs-s); color: var(--ink-2); }
+.route-legend span { display: inline-flex; align-items: center; gap: 0.2rem; }
+.route-legend svg { width: 1.15rem; height: 1.15rem; }
+.choices.is-routes { gap: 0.5rem; }
+.choices.is-routes .choice { min-height: 2.9rem; padding: 0.3rem 0.5rem; }
+.choices.is-routes .choice.is-correct .route-step { box-shadow: inset 0 0 0 2px var(--ok); }
+.trasa-pad { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.5rem; width: 100%; max-width: 30rem; flex: 1 1 100%; }
+.trasa-key { flex-direction: column; gap: 0.1rem; min-height: 3.6rem; padding: 0.3rem; background: var(--surface); color: var(--ink); box-shadow: inset 0 0 0 2px var(--line); font-size: var(--fs-s); }
+.trasa-key svg { width: 1.7rem; height: 1.7rem; }
+.trasa-pad.is-locked .trasa-key { pointer-events: none; opacity: 0.5; }
+.play-foot .trasa-back { flex: 0 1 auto; min-height: 2.6rem; }
+
 /* ---------- Omezený pohyb ---------- */
 @media (prefers-reduced-motion: reduce) {
   .node-bubble, .node.is-current::after, .modal.is-sheet, .celebrate .postcard { animation: none; }
@@ -1604,5 +1701,6 @@ button.room { cursor: pointer; touch-action: manipulation; }
   .fb.is-ok, .fb.is-bad { animation-name: fb-fade; }
   .odd-cell.is-wrong, .dot.is-wrong { animation: none; }
   .odd-cell.is-hint, .dot.is-hint, .ws-cell.is-hint, .ws-cell.is-shake, .sud-cell.is-shake { animation: none; }
-  .tray-cloth, .pyr-brick.is-shake { animation: none; }
+  .tray-cloth, .pyr-brick.is-shake, .walker.is-shake svg { animation: none; }
+  .walker { transition: none; }
 }

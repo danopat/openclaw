@@ -45,6 +45,7 @@
     podnos: '<svg viewBox="0 0 48 48"><g fill="currentColor" opacity=".5"><circle cx="12.5" cy="26" r="6.5"/><path d="M20 14h11v13.5a3.5 3.5 0 0 1-3.5 3.5h-4a3.5 3.5 0 0 1-3.5-3.5z"/><rect x="34" y="20" width="8" height="11" rx="2"/></g><path d="M12.5 19.5c0-2.5 1.2-4.2 3-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" opacity=".5"/><path d="M2 33h44l-4.5 8h-35z" fill="currentColor"/></svg>',
     sumy: '<svg viewBox="0 0 48 48"><g fill="currentColor" opacity=".45"><rect x="3" y="4" width="15" height="15" rx="3"/><rect x="30" y="4" width="15" height="15" rx="3"/></g><path d="M24 6v11M18.5 11.5h11" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/><circle cx="24" cy="34" r="10.5" fill="currentColor"/></svg>',
     pyramida: '<svg viewBox="0 0 48 48"><g fill="currentColor"><rect x="17.5" y="6" width="13" height="10" rx="2"/><rect x="10" y="19" width="13" height="10" rx="2"/><rect x="2.5" y="32" width="13" height="10" rx="2"/><rect x="17.5" y="32" width="13" height="10" rx="2"/><rect x="32.5" y="32" width="13" height="10" rx="2"/></g><rect x="26.2" y="20.2" width="10.6" height="7.6" rx="1.4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-dasharray="3 2.2"/></svg>',
+    trasa: '<svg viewBox="0 0 48 48"><g fill="currentColor" opacity=".3"><rect x="4" y="4" width="11" height="11" rx="2"/><rect x="33" y="4" width="11" height="11" rx="2"/><rect x="4" y="33" width="11" height="11" rx="2"/></g><path d="M24 40V24h14V10" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1 6.2"/><circle cx="24" cy="40" r="5" fill="currentColor"/><path d="M38 3.5l6 9h-12z" fill="currentColor"/></svg>',
 
     /* ----- Ovládání (24 × 24) ----- */
     back: ui('<path d="M15 5l-7 7 7 7"/>'),
@@ -79,6 +80,9 @@
     bulb: ui('<path d="M9.5 18h5M10.5 21h3"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.7.6 1.1 1.3 1.1 2.1v.1h5v-.1c0-.8.4-1.5 1.1-2.1A6 6 0 0 0 12 3z"/>'),
     trendUp: ui('<path d="M4 16.5l5.5-5.5 4 4L20 8.5"/><path d="M14.5 8.5H20V14"/>'),
     trendDown: ui('<path d="M4 7.5l5.5 5.5 4-4 6.5 6.5"/><path d="M14.5 15.5H20V10"/>'),
+    stepUp: ui('<path d="M12 20V5M6.5 10.5 12 5l5.5 5.5"/>'),
+    turnLeft: ui('<path d="M17 20v-7a4 4 0 0 0-4-4H5"/><path d="M9 5 5 9l4 4"/>'),
+    turnRight: ui('<path d="M7 20v-7a4 4 0 0 1 4-4h8"/><path d="M15 5l4 4-4 4"/>'),
     bolt: ui('<path fill="currentColor" d="M13.2 2.5 5.5 13.6h5.3l-1 7.9 7.7-11.2h-5.3z"/>', true),
 
     /* ----- Logo ----- */

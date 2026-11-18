@@ -659,9 +659,95 @@ const players = {
       await next(page, () => !!document.querySelector('.pyr.is-done'));
       await page.waitForTimeout(40);
     }
+  },
+  async trasa(page) {
+    const DIRS = [[-1, 0], [0, 1], [1, 0], [0, -1]];
+    const turn = (d, s) => (s === 'R' ? (d + 1) % 4 : s === 'L' ? (d + 3) % 4 : d);
+    const end = (n, start, d0, steps) => {
+      let r = Math.floor(start / n), c = start % n, d = d0;
+      for (const s of steps) { if (s === 'F') { r += DIRS[d][0]; c += DIRS[d][1]; } else d = turn(d, s); }
+      return r * n + c;
+    };
+    let memo = null;
+    let k = 0;
+    for (let guard = 0; guard < 60; guard++) {
+      const st = await next(page, () => {
+        const s = document.querySelector('.trasa');
+        if (!s) return false;
+        const foot = document.querySelector('.play-foot .btn-primary:not([disabled])');
+        if (s.dataset.ask === 'memo') return foot ? 'memo' : false;
+        if (document.querySelector('.town.is-locked')) return foot && !document.querySelector('.route-step.is-now') ? 'next' : false;
+        if (s.dataset.ask === 'pick') return document.querySelector('.choices:not(.is-locked)') ? 'pick' : false;
+        return s.dataset.ask;
+      });
+      if (!st) return;
+      const town = await page.evaluate(() => { const t = document.querySelector('.town'); return { n: +t.dataset.n, start: +t.dataset.start, d0: +t.dataset.d0, target: +t.dataset.target }; });
+      if (st === 'memo') {
+        memo = await page.$$eval('.route .route-step', (els) => els.flatMap((e) => Array(+e.dataset.n).fill(e.dataset.s)));
+        await page.getByRole('button', { name: 'Mám zapamatováno' }).click();
+        await next(page, () => document.querySelector('.trasa').dataset.ask === 'tap');
+      } else if (st === 'tap') {
+        const steps = memo || await page.$$eval('.route .route-step', (els) => els.flatMap((e) => Array(+e.dataset.n).fill(e.dataset.s)));
+        memo = null;
+        let i = end(town.n, town.start, town.d0, steps);
+        if (i !== town.target) throw new Error('pokyny nevedou do cíle');
+        if (k === 1) i = await page.$$eval('.town-cell.is-place', (els, tg) => +els.map((e) => e.dataset.i).find((x) => +x !== tg), town.target);
+        k++;
+        await page.locator('.town-cell[data-i="' + i + '"]').click();
+        await next(page, () => !!document.querySelector('.town.is-locked'));
+      } else if (st === 'pick') {
+        const seqs = await page.$$eval('.choices .choice', (els) => els.map((b) => Array.from(b.querySelectorAll('.route-step')).flatMap((e) => Array(+e.dataset.n).fill(e.dataset.s))));
+        const good = seqs.findIndex((sq) => end(town.n, town.start, town.d0, sq) === town.target);
+        if (good < 0) throw new Error('žádná řada pokynů nevede do cíle');
+        const pickIdx = k === 1 ? seqs.findIndex((_, j) => j !== good) : good;
+        k++;
+        await page.locator('.choices:not(.is-locked) .choice').nth(pickIdx).click();
+        await next(page, () => !!document.querySelector('.town.is-locked'));
+      } else if (st === 'build') {
+        const plan = await page.evaluate(() => {
+          const t = document.querySelector('.town');
+          const n = +t.dataset.n, start = +t.dataset.start, d0 = +t.dataset.d0, target = +t.dataset.target;
+          const cells = Array.from(t.querySelectorAll('.town-cell'));
+          const DIRS = [[-1, 0], [0, 1], [1, 0], [0, -1]];
+          const prev = {};
+          const key = (i, d) => i * 4 + d;
+          prev[key(start, d0)] = null;
+          const q = [[start, d0]];
+          let goal = null;
+          while (q.length && goal == null) {
+            const [i, d] = q.shift();
+            const moves = [['L', i, (d + 3) % 4], ['R', i, (d + 1) % 4]];
+            const r = Math.floor(i / n) + DIRS[d][0], c = (i % n) + DIRS[d][1];
+            if (r >= 0 && c >= 0 && r < n && c < n) {
+              const j = r * n + c;
+              if (j === target) { prev['goal'] = [key(i, d), 'F']; goal = 'goal'; break; }
+              if (!cells[j].classList.contains('is-place') && !cells[j].classList.contains('is-block')) moves.push(['F', j, d]);
+            }
+            for (const m of moves) if (!(key(m[1], m[2]) in prev)) { prev[key(m[1], m[2])] = [key(i, d), m[0]]; q.push([m[1], m[2]]); }
+          }
+          const steps = [];
+          let cur = 'goal';
+          while (prev[cur]) { steps.unshift(prev[cur][1]); cur = prev[cur][0]; }
+          return steps;
+        });
+        const best = +(await page.getAttribute('.trasa', 'data-best'));
+        if (plan.length !== best) throw new Error('nejkratší cesta nesedí: ' + plan.length + ' / ' + best);
+        if (k === 0) {
+          // Schválně jedna otočka navíc a zpět, aby se vyzkoušelo tlačítko Zpět.
+          await page.locator('.trasa-key[data-s="L"]').click();
+          await page.getByRole('button', { name: 'Zpět o krok' }).click();
+        }
+        k++;
+        for (const s of plan) await page.locator('.trasa-key[data-s="' + s + '"]').click();
+        await next(page, () => !!document.querySelector('.town.is-locked'));
+      } else if (st === 'next') {
+        await page.locator('.play-foot .btn-primary:not([disabled])').first().click();
+        await next(page, () => !document.querySelector('.town.is-locked'));
+      }
+    }
   }
 };
-const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina', 'kulicka', 'dvojice', 'byt', 'osmismerka', 'sudoku', 'podnos', 'sumy', 'pyramida'];
+const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina', 'kulicka', 'dvojice', 'byt', 'osmismerka', 'sudoku', 'podnos', 'sumy', 'pyramida', 'trasa'];
 
 async function mcq(page, answerFn) {
   for (let r = 0; r < 16; r++) {
