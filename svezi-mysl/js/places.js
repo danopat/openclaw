@@ -189,6 +189,28 @@
         '<path d="M0 170C60 162 130 164 180 170S280 174 320 166V200H0Z" fill="#5d7f4f"/>' +
         '<ellipse cx="98" cy="176" rx="15" ry="6" fill="#8b928a"/><ellipse cx="122" cy="181" rx="9" ry="4.5" fill="#9aa199"/><ellipse cx="226" cy="178" rx="12" ry="5" fill="#8b928a"/>' +
         pines([[16, 200, 1.6], [46, 204, 1.9], [282, 202, 1.7], [310, 204, 1.5]], '#24402f');
+    },
+    kromeriz(id) {
+      let cols = '';
+      for (let x = 6; x < 320; x += 15) cols += '<rect x="' + x + '" y="104" width="6" height="28" fill="#f3ecdc"/>';
+      let statues = '';
+      for (let x = 22; x < 320; x += 60) statues += '<rect x="' + x + '" y="90" width="5" height="10" rx="2" fill="#bfb398"/>';
+      let wins = '';
+      [134, 176].forEach((x) => { wins += '<rect x="' + x + '" y="108" width="10" height="24" rx="5" fill="#8c7b5a"/>'; });
+      let bushes = '';
+      [[26, 176], [74, 182], [246, 182], [294, 176]].forEach((b) => { bushes += '<circle cx="' + b[0] + '" cy="' + b[1] + '" r="9" fill="#3f6f3e"/>'; });
+      return sky(id, '#a9d3f0', '#f1f8fc') +
+        '<rect y="98" width="320" height="7" fill="#d8caa9"/>' + statues + cols + '<rect y="130" width="320" height="6" fill="#d8caa9"/>' +
+        '<rect y="136" width="320" height="64" fill="#86b46f"/>' +
+        '<path d="M0 154h320M160 136v64" stroke="#eadfc4" stroke-width="7"/>' +
+        '<ellipse cx="160" cy="176" rx="96" ry="14" fill="none" stroke="#eadfc4" stroke-width="6"/>' +
+        '<path d="M30 164h80M210 164h80M40 190h70M210 190h70" stroke="#4f8a4a" stroke-width="8" stroke-linecap="round"/>' + bushes +
+        '<rect x="124" y="94" width="72" height="44" fill="#f4ecda"/>' +
+        '<path d="M116 96h88l-6-7h-76z" fill="#d6c6a2"/>' +
+        '<path d="M126 89a34 30 0 0 1 68 0z" fill="#5f9c8b"/>' +
+        '<path d="M160 59v-3" stroke="#3f6e62" stroke-width="2"/>' +
+        '<rect x="154" y="44" width="12" height="15" fill="#f4ecda"/><path d="M151 46h18l-9-11z" fill="#5f9c8b"/>' +
+        wins + '<rect x="154" y="120" width="12" height="18" rx="6" fill="#6f6045"/>';
     }
   };
 
@@ -220,7 +242,7 @@
     { id: 'sumava', gen: 'Šumavy', name: 'Šumava', color: '#2f5d50', intro: ['podnos', 'sumy'],
       fact: 'Černé jezero na Šumavě je největší a nejhlubší přírodní jezero v Česku. Je hluboké skoro 40 metrů.' },
     { id: 'kromeriz', gen: 'Kroměříže', name: 'Kroměříž', color: '#5d4a86', intro: ['trasa'],
-      fact: 'Zámek a zahrady v Kroměříži jsou od roku 1998 na seznamu UNESCO. Květnou zahradu zdobí rotunda a bludiště ze stříhaných keřů.' }
+      fact: 'Zámek a zahrady v Kroměříži jsou od roku 1998 na seznamu UNESCO. Květnou zahradu zdobí rotunda a dlouhá kolonáda se sochami.' }
   ];
 
   SM.places = {
