@@ -895,6 +895,68 @@ players.balonky = async function (page) {
     await next(page, () => !document.querySelector('.bal.is-flying'));
   }
 };
+players.smajlici = async function (page) {
+  let faces = [];
+  let asked = 0;
+  for (let g = 0; g < 60; g++) {
+    const st = await next(page, () => {
+      const m = document.querySelector('.smajlici');
+      if (!m) return false;
+      if (m.dataset.ask === 'study') return document.querySelector('.play-foot .btn:not([disabled])') ? 'study' : false;
+      return document.querySelector('.choices:not(.is-locked)') ? 'recall' : false;
+    });
+    if (!st) return;
+    if (st === 'study') {
+      faces = (await page.getAttribute('.smajlici', 'data-faces')).split('|');
+      await page.getByRole('button', { name: 'Mám zapamatováno' }).click();
+      await next(page, () => document.querySelector('.smajlici').dataset.ask !== 'study');
+      continue;
+    }
+    const name = faces[+(await page.getAttribute('.smajlici', 'data-slot'))];
+    if (asked++ === 1) await page.locator('.choices:not(.is-locked) .choice').filter({ hasNot: page.locator('[data-face="' + name + '"]') }).first().click();
+    else await page.locator('.choices:not(.is-locked) .choice').filter({ has: page.locator('[data-face="' + name + '"]') }).click();
+    await next(page, () => !document.querySelector('.choices:not(.is-locked)'));
+  }
+};
+players.prelevani = async function (page) {
+  let round = 0;
+  for (let g = 0; g < 20; g++) {
+    const st = await next(page, () => (document.querySelector('.prelevani') && !document.querySelector('.vessel.is-goal') ? 'play' : false));
+    if (!st) return;
+    const solve = async () => page.evaluate(() => {
+      const m = document.querySelector('.prelevani');
+      const cap = m.dataset.cap.split(',').map(Number), goal = +m.dataset.goal, start = m.dataset.state.split(',').map(Number);
+      const key = (s) => s.join(',');
+      const prev = {}; prev[key(start)] = null; const q = [start];
+      while (q.length) {
+        const s = q.shift();
+        if (s.indexOf(goal) !== -1) { const path = []; let k = key(s); while (prev[k]) { path.unshift(prev[k].mv); k = prev[k].from; } return path; }
+        for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) {
+          if (i === j || !s[i] || s[j] === cap[j]) continue;
+          const t = s.slice(); const a = Math.min(t[i], cap[j] - t[j]); t[i] -= a; t[j] += a;
+          if (!(key(t) in prev)) { prev[key(t)] = { from: key(s), mv: [i, j] }; q.push(t); }
+        }
+      }
+      return null;
+    });
+    if (round++ === 0) {
+      // Nápověda, jeden tah, Zpět.
+      await page.getByRole('button', { name: 'Nápověda' }).click();
+      const p0 = await solve();
+      await page.locator('.vessel[data-i="' + p0[0][0] + '"]').click();
+      await page.locator('.vessel[data-i="' + p0[0][1] + '"]').click();
+      if (!(await page.$('.vessel.is-goal'))) await page.getByRole('button', { name: 'Zpět' }).click();
+    }
+    const path = await solve();
+    if (!path) throw new Error('úloha nejde vyřešit');
+    for (const mv of path) {
+      await page.locator('.vessel[data-i="' + mv[0] + '"]').click();
+      await page.locator('.vessel[data-i="' + mv[1] + '"]').click();
+    }
+    await next(page, () => !!document.querySelector('.vessel.is-goal'));
+    await next(page, () => !document.querySelector('.vessel.is-goal'));
+  }
+};
 players.koliky = async function (page) {
   const PEG = ['svíčka', 'labuť', 'trojlístek', 'plachetnice', 'ruka', 'šnek', 'vlajka', 'sněhulák', 'balonek', 'kuželky'];
   let things = [];
@@ -921,7 +983,7 @@ players.koliky = async function (page) {
     await next(page, () => !document.querySelector('.choices:not(.is-locked)'));
   }
 };
-const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina', 'kulicka', 'dvojice', 'byt', 'osmismerka', 'sudoku', 'podnos', 'sumy', 'pyramida', 'trasa', 'cisla', 'mustek', 'koliky', 'stitky', 'polevka', 'terc', 'balonky'];
+const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina', 'kulicka', 'dvojice', 'byt', 'osmismerka', 'sudoku', 'podnos', 'sumy', 'pyramida', 'trasa', 'cisla', 'mustek', 'koliky', 'stitky', 'polevka', 'terc', 'balonky', 'smajlici', 'prelevani'];
 
 async function mcq(page, answerFn) {
   for (let r = 0; r < 16; r++) {

@@ -251,6 +251,19 @@
         '<path d="M244 152L258 62M286 152L266 62M250 116h31M254 88h22" stroke="#3f3f45" stroke-width="4" fill="none"/>' +
         '<circle cx="262" cy="54" r="12" fill="none" stroke="#3f3f45" stroke-width="3"/>' + spokes +
         '<path d="M0 176C70 166 150 170 210 174S290 178 320 172V200H0Z" fill="#5f7a5c"/>';
+    },
+    karlstejn(id) {
+      let wins = '';
+      [[80, 104], [94, 104], [108, 104], [136, 84], [184, 64], [196, 64], [184, 90], [196, 90]].forEach((w) => { wins += '<rect x="' + w[0] + '" y="' + w[1] + '" width="6" height="9" rx="2" fill="#5d5249"/>'; });
+      return sky(id, '#9fcbea', '#eef6fb') +
+        '<path d="M0 142C50 122 100 112 150 106S260 114 320 126V200H0Z" fill="#5f8a5c"/>' +
+        '<path d="M52 142L82 126h142l30 16z" fill="#cbbfa6"/>' +
+        '<rect x="70" y="94" width="58" height="34" fill="#e8e0cd"/><path d="M66 96h66l-8-13H74z" fill="#6b5f57"/>' +
+        '<rect x="128" y="74" width="26" height="54" fill="#ece4d2"/><path d="M125 76h32l-16-19z" fill="#58585f"/>' +
+        '<rect x="176" y="50" width="34" height="78" fill="#efe7d6"/><path d="M172 52h42l-21-27z" fill="#4a4a52"/>' +
+        wins +
+        roundTrees([[30, 150, 12], [52, 156, 10], [250, 150, 12], [276, 156, 11], [300, 150, 10]], '#4f7a4a') +
+        '<path d="M0 172C80 160 160 164 220 170S300 174 320 168V200H0Z" fill="#6e9a62"/>';
     }
   };
 
@@ -288,7 +301,9 @@
     { id: 'jested', gen: 'Ještědu', name: 'Ještěd', color: '#2d5b78', intro: ['stitky', 'polevka'],
       fact: 'Hotel a vysílač na vrcholu Ještědu navrhl architekt Karel Hubáček. Stavba byla dokončena v roce 1973 a je vidět z dalekého okolí.' },
     { id: 'ostrava', gen: 'Ostravy', name: 'Ostrava', color: '#6a4a3c', intro: ['terc', 'balonky'],
-      fact: 'V Dolních Vítkovicích v Ostravě stojí bývalé vysoké pece a doly. Dnes slouží jako kulturní a vzdělávací centrum.' }
+      fact: 'V Dolních Vítkovicích v Ostravě stojí bývalé vysoké pece a doly. Dnes slouží jako kulturní a vzdělávací centrum.' },
+    { id: 'karlstejn', gen: 'Karlštejna', name: 'Karlštejn', color: '#8a3a3a', intro: ['smajlici', 'prelevani'],
+      fact: 'Hrad Karlštejn dal postavit Karel IV. ve 14. století. Uchovávaly se tu korunovační klenoty a říšské poklady.' }
   ];
 
   SM.places = {
