@@ -1859,6 +1859,27 @@ button.room { cursor: pointer; touch-action: manipulation; }
 .choices.is-pieces .choice { min-height: 6.6rem; padding: 0.5rem; }
 .dilek-rot { gap: 0.4rem; }
 
+/* ---------- Najdi pravidlo ---------- */
+.rrows { display: grid; gap: 0.5rem; justify-items: center; }
+.rrow { display: flex; align-items: center; gap: 0.7rem; }
+.rrow.is-test { margin-top: 0.3rem; padding: 0.3rem 0.6rem; border-radius: 14px; background: var(--logic-soft); }
+.rarrow { font-size: var(--fs-xl); font-weight: 800; color: var(--ink-2); }
+.rpic { display: grid; grid-template-columns: repeat(3, 1fr); width: var(--rp, 72px); height: var(--rp, 72px); padding: 3px; gap: 2px; border-radius: 8px; background: var(--surface); box-shadow: inset 0 0 0 2px var(--line); color: var(--ink); }
+.rpic-c { display: grid; place-items: center; border-radius: 3px; background: var(--surface-2); }
+.rpic-c svg { width: 82%; height: 82%; }
+.rpic.is-q { display: grid; place-items: center; grid-template-columns: 1fr; font-size: var(--fs-2xl); font-weight: 800; color: var(--ink-2); box-shadow: inset 0 0 0 2px var(--ink-2); }
+.rpic.is-done { box-shadow: inset 0 0 0 3px var(--ok); }
+.choices.is-rules .choice { min-height: 0; padding: 0.35rem; }
+
+/* ---------- Slovní úlohy ---------- */
+.choices.is-answers .choice { min-height: 3.4rem; font-family: var(--font-text); font-size: var(--fs-l); font-weight: 800; white-space: nowrap; }
+.uloha-q { max-width: 32rem; padding: 0.9rem 1rem; border-radius: var(--radius); background: var(--surface); box-shadow: inset 0 0 0 2px var(--line); font-size: min(var(--fs-l), 1.3rem); line-height: 1.4; }
+.uloha-hint-btn { gap: 0.35rem; }
+.uloha-hint-btn svg { width: 1.2rem; height: 1.2rem; }
+.uloha-hint { max-width: 32rem; font-size: var(--fs-m); color: var(--dec-ink); text-align: center; }
+.uloha-hint:empty { display: none; }
+.uloha-why { max-width: 32rem; padding: 0.7rem 0.9rem; border-radius: 14px; background: var(--ok-soft); font-size: var(--fs-m); line-height: 1.4; }
+
 /* ---------- Škola paměti ---------- */
 .school-card { background: var(--dec-soft); }
 .school-card > svg { color: var(--dec-ink); }

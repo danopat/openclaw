@@ -281,6 +281,21 @@
         towers + wins +
         roundTrees([[30, 164, 13], [56, 170, 11], [276, 166, 12], [300, 160, 13]], '#3f6e3c') +
         '<path d="M0 182C80 172 160 176 220 180S300 184 320 178V200H0Z" fill="#82ad6d"/>';
+    },
+    trebic(id) {
+      let arc = '';
+      for (let x = 108; x < 212; x += 13) arc += '<path d="M' + x + ' 128v-10a5 5 0 0 1 10 0v10z" fill="#9b8f80"/>';
+      let houses = '';
+      [[20, 150, '#e8cfa8'], [50, 146, '#f0dcc0'], [236, 148, '#ead2b2'], [268, 144, '#e4c9a0']].forEach((p) => {
+        houses += '<rect x="' + p[0] + '" y="' + p[1] + '" width="28" height="' + (176 - p[1]) + '" fill="' + p[2] + '"/><path d="M' + (p[0] - 3) + ' ' + p[1] + 'l17-14 17 14z" fill="#a4553f"/>';
+      });
+      return sky(id, '#a6cfee', '#f1f6fa') +
+        '<path d="M0 150C70 136 140 132 200 136S290 144 320 146V200H0Z" fill="#7aa267"/>' +
+        '<rect x="100" y="92" width="120" height="58" fill="#cdbfa8"/><path d="M96 94h128l-12-16H108z" fill="#7d5d4b"/>' +
+        '<rect x="196" y="52" width="26" height="98" fill="#c7b89f"/><path d="M192 54h34l-17-24z" fill="#5c4b40"/>' +
+        '<rect x="102" y="66" width="22" height="84" fill="#c7b89f"/><path d="M98 68h30l-15-22z" fill="#5c4b40"/>' +
+        arc + '<circle cx="160" cy="106" r="7" fill="#8a7d6c"/>' + houses +
+        '<path d="M0 178C80 168 160 172 220 176S300 180 320 174V200H0Z" fill="#8ab274"/>';
     }
   };
 
@@ -322,7 +337,9 @@
     { id: 'karlstejn', gen: 'Karlštejna', name: 'Karlštejn', color: '#8a3a3a', intro: ['smajlici', 'prelevani'],
       fact: 'Hrad Karlštejn dal postavit Karel IV. ve 14. století. Uchovávaly se tu korunovační klenoty a říšské poklady.' },
     { id: 'hluboka', gen: 'Hluboké', name: 'Hluboká', color: '#3e5f7a', intro: ['karty', 'dilek'],
-      fact: 'Zámek Hluboká nad Vltavou dostal dnešní podobu v 19. století. Jeho stavitelé se inspirovali anglickým hradem Windsor.' }
+      fact: 'Zámek Hluboká nad Vltavou dostal dnešní podobu v 19. století. Jeho stavitelé se inspirovali anglickým hradem Windsor.' },
+    { id: 'trebic', gen: 'Třebíče', name: 'Třebíč', color: '#5d5a2e', intro: ['pravidlo', 'ulohy'],
+      fact: 'Židovská čtvrť a bazilika svatého Prokopa v Třebíči jsou od roku 2003 na seznamu UNESCO.' }
   ];
 
   SM.places = {
