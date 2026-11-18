@@ -211,6 +211,16 @@
         '<path d="M160 59v-3" stroke="#3f6e62" stroke-width="2"/>' +
         '<rect x="154" y="44" width="12" height="15" fill="#f4ecda"/><path d="M151 46h18l-9-11z" fill="#5f9c8b"/>' +
         wins + '<rect x="154" y="120" width="12" height="18" rx="6" fill="#6f6045"/>';
+    },
+    palava(id) {
+      let vines = '';
+      for (let i = 0; i < 10; i++) vines += '<path d="M' + (-40 + i * 40) + ' 204L' + (70 + i * 22) + ' 152" stroke="#5c8a3c" stroke-width="5" stroke-linecap="round" stroke-dasharray="1 8"/>';
+      return sky(id, '#a8d0ee', '#f4f1e2') +
+        '<path d="M0 128L40 110L72 118L112 76L142 92L172 66L204 94L242 86L284 106L320 98V200H0Z" fill="#9fb58a"/>' +
+        '<path d="M112 76L127 104L100 110ZM172 66L190 96L160 94ZM242 86L256 104L232 104Z" fill="#d3c9ae"/><path d="M112 84v18M176 74v20M246 92v10" stroke="#b5aa8c" stroke-width="2"/>' +
+        '<path d="M163 68h18V54h-4v5h-3v-5h-3v5h-3v-5h-5z" fill="#8a7f6c"/>' +
+        '<path d="M0 134C60 128 120 132 170 136S260 142 320 134V146H0Z" fill="#8cc3df"/>' +
+        '<rect y="144" width="320" height="56" fill="#cbdc93"/>' + vines;
     }
   };
 
@@ -242,7 +252,9 @@
     { id: 'sumava', gen: 'Šumavy', name: 'Šumava', color: '#2f5d50', intro: ['podnos', 'sumy'],
       fact: 'Černé jezero na Šumavě je největší a nejhlubší přírodní jezero v Česku. Je hluboké skoro 40 metrů.' },
     { id: 'kromeriz', gen: 'Kroměříže', name: 'Kroměříž', color: '#5d4a86', intro: ['trasa', 'cisla'],
-      fact: 'Zámek a zahrady v Kroměříži jsou od roku 1998 na seznamu UNESCO. Květnou zahradu zdobí rotunda a dlouhá kolonáda se sochami.' }
+      fact: 'Zámek a zahrady v Kroměříži jsou od roku 1998 na seznamu UNESCO. Květnou zahradu zdobí rotunda a dlouhá kolonáda se sochami.' },
+    { id: 'palava', gen: 'Pálavy', name: 'Pálava', color: '#7b2f4f', intro: ['mustek', 'koliky'],
+      fact: 'Pálava je vápencové pohoří na jižní Moravě. Na jednom z vrcholů stojí zřícenina hradu Děvičky a ve svazích rostou vinice.' }
   ];
 
   SM.places = {

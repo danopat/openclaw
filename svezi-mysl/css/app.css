@@ -1695,6 +1695,37 @@ button.room { cursor: pointer; touch-action: manipulation; }
 .trasa-pad.is-locked .trasa-key { pointer-events: none; opacity: 0.5; }
 .play-foot .trasa-back { flex: 0 1 auto; min-height: 2.6rem; }
 
+/* ---------- Oslí můstek ---------- */
+.acro { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.35rem; }
+.acro-l { display: grid; place-items: center; width: 2.6rem; height: 3rem; border-radius: 10px; background: var(--mem-soft); color: var(--mem-ink); font-family: var(--font-num); font-size: var(--fs-2xl); font-weight: 800; }
+.acro-l.is-now { background: var(--mem-ink); color: var(--surface); }
+.acro-l.is-done { opacity: 0.55; }
+.acro-list { display: grid; gap: 0.3rem; margin: 0; padding: 0; list-style: none; font-size: var(--fs-l); text-align: center; }
+.acro-list b { color: var(--mem-ink); }
+.acro-cat { font-size: var(--fs-s); font-weight: 700; color: var(--ink-2); text-transform: uppercase; letter-spacing: 0.05em; text-align: center; }
+.acro-sentence { font-size: var(--fs-xl); font-weight: 700; line-height: 1.35; text-align: center; }
+.acro-sentence b { color: var(--mem-ink); font-size: 1.15em; }
+
+/* ---------- Paměťové kolíky ---------- */
+.peg-list { display: grid; gap: 0.45rem; width: 100%; max-width: 30rem; }
+.peg-list.is-two { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 40rem; }
+.peg { display: grid; grid-template-columns: auto auto minmax(0, 1fr); align-items: center; gap: 0.6rem; padding: 0.45rem 0.7rem; border-radius: 14px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
+.peg-n { width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 50%; background: var(--mem-soft); color: var(--mem-ink); font-family: var(--font-num); font-weight: 800; }
+.peg-pic { display: inline-flex; align-items: center; font-size: 1.9rem; }
+.peg-thing { margin-left: -0.5em; font-size: 0.85em; transform: translateY(0.2em); }
+.peg-text { display: grid; min-width: 0; }
+.peg-text b { font-size: var(--fs-m); }
+.peg-text span { font-size: var(--fs-xs); color: var(--ink-2); }
+.peg.is-small { gap: 0.35rem; padding: 0.35rem 0.45rem; }
+.peg.is-small .peg-n { width: 1.5rem; height: 1.5rem; font-size: var(--fs-xs); }
+.peg.is-small .peg-pic { font-size: 1.45rem; }
+.peg.is-small .peg-text b { font-size: var(--fs-s); }
+.peg.is-small .peg-text span { display: none; }
+.peg-big { font-family: var(--font-num); font-size: 3.4rem; font-weight: 800; text-align: center; }
+.peg-big.emo { font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif; }
+.peg-opt { display: inline-flex; align-items: center; gap: 0.6rem; }
+.peg-opt .emo { font-size: 1.6rem; }
+
 /* ---------- Škola paměti ---------- */
 .school-card { background: var(--dec-soft); }
 .school-card > svg { color: var(--dec-ink); }

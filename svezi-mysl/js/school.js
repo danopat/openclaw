@@ -37,7 +37,7 @@
         { q: 'Co z nákupu začínalo na S?', opts: ['salám', 'sýr', 'sůl'] },
         { q: 'A co začínalo na O?', opts: ['okurky', 'ocet', 'olej'] }],
       task: 'Až budete psát nákupní lístek, složte z prvních písmen slovo a zkuste nakoupit bez lístku.',
-      game: 'nakup'
+      game: 'mustek'
     },
     {
       id: 'veta', title: 'Pomocná věta', short: 'Pořadí si uložte do věty.',
@@ -52,7 +52,7 @@
         { q: 'A kam nakonec?', opts: ['na radnici', 'do knihovny', 'na poštu'] },
         { q: 'Kam hned na začátku?', opts: ['do banky', 'na poštu', 'na radnici'] }],
       task: 'Až budete mít víc pochůzek, vymyslete k nim větu a projděte je v tom pořadí.',
-      game: 'okna'
+      game: 'mustek'
     },
     {
       id: 'koliky', title: 'Paměťové kolíky', short: 'Věci „pověste“ na obrázky čísel.',
@@ -71,7 +71,7 @@
         { q: 'Kolikáté bylo vejce?', opts: ['čtvrté', 'druhé', 'páté'] },
         { q: 'Co bylo páté?', opts: ['máslo', 'jablka', 'med'] }],
       task: 'Zopakujte si dnes kolíky 1 až 5 a pověste na ně pět věcí, které chcete zítra udělat.',
-      game: 'nakup'
+      game: 'koliky'
     },
     {
       id: 'skupiny', title: 'Skupiny', short: 'Dlouhý seznam roztřiďte.',

@@ -748,7 +748,66 @@ const players = {
   }
 };
 players.cisla = players.osmismerka; // stejné ovládání jako Osmisměrka, jen s číslicemi
-const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina', 'kulicka', 'dvojice', 'byt', 'osmismerka', 'sudoku', 'podnos', 'sumy', 'pyramida', 'trasa', 'cisla'];
+players.mustek = async function (page) {
+  const lists = {};
+  let asked = 0;
+  for (let g = 0; g < 80; g++) {
+    const st = await next(page, () => {
+      const m = document.querySelector('.mustek');
+      if (!m) return false;
+      if (m.dataset.ask === 'study') return document.querySelector('.play-foot .btn:not([disabled])') ? 'study' : false;
+      return document.querySelector('.choices:not(.is-locked)') ? m.dataset.ask : false;
+    });
+    if (!st) return;
+    if (st === 'study') {
+      const info = await page.evaluate(() => ({ word: document.querySelector('.mustek').dataset.word || '', items: Array.from(document.querySelectorAll('.acro-list li')).map((li) => li.textContent) }));
+      if (info.word) lists[info.word] = info.items;
+      await page.locator('.play-foot .btn:not([disabled])').first().click();
+      await page.waitForFunction((w) => !document.querySelector('.play') || !document.querySelector('.mustek[data-ask="study"]' + (w ? '[data-word="' + w + '"]' : '')), info.word);
+      continue;
+    }
+    let ans;
+    if (st === 'pause') ans = await page.evaluate(() => { const m = document.querySelector('.quiz-q').textContent.match(/(\d+) \+ (\d+)/); return String(+m[1] + +m[2]); });
+    else if (st === 'letter') {
+      const at = await page.evaluate(() => { const m = document.querySelector('.mustek'); return [m.dataset.word, +m.dataset.k]; });
+      ans = lists[at[0]][at[1]];
+      if (asked++ === 1) {
+        await page.locator('.choices:not(.is-locked) .choice').filter({ hasNotText: new RegExp('^' + esc(ans) + '$') }).first().click();
+        await next(page, () => !document.querySelector('.choices:not(.is-locked)'));
+        continue;
+      }
+    } else ans = await page.getAttribute('.mustek', 'data-a');
+    await page.locator('.choices:not(.is-locked) .choice', { hasText: new RegExp('^' + esc(ans) + '$') }).click();
+    await next(page, () => !document.querySelector('.choices:not(.is-locked)'));
+  }
+};
+players.koliky = async function (page) {
+  const PEG = ['svíčka', 'labuť', 'trojlístek', 'plachetnice', 'ruka', 'šnek', 'vlajka', 'sněhulák', 'balonek', 'kuželky'];
+  let things = [];
+  let asked = 0;
+  for (let g = 0; g < 40; g++) {
+    const st = await next(page, () => {
+      const m = document.querySelector('.koliky');
+      if (!m) return false;
+      if (m.dataset.ask === 'study') return document.querySelector('.play-foot .btn:not([disabled])') ? 'study' : false;
+      return document.querySelector('.choices:not(.is-locked)') ? m.dataset.ask : false;
+    });
+    if (!st) return;
+    if (st === 'study') {
+      things = await page.$$eval('.peg .peg-text b', (els) => els.map((e) => e.textContent));
+      await page.getByRole('button', { name: 'Mám zapamatováno' }).click();
+      await next(page, () => !document.querySelector('.koliky[data-ask="study"]'));
+      continue;
+    }
+    const n = +(await page.getAttribute('.koliky', 'data-n'));
+    const ans = st === 'peg' ? PEG[n - 1] : st === 'num' || st === 'where' ? String(n) : things[n - 1];
+    const re = st === 'num' || st === 'where' ? new RegExp('^' + n + '$') : new RegExp(esc(ans) + '$');
+    if (asked++ === 1) await page.locator('.choices:not(.is-locked) .choice').filter({ hasNotText: re }).first().click();
+    else await page.locator('.choices:not(.is-locked) .choice', { hasText: re }).click();
+    await next(page, () => !document.querySelector('.choices:not(.is-locked)'));
+  }
+};
+const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina', 'kulicka', 'dvojice', 'byt', 'osmismerka', 'sudoku', 'podnos', 'sumy', 'pyramida', 'trasa', 'cisla', 'mustek', 'koliky'];
 
 async function mcq(page, answerFn) {
   for (let r = 0; r < 16; r++) {
@@ -979,6 +1038,13 @@ async function continueAll(page) {
 
     // 3e) Škola paměti: karta na cestě, první trik celý, odemčení dalšího
     try {
+      const badSets = await page.evaluate(() => {
+        const up = (w) => w.charAt(0).toUpperCase();
+        const d = SM.games.mustek.data;
+        return d.sets.filter((x) => x.word.split('').some((ch, i) => up(x.items[i] || '') !== ch) || x.items.length !== x.word.length).map((x) => x.word)
+          .concat(d.sentences.filter((x) => x.text.replace(/[.,]/g, '').split(' ').some((w, i) => up(w) !== up(x.items[i] || ''))).map((x) => x.text));
+      });
+      if (badSets.length) throw new Error('nesedí pomocná slova nebo věty: ' + badSets.join(', '));
       const bad = await page.evaluate(() => SM.school.LIST.filter((t) => !t.questions.length || t.questions.some((q) => new Set(q.opts).size !== q.opts.length) || !SM.games[t.game]).map((t) => t.id));
       if (bad.length) throw new Error('chybné triky: ' + bad.join(', '));
       await page.goto(base + '?ts=0.1');

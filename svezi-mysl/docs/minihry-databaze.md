@@ -1,6 +1,6 @@
 # Databáze miniher: plán
 
-Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co k čemu patří, Kde je kulička?, Vyšší, nebo nižší?, Osmisměrka s tajenkou, Příbuzenstvo, Řetězové počty, Sudoku, Výhodný nákup), z druhé vlny je hotových 5 her (Podnos, Součty z paměti, Hledání čísel, Cesta podle šipek, Sčítací pyramida), ostatní je zatím plán. Zdrojem nápadů jsou jen vybrané nafocené strany knihy: str. 56–72 a 77 z kapitoly *Myšlenkové schopnosti* a str. 84–87 a 92–101 z kapitoly *Zkoušejte nové věci*, celkem 92 cvičení a tipů z 32 stran. Stejná data jsou i v tabulce [`minihry-databaze.csv`](minihry-databaze.csv) pro Excel, Numbers nebo Google Tabulky.
+Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co k čemu patří, Kde je kulička?, Vyšší, nebo nižší?, Osmisměrka s tajenkou, Příbuzenstvo, Řetězové počty, Sudoku, Výhodný nákup), z druhé vlny je hotových 7 her (Oslí můstek, Podnos, Součty z paměti, Paměťové kolíky, Hledání čísel, Cesta podle šipek, Sčítací pyramida), ostatní je zatím plán. Zdrojem nápadů jsou jen vybrané nafocené strany knihy: str. 56–72 a 77 z kapitoly *Myšlenkové schopnosti* a str. 84–87 a 92–101 z kapitoly *Zkoušejte nové věci*, celkem 92 cvičení a tipů z 32 stran. Stejná data jsou i v tabulce [`minihry-databaze.csv`](minihry-databaze.csv) pro Excel, Numbers nebo Google Tabulky.
 
 ## Shrnutí
 
@@ -46,11 +46,11 @@ Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co 
 | PL-02 | Sudoku (hotovo) | Počty a logika | Nová minihra | P1 | M | Nová | 63/7, 98/V1, 99/V2, 99/R |
 | PL-03 | Výhodný nákup (hotovo) | Počty a logika | Nová minihra | P1 | S | Nová | 64/11 |
 | PA-03 | Smajlíci | Paměť | Nová minihra | P2 | S | Nová | 56/1 |
-| PA-04 | Oslí můstek | Paměť | Nová minihra | P2 | M | Nová (učí paměťovou techniku, procvičení k TR-02 a TR-03) | 58/8, 86/R, 87/R |
+| PA-04 | Oslí můstek (hotovo) | Paměť | Nová minihra | P2 | M | Nová (učí paměťovou techniku, procvičení k TR-02 a TR-03) | 58/8, 86/R, 87/R |
 | PA-05 | Vynesené karty | Paměť | Nová minihra | P2 | M | Nová | 59/14 |
 | PA-07 | Podnos (hotovo) | Paměť | Nová minihra | P2 | S | Nová (příbuzná Nákupnímu seznamu a hře Co se změnilo) | 84/V1 |
 | PA-08 | Součty z paměti (hotovo) | Paměť | Nová minihra | P2 | S | Nová | 85/V3 |
-| PA-09 | Paměťové kolíky | Paměť | Nová minihra | P2 | M | Nová (učí paměťovou techniku, procvičení k TR-04) | 87/1–3 |
+| PA-09 | Paměťové kolíky (hotovo) | Paměť | Nová minihra | P2 | M | Nová (učí paměťovou techniku, procvičení k TR-04) | 87/1–3 |
 | PO-02 | Hledání čísel (hotovo) | Postřeh | Nová minihra | P2 | S | Nová (stejný základ jako Osmisměrka SL-01) | 72/1 |
 | PO-03 | Chybějící dílek | Postřeh | Nová minihra | P2 | M | Nová (příbuzná Otočeným tvarům) | 72/2 |
 | RO-02 | Přelévání | Rozhodování | Nová minihra | P2 | M | Nová | 66/2 |
@@ -141,7 +141,7 @@ Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co 
 
 ### PA-04 Oslí můstek
 
-*Paměť · Nová minihra · priorita P2 · pracnost M · Nová (učí paměťovou techniku, procvičení k TR-02 a TR-03)*
+*Paměť · Nová minihra · priorita P2 · pracnost M · Nová (učí paměťovou techniku, procvičení k TR-02 a TR-03)* · **hotovo v aplikaci**
 
 - **Inspirace:** str. 58, č. 8 Akronymy zeleniny a ovoce; str. 86, rámeček Akronyma; str. 87, rámeček Akrostika
 - **Trénuje:** Použití paměťové techniky: první písmena slov tvoří pomocné slovo. Cílem je naučit trik i pro běžný život.
@@ -204,7 +204,7 @@ Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co 
 
 ### PA-09 Paměťové kolíky
 
-*Paměť · Nová minihra · priorita P2 · pracnost M · Nová (učí paměťovou techniku, procvičení k TR-04)*
+*Paměť · Nová minihra · priorita P2 · pracnost M · Nová (učí paměťovou techniku, procvičení k TR-04)* · **hotovo v aplikaci**
 
 - **Inspirace:** str. 87, č. 1–3 Paměťové kolíky
 - **Trénuje:** Zapamatování věcí v daném pořadí pomocí pevných obrazů pro čísla 1–10 (tzv. kolíků).
@@ -898,7 +898,7 @@ Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co 
 ## Škola paměti (nová funkce)
 
 - Krátké lekce o paměťových tricích, asi 2 minuty. Každá má čtyři kroky: vysvětlení ve dvou třech větách s obrázkem, ukázka na vlastním příkladu, hned procvičení v navazující minihře a úkol do běžného života („Dnes si takhle zkuste zapamatovat nákup“).
-- **Stav: hotovo v aplikaci** (vlastní příklady). Na Cestě je karta Škola paměti, triky se odemykají jeden po druhém, každý má procvičení přímo v lekci a odkaz na navazující hru. Za všech 6 triků odznak Mistr paměti. Samostatné hry Oslí můstek (PA-04) a Paměťové kolíky (PA-09) zatím chybí.
+- **Stav: hotovo v aplikaci** (vlastní příklady). Na Cestě je karta Škola paměti, triky se odemykají jeden po druhém, každý má procvičení přímo v lekci a odkaz na navazující hru. Za všech 6 triků odznak Mistr paměti. Navazující hry Oslí můstek (PA-04) a Paměťové kolíky (PA-09) jsou hotové (zastávka Pálava).
 - Proč: paměťové strategie se dají naučit v každém věku. Ve velké americké studii ACTIVE (přes 2 800 lidí nad 65 let) zlepšila výuka strategií výsledky v paměťových úlohách a účinek byl měřitelný ještě po 5 letech. Prevenci demence to ale neprokazuje, takže ji aplikace slibovat nesmí.
 - Příklady (jména, slova, věty, kolíky) budou vlastní. Z knihy přebíráme jen samotné techniky, které jsou obecně známé.
 
@@ -914,7 +914,7 @@ Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co 
 ## Návrh postupu
 
 1. **První vlna:** 9 her P1 a Hádanka dne se 30 hádankami. Zastávky 8–12 (Telč, Třeboň, Brno, Litomyšl, České Švýcarsko) dnes žádné nové hry nepřinášejí, takže každá dostane 2 hry z první vlny.
-2. **Druhá vlna:** 19 her P2, rozšíření EX-01 až EX-03 a EX-07 a Škola paměti. Hotové jsou už Podnos, Součty z paměti, Sčítací pyramida (Šumava a České Švýcarsko) a Cesta podle šipek s Hledáním čísel (Kroměříž). Cesta pokračuje dalšími zastávkami (např. Pálava, Ještěd, Ostrava) s novými pohlednicemi.
+2. **Druhá vlna:** 19 her P2, rozšíření EX-01 až EX-03 a EX-07 a Škola paměti. Hotové jsou už Podnos, Součty z paměti a Sčítací pyramida (Šumava a České Švýcarsko), Cesta podle šipek s Hledáním čísel (Kroměříž) a Oslí můstek s Paměťovými kolíky (Pálava). Cesta pokračuje dalšími zastávkami (např. Ještěd, Ostrava) s novými pohlednicemi.
 3. **Třetí vlna:** P3 podle toho, co se osvědčí při zkoušení se seniory. Pohled z boku a Otočené stavby (PL-11, PL-12) postavit na kreslení kostek ze Stavby z kostek (PL-07) z druhé vlny.
 
 ## Obsah, který bude potřeba vytvořit
