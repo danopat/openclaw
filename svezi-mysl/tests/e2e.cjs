@@ -1026,6 +1026,35 @@ players.ulohy = async function (page) {
     await next(page, () => !document.querySelector('.choices:not(.is-locked)'));
   }
 };
+players.kostky = async function (page) {
+  let k = 0;
+  for (let g = 0; g < 20; g++) {
+    const st = await next(page, () => (document.querySelector('.kostky') && document.querySelector('.choices:not(.is-locked)') ? 'pick' : false));
+    if (!st) return;
+    const a = await page.getAttribute('.kostky', 'data-a');
+    const map = { L: 'V\u00a0levé', R: 'V\u00a0pravé', '=': 'Stejně' };
+    const label = map[a] || a;
+    if (k++ === 1) await page.locator('.choices:not(.is-locked) .choice').filter({ hasNotText: new RegExp('^' + esc(label) + '$') }).first().click();
+    else await page.locator('.choices:not(.is-locked) .choice', { hasText: new RegExp('^' + esc(label) + '$') }).click();
+    await next(page, () => !document.querySelector('.choices:not(.is-locked)'));
+  }
+};
+players.zebrik = async function (page) {
+  let k = 0;
+  for (let g = 0; g < 40; g++) {
+    const st = await next(page, () => (document.querySelector('.zebrik') ? (document.querySelector('.choices:not(.is-locked)') ? 'pick' : document.querySelector('.play-foot .btn-primary:not([disabled])') ? 'next' : false) : false));
+    if (!st) return;
+    if (st === 'next') { await page.locator('.play-foot .btn-primary:not([disabled])').first().click(); await page.waitForTimeout(60); continue; }
+    const ans = await page.evaluate(() => {
+      const p = document.querySelector('.zebrik').dataset.path.split('|');
+      const i = Array.from(document.querySelectorAll('.rung')).findIndex((r) => r.classList.contains('is-empty'));
+      return p[i];
+    });
+    if (k++ === 1) await page.locator('.choices:not(.is-locked) .choice').filter({ hasNotText: new RegExp('^' + esc(ans) + '$') }).first().click();
+    else await page.locator('.choices:not(.is-locked) .choice', { hasText: new RegExp('^' + esc(ans) + '$') }).click();
+    await next(page, () => !document.querySelector('.choices:not(.is-locked)'));
+  }
+};
 players.koliky = async function (page) {
   const PEG = ['svíčka', 'labuť', 'trojlístek', 'plachetnice', 'ruka', 'šnek', 'vlajka', 'sněhulák', 'balonek', 'kuželky'];
   let things = [];
@@ -1052,7 +1081,7 @@ players.koliky = async function (page) {
     await next(page, () => !document.querySelector('.choices:not(.is-locked)'));
   }
 };
-const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina', 'kulicka', 'dvojice', 'byt', 'osmismerka', 'sudoku', 'podnos', 'sumy', 'pyramida', 'trasa', 'cisla', 'mustek', 'koliky', 'stitky', 'polevka', 'terc', 'balonky', 'smajlici', 'prelevani', 'karty', 'dilek', 'pravidlo', 'ulohy'];
+const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina', 'kulicka', 'dvojice', 'byt', 'osmismerka', 'sudoku', 'podnos', 'sumy', 'pyramida', 'trasa', 'cisla', 'mustek', 'koliky', 'stitky', 'polevka', 'terc', 'balonky', 'smajlici', 'prelevani', 'karty', 'dilek', 'pravidlo', 'ulohy', 'kostky', 'zebrik'];
 
 async function mcq(page, answerFn) {
   for (let r = 0; r < 16; r++) {

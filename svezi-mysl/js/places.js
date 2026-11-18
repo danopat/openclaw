@@ -296,6 +296,20 @@
         '<rect x="102" y="66" width="22" height="84" fill="#c7b89f"/><path d="M98 68h30l-15-22z" fill="#5c4b40"/>' +
         arc + '<circle cx="160" cy="106" r="7" fill="#8a7d6c"/>' + houses +
         '<path d="M0 178C80 168 160 172 220 176S300 180 320 174V200H0Z" fill="#8ab274"/>';
+    },
+    plzen(id) {
+      let houses = '';
+      [[14, 132, '#e9c99c'], [46, 138, '#efd8b5'], [222, 136, '#e6cfa6'], [254, 130, '#f0dcbb'], [286, 138, '#e3c597']].forEach((p) => {
+        houses += '<rect x="' + p[0] + '" y="' + p[1] + '" width="30" height="' + (178 - p[1]) + '" fill="' + p[2] + '"/><path d="M' + (p[0] - 2) + ' ' + p[1] + 'l17-13 17 13z" fill="#9c4f3a"/>' +
+          '<rect x="' + (p[0] + 6) + '" y="' + (p[1] + 8) + '" width="6" height="8" fill="#6f7b84"/><rect x="' + (p[0] + 18) + '" y="' + (p[1] + 8) + '" width="6" height="8" fill="#6f7b84"/>';
+      });
+      return sky(id, '#a8d0ee', '#f3f7fa') +
+        '<rect y="150" width="320" height="50" fill="#b9ad98"/>' +
+        '<path d="M96 178V100h86v78z" fill="#d8cdb8"/><path d="M92 102h94l-10-18H102z" fill="#4f5a62"/>' +
+        '<rect x="104" y="112" width="10" height="26" rx="5" fill="#7a8794"/><rect x="164" y="112" width="10" height="26" rx="5" fill="#7a8794"/>' +
+        '<rect x="128" y="34" width="22" height="144" fill="#d2c6ae"/><path d="M124 36h30l-15-30z" fill="#3f4a52"/>' +
+        '<rect x="134" y="52" width="10" height="20" rx="5" fill="#7a8794"/><circle cx="139" cy="88" r="6" fill="#f2efe6" stroke="#7a8794" stroke-width="2"/>' +
+        houses;
     }
   };
 
@@ -339,7 +353,9 @@
     { id: 'hluboka', gen: 'Hluboké', name: 'Hluboká', color: '#3e5f7a', intro: ['karty', 'dilek'],
       fact: 'Zámek Hluboká nad Vltavou dostal dnešní podobu v 19. století. Jeho stavitelé se inspirovali anglickým hradem Windsor.' },
     { id: 'trebic', gen: 'Třebíče', name: 'Třebíč', color: '#5d5a2e', intro: ['pravidlo', 'ulohy'],
-      fact: 'Židovská čtvrť a bazilika svatého Prokopa v Třebíči jsou od roku 2003 na seznamu UNESCO.' }
+      fact: 'Židovská čtvrť a bazilika svatého Prokopa v Třebíči jsou od roku 2003 na seznamu UNESCO.' },
+    { id: 'plzen', gen: 'Plzně', name: 'Plzeň', color: '#3d5470', intro: ['kostky', 'zebrik'],
+      fact: 'Věž katedrály svatého Bartoloměje v Plzni měří přes 100 metrů. Je to nejvyšší kostelní věž v Česku.' }
   ];
 
   SM.places = {
