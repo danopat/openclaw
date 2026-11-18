@@ -781,6 +781,62 @@ players.mustek = async function (page) {
     await next(page, () => !document.querySelector('.choices:not(.is-locked)'));
   }
 };
+players.stitky = async function (page) {
+  let round = 0;
+  for (let g = 0; g < 40; g++) {
+    const st = await next(page, () => {
+      const m = document.querySelector('.stitky');
+      if (!m) return false;
+      if (m.dataset.ask === 'draw') return document.querySelector('.jars:not(.is-locked)') ? 'draw' : false;
+      if (document.querySelector('.choices:not(.is-locked)')) return m.dataset.ask;
+      return document.querySelector('.play-foot .btn-primary:not([disabled])') && m.dataset.ask !== 'assign' ? 'next' : false;
+    });
+    if (!st) return;
+    if (st === 'draw') {
+      // Napoprvé schválně ze špatné sklenice, jinak ze sklenice se štítkem „směs“.
+      const sel = round === 0 ? '.jar:not([data-label="směs"])' : '.jar[data-label="směs"]';
+      round++;
+      await page.locator(sel).first().click();
+      await next(page, () => document.querySelector('.stitky').dataset.ask !== 'draw');
+    } else if (st === 'assign') {
+      const ans = await page.evaluate(() => { const m = document.querySelector('.stitky'); return m.dataset.contents.split('|')[+m.dataset.jar]; });
+      await page.locator('.choices:not(.is-locked) .choice', { hasText: new RegExp(esc(ans) + '$') }).click();
+      await next(page, () => !document.querySelector('.choices:not(.is-locked)'));
+    } else if (st === 'why') {
+      await page.locator('.choices:not(.is-locked) .choice', { hasText: /^Štítek lže/ }).click();
+      await next(page, () => !document.querySelector('.choices:not(.is-locked)'));
+    } else {
+      await page.locator('.play-foot .btn-primary:not([disabled])').first().click();
+      await page.waitForTimeout(60);
+    }
+  }
+};
+players.polevka = async function (page) {
+  const word = async (w) => {
+    for (const ch of w) {
+      const i = await page.$$eval('.soup-l', (els, c) => els.findIndex((e) => !e.disabled && !e.classList.contains('is-gone') && e.dataset.ch === c), ch);
+      await page.locator('.soup-l').nth(i).click();
+    }
+  };
+  const words = await page.$$eval('.soup-word', (els) => els.map((e) => e.dataset.w));
+  for (let k = 0; k < words.length; k++) {
+    const before = await page.$$eval('.soup-word.is-found', (els) => els.length);
+    if (k === 0) {
+      // Jedno písmeno vybrat a vrátit.
+      await word(words[k].charAt(0));
+      await page.getByRole('button', { name: 'Vrátit písmeno' }).click();
+    }
+    if (k === 1) {
+      await page.getByRole('button', { name: 'Nápověda' }).click();
+      await page.getByRole('button', { name: 'Nápověda' }).click();
+      await next(page, (n) => document.querySelectorAll('.soup-word.is-found').length > n, before);
+      continue;
+    }
+    const left = await page.$$eval('.soup-word:not(.is-found)', (els) => els.map((e) => e.dataset.w));
+    await word(left[0]);
+    await next(page, (n) => document.querySelectorAll('.soup-word.is-found').length > n, before);
+  }
+};
 players.koliky = async function (page) {
   const PEG = ['svíčka', 'labuť', 'trojlístek', 'plachetnice', 'ruka', 'šnek', 'vlajka', 'sněhulák', 'balonek', 'kuželky'];
   let things = [];
@@ -807,7 +863,7 @@ players.koliky = async function (page) {
     await next(page, () => !document.querySelector('.choices:not(.is-locked)'));
   }
 };
-const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina', 'kulicka', 'dvojice', 'byt', 'osmismerka', 'sudoku', 'podnos', 'sumy', 'pyramida', 'trasa', 'cisla', 'mustek', 'koliky'];
+const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina', 'kulicka', 'dvojice', 'byt', 'osmismerka', 'sudoku', 'podnos', 'sumy', 'pyramida', 'trasa', 'cisla', 'mustek', 'koliky', 'stitky', 'polevka'];
 
 async function mcq(page, answerFn) {
   for (let r = 0; r < 16; r++) {

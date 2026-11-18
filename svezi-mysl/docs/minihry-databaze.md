@@ -1,6 +1,6 @@
 # Databáze miniher: plán
 
-Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co k čemu patří, Kde je kulička?, Vyšší, nebo nižší?, Osmisměrka s tajenkou, Příbuzenstvo, Řetězové počty, Sudoku, Výhodný nákup), z druhé vlny je hotových 7 her (Oslí můstek, Podnos, Součty z paměti, Paměťové kolíky, Hledání čísel, Cesta podle šipek, Sčítací pyramida), ostatní je zatím plán. Zdrojem nápadů jsou jen vybrané nafocené strany knihy: str. 56–72 a 77 z kapitoly *Myšlenkové schopnosti* a str. 84–87 a 92–101 z kapitoly *Zkoušejte nové věci*, celkem 92 cvičení a tipů z 32 stran. Stejná data jsou i v tabulce [`minihry-databaze.csv`](minihry-databaze.csv) pro Excel, Numbers nebo Google Tabulky.
+Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co k čemu patří, Kde je kulička?, Vyšší, nebo nižší?, Osmisměrka s tajenkou, Příbuzenstvo, Řetězové počty, Sudoku, Výhodný nákup), z druhé vlny je hotových 9 her (Oslí můstek, Podnos, Součty z paměti, Paměťové kolíky, Hledání čísel, Popletené štítky, Písmenková polévka, Cesta podle šipek, Sčítací pyramida), ostatní je zatím plán. Zdrojem nápadů jsou jen vybrané nafocené strany knihy: str. 56–72 a 77 z kapitoly *Myšlenkové schopnosti* a str. 84–87 a 92–101 z kapitoly *Zkoušejte nové věci*, celkem 92 cvičení a tipů z 32 stran. Stejná data jsou i v tabulce [`minihry-databaze.csv`](minihry-databaze.csv) pro Excel, Numbers nebo Google Tabulky.
 
 ## Shrnutí
 
@@ -54,8 +54,8 @@ Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co 
 | PO-02 | Hledání čísel (hotovo) | Postřeh | Nová minihra | P2 | S | Nová (stejný základ jako Osmisměrka SL-01) | 72/1 |
 | PO-03 | Chybějící dílek | Postřeh | Nová minihra | P2 | M | Nová (příbuzná Otočeným tvarům) | 72/2 |
 | RO-02 | Přelévání | Rozhodování | Nová minihra | P2 | M | Nová | 66/2 |
-| RO-03 | Popletené štítky | Rozhodování | Nová minihra | P2 | S | Nová | 71/4 |
-| SL-02 | Písmenková polévka | Slova | Nová minihra | P2 | S | Nová (příbuzná Přesmyčkám) | 61/5, 94/V1 |
+| RO-03 | Popletené štítky (hotovo) | Rozhodování | Nová minihra | P2 | S | Nová | 71/4 |
+| SL-02 | Písmenková polévka (hotovo) | Slova | Nová minihra | P2 | S | Nová (příbuzná Přesmyčkám) | 61/5, 94/V1 |
 | SL-03 | Slovní žebřík | Slova | Nová minihra | P2 | M | Nová | 60/2 |
 | PL-04 | Terč | Počty a logika | Nová minihra | P2 | S | Nová | 62/1 |
 | PL-05 | Balonky | Počty a logika | Nová minihra | P2 | S | Nová | 63/8 |
@@ -316,7 +316,7 @@ Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co 
 
 ### RO-03 Popletené štítky
 
-*Rozhodování · Nová minihra · priorita P2 · pracnost S*
+*Rozhodování · Nová minihra · priorita P2 · pracnost S* · **hotovo v aplikaci**
 
 - **Inspirace:** str. 71, č. 4 Sklenice se štítky
 - **Trénuje:** Logické vyvozování z jediné informace.
@@ -394,7 +394,7 @@ Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co 
 
 ### SL-02 Písmenková polévka
 
-*Slova · Nová minihra · priorita P2 · pracnost S · Nová (příbuzná Přesmyčkám)*
+*Slova · Nová minihra · priorita P2 · pracnost S · Nová (příbuzná Přesmyčkám)* · **hotovo v aplikaci**
 
 - **Inspirace:** str. 61, č. 5 Písmenková polévka; str. 94, výzva 1 Písmenková polévka
 - **Trénuje:** Práci se slovy a plánování.
@@ -914,7 +914,7 @@ Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co 
 ## Návrh postupu
 
 1. **První vlna:** 9 her P1 a Hádanka dne se 30 hádankami. Zastávky 8–12 (Telč, Třeboň, Brno, Litomyšl, České Švýcarsko) dnes žádné nové hry nepřinášejí, takže každá dostane 2 hry z první vlny.
-2. **Druhá vlna:** 19 her P2, rozšíření EX-01 až EX-03 a EX-07 a Škola paměti. Hotové jsou už Podnos, Součty z paměti a Sčítací pyramida (Šumava a České Švýcarsko), Cesta podle šipek s Hledáním čísel (Kroměříž) a Oslí můstek s Paměťovými kolíky (Pálava). Cesta pokračuje dalšími zastávkami (např. Ještěd, Ostrava) s novými pohlednicemi.
+2. **Druhá vlna:** 19 her P2, rozšíření EX-01 až EX-03 a EX-07 a Škola paměti. Hotové jsou už Podnos, Součty z paměti a Sčítací pyramida (Šumava a České Švýcarsko), Cesta podle šipek s Hledáním čísel (Kroměříž) Oslí můstek s Paměťovými kolíky (Pálava) a Popletené štítky s Písmenkovou polévkou (Ještěd). Cesta pokračuje dalšími zastávkami (např. Ostrava) s novými pohlednicemi.
 3. **Třetí vlna:** P3 podle toho, co se osvědčí při zkoušení se seniory. Pohled z boku a Otočené stavby (PL-11, PL-12) postavit na kreslení kostek ze Stavby z kostek (PL-07) z druhé vlny.
 
 ## Obsah, který bude potřeba vytvořit

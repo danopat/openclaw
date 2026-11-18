@@ -221,6 +221,17 @@
         '<path d="M163 68h18V54h-4v5h-3v-5h-3v5h-3v-5h-5z" fill="#8a7f6c"/>' +
         '<path d="M0 134C60 128 120 132 170 136S260 142 320 134V146H0Z" fill="#8cc3df"/>' +
         '<rect y="144" width="320" height="56" fill="#cbdc93"/>' + vines;
+    },
+    jested(id) {
+      return sky(id, '#9ccaf0', '#eef6fb') +
+        '<path d="M0 150L70 120L128 98L160 86L192 98L252 122L320 150V200H0Z" fill="#3f6b4a"/>' +
+        pines([[40, 150, .8], [76, 136, .8], [104, 122, .7], [214, 124, .7], [244, 136, .8], [282, 150, .8]], '#2f5040') +
+        '<path d="M0 172C80 152 140 158 200 164S290 170 320 162V200H0Z" fill="#5d8a5c"/>' +
+        '<path d="M150 90C153 72 156 54 160 28C164 54 167 72 170 90Z" fill="#d3dade"/>' +
+        '<path d="M160 28C164 54 167 72 170 90H160Z" fill="#aab4bb"/>' +
+        '<path d="M160 28V10" stroke="#8a959c" stroke-width="2"/>' +
+        '<rect x="144" y="88" width="32" height="6" rx="2" fill="#9aa4ab"/>' +
+        pines([[18, 200, 1.5], [300, 200, 1.6]], '#24402f');
     }
   };
 
@@ -254,7 +265,9 @@
     { id: 'kromeriz', gen: 'Kroměříže', name: 'Kroměříž', color: '#5d4a86', intro: ['trasa', 'cisla'],
       fact: 'Zámek a zahrady v Kroměříži jsou od roku 1998 na seznamu UNESCO. Květnou zahradu zdobí rotunda a dlouhá kolonáda se sochami.' },
     { id: 'palava', gen: 'Pálavy', name: 'Pálava', color: '#7b2f4f', intro: ['mustek', 'koliky'],
-      fact: 'Pálava je vápencové pohoří na jižní Moravě. Na jednom z vrcholů stojí zřícenina hradu Děvičky a ve svazích rostou vinice.' }
+      fact: 'Pálava je vápencové pohoří na jižní Moravě. Na jednom z vrcholů stojí zřícenina hradu Děvičky a ve svazích rostou vinice.' },
+    { id: 'jested', gen: 'Ještědu', name: 'Ještěd', color: '#2d5b78', intro: ['stitky', 'polevka'],
+      fact: 'Hotel a vysílač na vrcholu Ještědu navrhl architekt Karel Hubáček. Stavba byla dokončena v roce 1973 a je vidět z dalekého okolí.' }
   ];
 
   SM.places = {

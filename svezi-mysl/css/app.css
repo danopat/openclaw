@@ -26,6 +26,7 @@
   /* Plánek městečka (Cesta podle šipek) */
   --pond: #bcdcf0;
   --works: #f7e2a6;
+  --jar-glass: #dde8ee;
 
   /* Stavové barvy (vždy s ikonou nebo textem) */
   --ok: #1e7b3a;   --ok-soft: #dcf0e2;
@@ -123,6 +124,7 @@
     --logic: #c98500; --logic-ink: #ffd27a; --logic-soft: #3a2c0c;
     --pond: #1f3d52;
     --works: #43391a;
+    --jar-glass: #2a3a42;
     --ok: #3fae66;   --ok-soft: #173524;
     --bad: #e5534b;  --bad-soft: #3f1c1a;
     --warn: #e09a3c; --warn-soft: #3a2a12;
@@ -160,6 +162,7 @@
   --logic: #c98500; --logic-ink: #ffd27a; --logic-soft: #3a2c0c;
   --pond: #1f3d52;
   --works: #43391a;
+  --jar-glass: #2a3a42;
   --ok: #3fae66;   --ok-soft: #173524;
   --bad: #e5534b;  --bad-soft: #3f1c1a;
   --warn: #e09a3c; --warn-soft: #3a2a12;
@@ -1726,6 +1729,43 @@ button.room { cursor: pointer; touch-action: manipulation; }
 .peg-opt { display: inline-flex; align-items: center; gap: 0.6rem; }
 .peg-opt .emo { font-size: 1.6rem; }
 
+/* ---------- Popletené štítky ---------- */
+.jars { display: flex; justify-content: center; gap: 0.9rem; width: 100%; }
+.jar { position: relative; display: grid; justify-items: center; width: min(30%, 7.5rem); padding: 2.2rem 0 0; border: 0; background: none; color: var(--ink); font: inherit; cursor: pointer; touch-action: manipulation; }
+.jar-lid { width: 72%; height: 0.9rem; border-radius: 6px 6px 3px 3px; background: #b4835a; box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.18); }
+.jar-body { position: relative; display: grid; place-items: center; width: 100%; aspect-ratio: 3 / 4; border-radius: 14px 14px 18px 18px; background: linear-gradient(90deg, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.08)), var(--jar-glass); box-shadow: inset 0 0 0 3px var(--line); overflow: hidden; }
+.jar-in { font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif; font-size: 2rem; transform: translateY(-0.6rem); }
+.jar-tag { position: absolute; left: 7%; right: 7%; bottom: 16%; padding: 0.25rem 0.15rem; border-radius: 6px; background: #fffaf0; color: #2b2017; font-size: var(--fs-s); font-weight: 800; line-height: 1.15; text-align: center; overflow-wrap: anywhere; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25); }
+.jar-drawn { position: absolute; top: 0; font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif; font-size: 2rem; line-height: 1; }
+.jar.is-drawn .jar-body { box-shadow: inset 0 0 0 4px var(--ink); }
+.jar.is-asked .jar-body { box-shadow: inset 0 0 0 5px var(--dec); }
+.jar.is-open .jar-tag { background: var(--ok-soft); color: var(--ink); box-shadow: inset 0 0 0 2px var(--ok); }
+.jars.is-locked .jar { cursor: default; }
+.jar-tip { max-width: 30rem; font-size: var(--fs-s); color: var(--ink-2); text-align: center; }
+.jar-why { max-width: 32rem; padding: 0.7rem 0.9rem; border-radius: 14px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); font-size: var(--fs-m); line-height: 1.4; }
+.jar-opt { display: inline-flex; align-items: center; gap: 0.45rem; }
+.jar-opt .emo { font-size: 1.4rem; letter-spacing: -0.15em; }
+.choices.is-jars .choice { min-height: 3.6rem; }
+
+/* ---------- Písmenková polévka ---------- */
+.soup-words { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.3rem 0.9rem; }
+.soup-word { padding: 0 0.45rem; border-radius: 8px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); font-family: var(--font-num); font-size: var(--fs-xs); font-weight: 700; color: var(--ink-2); letter-spacing: 0.14em; white-space: nowrap; }
+.soup-word.is-found, .soup-word.is-hinted { font-size: var(--fs-s); }
+.soup-word.is-hinted { color: var(--ink); }
+.soup-word.is-found { color: var(--ok); }
+.soup-row { display: flex; align-items: center; justify-content: center; gap: 0.5rem; width: 100%; max-width: 30rem; }
+.soup-spoon { flex: 1 1 auto; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 0.25rem; min-width: 0; min-height: 3rem; padding: 0.3rem 0.8rem; border-radius: 99px; background: var(--surface-2); }
+.soup-back { flex: none; gap: 0.3rem; padding-inline: 0.7rem; }
+.soup-back svg { width: 1.1rem; height: 1.1rem; }
+.soup-spoon.is-shake { animation: shake 0.3s ease; }
+.soup-pick { display: grid; place-items: center; width: 2.1rem; height: 2.4rem; border-radius: 8px; background: var(--surface); box-shadow: inset 0 0 0 2px var(--word); font-family: var(--font-num); font-size: var(--fs-l); font-weight: 800; }
+.soup-empty { font-size: var(--fs-s); color: var(--ink-2); }
+.soup-plate { display: flex; flex-wrap: wrap; justify-content: center; align-content: center; gap: 0.45rem; width: 100%; max-width: 26rem; padding: 1.3rem 1.1rem; border-radius: 34px; background: radial-gradient(circle at 50% 45%, #fff6e2 0%, #f6e4bf 70%, #e8d2a6 100%); box-shadow: inset 0 0 0 8px #fffaf0, inset 0 0 0 10px #e3cfa6; }
+.soup-l { display: grid; place-items: center; width: var(--ls, 2.7rem); height: var(--ls, 2.7rem); padding: 0; border: 0; border-radius: 50%; background: #fffdf6; color: #2b2017; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); font-family: var(--font-num); font-size: min(var(--fs-l), calc(var(--ls, 2.7rem) * 0.52)); font-weight: 800; cursor: pointer; touch-action: manipulation; }
+.soup-l.is-used { opacity: 0.25; }
+.soup-l.is-gone { visibility: hidden; }
+
+
 /* ---------- Škola paměti ---------- */
 .school-card { background: var(--dec-soft); }
 .school-card > svg { color: var(--dec-ink); }
@@ -1771,6 +1811,6 @@ button.room { cursor: pointer; touch-action: manipulation; }
   .fb.is-ok, .fb.is-bad { animation-name: fb-fade; }
   .odd-cell.is-wrong, .dot.is-wrong { animation: none; }
   .odd-cell.is-hint, .dot.is-hint, .ws-cell.is-hint, .ws-cell.is-shake, .sud-cell.is-shake { animation: none; }
-  .tray-cloth, .pyr-brick.is-shake, .walker.is-shake svg { animation: none; }
+  .tray-cloth, .pyr-brick.is-shake, .walker.is-shake svg, .soup-spoon.is-shake { animation: none; }
   .walker { transition: none; }
 }
