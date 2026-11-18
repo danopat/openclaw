@@ -270,7 +270,12 @@
         ctx.status('Zbylá písmena čtená po řádcích dají tajenku. Co říká?');
         const len = letters(pz.taj).length;
         const others = U.shuffle(TAJENKY.filter((t) => t !== pz.taj)).sort((a, b) => Math.abs(letters(a).length - len) - Math.abs(letters(b).length - len)).slice(0, 2);
-        const r = await K.choose(ctx, U.shuffle([pz.taj].concat(others)).map((t) => ({ label: t, value: t })), { answer: pz.taj, layout: 'col' });
+        const wait = K.choose(ctx, U.shuffle([pz.taj].concat(others)).map((t) => ({ label: t, value: t })), { answer: pz.taj, layout: 'col' });
+        // Malý displej s velkým písmem: seznam (už nalezených) slov uvolní místo mřížce, ať jde tajenka přečíst.
+        const box = grid.parentNode;
+        const list = box.querySelector('.ws-words');
+        if (list && K.overflow(box) > 0) list.style.display = 'none';
+        const r = await wait;
         ctx.status(r.correct ? 'Správně: ' + pz.taj : 'Tajenka zní: ' + pz.taj);
         await ctx.sleep(r.correct ? 1600 : 2600);
         return r.correct;

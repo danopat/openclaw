@@ -233,7 +233,7 @@
           const doneBtn = h('button', { class: 'btn btn-primary btn-lg', type: 'button', disabled: true }, 'Hotovo');
           ctx.foot.appendChild(doneBtn); // nejdřív tlačítko, ať jde změřit zbylá plocha
           const fit = fitPick(all.length);
-          const grid = h('div', { class: 'pick-grid', style: { '--cols': fit.cols, '--ph': fit.ph + 'px' } });
+          const grid = h('div', { class: 'pick-grid' + (fit.tight ? ' is-tight' : ''), style: { '--cols': fit.cols, '--ph': fit.ph + 'px' } });
           const chosen = [];
           let locked = false;
           const count = () => {
@@ -307,7 +307,10 @@
           const size = Math.min(tw / 1.4, ph);
           if (!best || size > best.size + 0.5) best = { cols: cols, ph: ph, size: size };
         }
-        return best || { cols: maxCols, ph: Math.round(minH) };
+        if (best) return best;
+        // Než se začne posouvat: hustší mřížka (menší mezery mezi řádky a okraje dlaždic, CSS .is-tight).
+        const ph = Math.floor((H - 0.4 * rem * (Math.ceil(n / maxCols) - 1)) / Math.ceil(n / maxCols));
+        return { cols: maxCols, ph: Math.round(Math.max(ph, 2 * rem)), tight: true };
       }
 
       function question(x, kind) {

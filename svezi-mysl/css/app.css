@@ -438,6 +438,21 @@ svg { display: block; }
 .play-foot:empty { display: none; }
 .play-foot .btn { flex: 1 1 10rem; max-width: 24rem; }
 .play-foot .dir-btn, .play-foot .choice-btn { flex: 1 1 0; min-width: 0; }
+/* Telefon a největší písmo: úspornější hlavička, pokyn a tlačítka dole, ať zbude víc místa na samotnou hru.
+   Název hry hráč viděl těsně před spuštěním, pro čtečku obrazovky zůstává. */
+@media (max-width: 30rem), (max-height: 44rem) {
+  :root[data-scale="3"] .play { padding-bottom: 6px; }
+  :root[data-scale="3"] .play > .lesson-bar { margin-top: 0.35rem; }
+  :root[data-scale="3"] .play-head { gap: 0.6rem; padding-block: 0.35rem 0.1rem; }
+  :root[data-scale="3"] .play-head .btn { min-height: 2.4rem; gap: 0.35rem; padding: 0.2rem 0.65rem; font-size: var(--fs-xs); }
+  :root[data-scale="3"] .play-title { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  :root[data-scale="3"] .play-progress { font-size: var(--fs-xs); text-align: right; }
+  :root[data-scale="3"] .play-status { min-height: 2.5em; margin: 0.1rem 0 0.2rem; font-size: var(--fs-m); }
+  :root[data-scale="3"] .play-foot { gap: 0.5rem; padding-block: 0.35rem 0.4rem; }
+  :root[data-scale="3"] .play-foot > .btn { min-height: 2.8rem; padding: 0.3rem 0.9rem; }
+  :root[data-scale="3"] .play-foot > .btn-lg { min-height: 3.2rem; padding-inline: 0.6rem; font-size: min(var(--fs-l), 8.2vw); }
+  :root[data-scale="3"] .play-foot > .btn-small { flex-basis: 5.5rem; padding-inline: 0.5rem; }
+}
 
 .fb {
   position: absolute;
@@ -578,6 +593,12 @@ svg { display: block; }
 .quiz-q { font-size: var(--fs-3xl); font-weight: 800; font-family: var(--font-num); }
 .quiz-opts { display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; }
 .quiz-opts .btn { min-width: 6rem; min-height: 4.5rem; font-size: var(--fs-xl); font-family: var(--font-num); }
+@media (max-width: 30rem), (max-height: 44rem) {
+  :root[data-scale="3"] .quiz { gap: 0.8rem; width: 100%; }
+  :root[data-scale="3"] .quiz-q { font-size: min(var(--fs-2xl), 13vw); white-space: nowrap; }
+  :root[data-scale="3"] .quiz-opts { flex-wrap: nowrap; width: 100%; max-width: 24rem; }
+  :root[data-scale="3"] .quiz-opts .btn { flex: 1 1 0; min-width: 0; min-height: 3.2rem; padding-inline: 0.4rem; }
+}
 .pick-grid {
   display: grid;
   grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
@@ -622,6 +643,16 @@ svg { display: block; }
 .pick.is-miss { background: var(--warn-soft); box-shadow: inset 0 0 0 3px var(--warn); }
 .pick .tag { flex: none; font-size: var(--fs-xs); font-weight: 700; color: var(--ink); }
 .pick-grid.is-locked .pick { cursor: default; }
+/* Telefon a největší písmo: písmo a obrázek se řídí výškou dlaždice; značka (✓ / ✗) nahradí obrázek,
+   aby název neztratil místo, a štítek „chybělo“ visí na horním okraji. */
+@media (max-width: 30rem), (max-height: 44rem) {
+  :root[data-scale="3"] .pick:not(.is-v) { gap: 0.35rem; padding: 0.15rem 0.45rem; font-size: min(var(--fs-m), calc(var(--ph, 3.5rem) * 0.47), var(--pf, 9rem)); }
+  :root[data-scale="3"] .pick:not(.is-v) .emo { font-size: calc(var(--ph, 3.5rem) * 0.46); }
+  :root[data-scale="3"] .pick:not(.is-v) .mark { order: -1; width: calc(var(--ph, 3.5rem) * 0.5); height: calc(var(--ph, 3.5rem) * 0.5); }
+  :root[data-scale="3"] .pick:not(.is-v)[aria-pressed="true"] .emo, :root[data-scale="3"] .pick:not(.is-v).is-hit .emo, :root[data-scale="3"] .pick:not(.is-v).is-false .emo { display: none; }
+  :root[data-scale="3"] .pick:not(.is-v) .tag { position: absolute; top: -0.5rem; right: 0.4rem; padding: 0 0.4rem; border-radius: 99px; background: var(--warn); color: var(--on-status); font-size: 0.75rem; line-height: 1.3; }
+  :root[data-scale="3"] .pick-grid:not(.is-v) { padding-top: 0.55rem; }
+}
 
 /* ---------- Svítící okna ---------- */
 .okna-scene {
@@ -754,6 +785,19 @@ svg { display: block; }
 .color-btns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem; width: 100%; max-width: 32rem; }
 .color-btn { justify-content: flex-start; min-height: 4.25rem; padding-left: 1rem; background: var(--surface); color: var(--ink); box-shadow: inset 0 0 0 2px var(--line); }
 .swatch { width: 2rem; height: 2rem; flex: none; border-radius: 50%; background: var(--sw); box-shadow: 0 0 0 3px var(--board); }
+@media (max-width: 30rem), (max-height: 44rem) {
+  :root[data-scale="3"] .board-wrap { gap: 0.5rem; }
+  :root[data-scale="3"] .board { min-height: 5.5rem; padding: 0.9rem 0.8rem; }
+  :root[data-scale="3"] .board-word { font-size: min(2.6rem, 12.5vw); }
+  :root[data-scale="3"] .rule-pill { padding: 0.25rem 0.8rem; font-size: var(--fs-s); }
+  :root[data-scale="3"] .color-btns { gap: 0.45rem; }
+  :root[data-scale="3"] .color-btn { gap: 0.4rem; min-height: 3rem; padding: 0.3rem 0.5rem; font-size: var(--fs-m); }
+  :root[data-scale="3"] .swatch { width: 1.4rem; height: 1.4rem; }
+}
+/* Nejužší displej: barevné kolečko nad názvem, aby se „červená“ vešla. */
+@media (max-width: 22.5rem) {
+  :root[data-scale="3"] .color-btn { flex-direction: column; justify-content: center; gap: 0.15rem; padding: 0.25rem 0.3rem; }
+}
 
 /* ---------- Popořadě ---------- */
 .trail { position: relative; width: 100%; height: 100%; }
@@ -1115,6 +1159,13 @@ body.has-tabs .page { padding-bottom: calc(7rem + env(safe-area-inset-bottom, 0p
 .choice { min-height: 4rem; padding-inline: 0.75rem; background: var(--surface); color: var(--ink); box-shadow: inset 0 0 0 2px var(--line); white-space: normal; }
 .choices.is-mono .choice { font-family: var(--font-num); font-size: var(--fs-xl); }
 .choices.is-emoji .choice { font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif; font-size: 2.2rem; }
+/* Telefon a největší písmo: nižší tlačítka s odpověďmi (hry s vlastní velikostí ji mají níž v souboru a zůstává jim). */
+@media (max-width: 30rem), (max-height: 44rem) {
+  :root[data-scale="3"] .choices { gap: 0.45rem; }
+  :root[data-scale="3"] .choice { min-height: 2.7rem; padding-block: 0.25rem; }
+  :root[data-scale="3"] .choices.is-col .choice { font-size: var(--fs-m); }
+  :root[data-scale="3"] .choices.is-mono .choice { font-size: var(--fs-l); }
+}
 .choice.is-correct { background: var(--ok-soft); box-shadow: inset 0 0 0 4px var(--ok); }
 .choice.is-wrong { background: var(--bad-soft); box-shadow: inset 0 0 0 4px var(--bad); }
 .choices.is-locked .choice { pointer-events: none; }
@@ -1134,6 +1185,13 @@ body.has-tabs .page { padding-bottom: calc(7rem + env(safe-area-inset-bottom, 0p
 .ana-tiles { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; max-width: 30rem; }
 .ana-tile { width: 3.5rem; height: 3.5rem; min-height: 0; padding: 0; background: var(--surface); color: var(--ink); box-shadow: inset 0 0 0 2px var(--ink), 0 4px 0 var(--line); font-size: var(--fs-xl); }
 .ana-tile[disabled] { opacity: 0.2; }
+/* Telefon a největší písmo: čtyři písmena na řádek, ať se i osmipísmenné slovo vejde na dva řádky. */
+@media (max-width: 30rem), (max-height: 44rem) {
+  :root[data-scale="3"] .ana-pic { font-size: 2.4rem; }
+  :root[data-scale="3"] .ana-slot { height: 2.6rem; }
+  :root[data-scale="3"] .ana-tiles { gap: 0.4rem; }
+  :root[data-scale="3"] .ana-tile { width: 2.7rem; height: 2.7rem; }
+}
 .clock { width: min(15rem, 66vw, 40vh); height: auto; }
 .clock-face { fill: var(--surface); stroke: var(--ink); stroke-width: 5; }
 .clock-marks line { stroke: var(--ink); }
@@ -1149,7 +1207,8 @@ body.has-tabs .page { padding-bottom: calc(7rem + env(safe-area-inset-bottom, 0p
 .counter-sum { font-size: var(--fs-l); font-weight: 700; }
 .counter { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.35rem; width: 100%; min-height: 4.6rem; padding: 0.5rem; border-radius: 14px; background: var(--surface-2); }
 .counter-empty { color: var(--ink-2); font-size: var(--fs-s); }
-.tray { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; }
+/* Ne .tray: to je podnos ve hře Podnos. */
+.money-tray { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; }
 .money-btn { padding: 0; border: 0; background: none; cursor: pointer; touch-action: manipulation; }
 .coin, .note-money { display: grid; place-items: center; align-content: center; line-height: 1; font-family: var(--font-num); color: var(--coin-ink); }
 .coin { width: 3.6rem; height: 3.6rem; border-radius: 50%; background: var(--coin-silver); box-shadow: inset 0 0 0 4px var(--coin-silver-edge), 0 3px 0 rgba(0, 0, 0, 0.2); }
@@ -1166,6 +1225,26 @@ body.has-tabs .page { padding-bottom: calc(7rem + env(safe-area-inset-bottom, 0p
 .coin.is-small { width: 2.6rem; height: 2.6rem; }
 .coin.is-small b { font-size: 0.95rem; }
 .note-money.is-small { width: 4rem; height: 2.4rem; }
+.receipt-row strong { white-space: nowrap; }
+/* Telefon a největší písmo: menší mince a bankovky, ať se celá peněženka vejde pod pult bez posouvání. */
+@media (max-width: 30rem), (max-height: 44rem) {
+  :root[data-scale="3"] .shop { gap: 0.45rem; }
+  :root[data-scale="3"] .receipt { padding: 0.45rem 0.8rem; }
+  :root[data-scale="3"] .receipt-row, :root[data-scale="3"] .counter-sum { font-size: var(--fs-m); }
+  :root[data-scale="3"] .counter { min-height: 2.9rem; padding: 0.25rem; gap: 0.25rem; }
+  :root[data-scale="3"] .money-tray { gap: 0.4rem; }
+  :root[data-scale="3"] .coin { width: 2.6rem; height: 2.6rem; }
+  :root[data-scale="3"] .coin.m1 { width: 2.3rem; height: 2.3rem; }
+  :root[data-scale="3"] .coin.m20 { width: 2.8rem; height: 2.8rem; }
+  :root[data-scale="3"] .coin.m50 { width: 2.95rem; height: 2.95rem; }
+  :root[data-scale="3"] .coin b { font-size: 0.95rem; }
+  :root[data-scale="3"] .note-money { width: 4rem; height: 2.3rem; }
+  :root[data-scale="3"] .note-money b { font-size: 1rem; }
+  :root[data-scale="3"] .coin small, :root[data-scale="3"] .note-money small { font-size: 0.6rem; }
+  :root[data-scale="3"] .coin.is-small { width: 2.1rem; height: 2.1rem; }
+  :root[data-scale="3"] .coin.is-small b { font-size: 0.8rem; }
+  :root[data-scale="3"] .note-money.is-small { width: 3.2rem; height: 2rem; }
+}
 .seq { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem; width: 100%; max-width: 36rem; }
 .seq-item { display: grid; place-items: center; flex: 1 1 2.2rem; max-width: 3.6rem; min-width: 0; height: 3.6rem; padding: 0 0.2rem; border-radius: 12px; background: var(--surface); box-shadow: inset 0 0 0 2px var(--line); font-family: var(--font-num); font-size: min(var(--fs-xl), 7vw); font-weight: 700; }
 .seq.is-pic .seq-item { font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif; font-size: min(2rem, 7.5vw); }
@@ -1177,7 +1256,12 @@ body.has-tabs .page { padding-bottom: calc(7rem + env(safe-area-inset-bottom, 0p
 .shape rect { fill: var(--logic-ink); }
 .phone-card { display: grid; justify-items: center; gap: 0.4rem; min-width: min(16rem, 100%); padding: 1.4rem 1.6rem; border-radius: 22px; background: var(--ink); color: var(--bg); box-shadow: var(--shadow); }
 .phone-label { font-size: var(--fs-s); letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.85; }
-.phone-num { font-family: var(--font-num); font-size: var(--fs-2xl); font-weight: 700; letter-spacing: 0.06em; white-space: nowrap; }
+/* Dlouhé číslo se zalomí po trojicích, aby se vešlo na úzký displej. */
+.phone-num { font-family: var(--font-num); font-size: var(--fs-2xl); font-weight: 700; letter-spacing: 0.06em; line-height: 1.2; text-align: center; }
+@media (max-width: 30rem), (max-height: 44rem) {
+  :root[data-scale="3"] .phone-card { padding: 0.9rem 1rem; }
+  :root[data-scale="3"] .phone-num { letter-spacing: 0.02em; }
+}
 .phone-card.is-check { background: var(--surface); color: var(--ink); box-shadow: inset 0 0 0 2px var(--line); }
 .phone-num .is-ok { color: var(--ok); }
 .phone-num .is-bad { color: var(--bad); text-decoration: underline; }
@@ -1186,15 +1270,23 @@ body.has-tabs .page { padding-bottom: calc(7rem + env(safe-area-inset-bottom, 0p
 .kp-digit { flex: 0 1 2.4rem; min-width: 0; height: 3rem; display: grid; place-items: center; border-bottom: 3px solid var(--line); font-family: var(--font-num); font-size: var(--fs-xl); font-weight: 700; }
 .kp-digit.is-filled { border-color: var(--ink); }
 .kp-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.5rem; width: 100%; }
-.kp-key { min-height: 3.5rem; padding: 0; background: var(--surface); color: var(--ink); box-shadow: inset 0 0 0 2px var(--line); font-family: var(--font-num); font-size: var(--fs-xl); }
+/* --kp-h nastaví K.fitPad, když se klávesnice nevejde (malý displej, velké písmo). */
+.kp-key { min-height: var(--kp-h, 3.5rem); padding: 0; background: var(--surface); color: var(--ink); box-shadow: inset 0 0 0 2px var(--line); font-family: var(--font-num); font-size: min(var(--fs-xl), calc(var(--kp-h, 3.5rem) * 0.62)); }
 .kp-del { font-family: var(--font-text); font-size: var(--fs-s); }
 .kp-ok { font-family: var(--font-text); font-size: var(--fs-m); background: var(--primary); color: var(--on-primary); box-shadow: none; }
+@media (max-width: 30rem), (max-height: 44rem) {
+  :root[data-scale="3"] .kp { gap: 0.45rem; }
+  :root[data-scale="3"] .kp-grid { gap: 0.4rem; }
+  :root[data-scale="3"] .kp-digit { height: 2.5rem; }
+  :root[data-scale="3"] .kp-value { height: 2.7rem; }
+  :root[data-scale="3"] .kp-del, :root[data-scale="3"] .kp-ok { font-size: var(--fs-xs); }
+}
 .person-card { display: grid; justify-items: center; gap: 0.4rem; min-width: min(15rem, 100%); padding: 1.2rem 1.6rem; border-radius: 22px; background: var(--surface); box-shadow: var(--shadow); text-align: center; }
 .person-face { font-size: 5.5rem; }
 .person-name { font-size: var(--fs-2xl); font-weight: 800; }
 .person-job { color: var(--ink-2); font-size: var(--fs-l); }
 .shelf { display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 5.5rem)); justify-content: center; gap: 1.2rem 0.6rem; width: 100%; padding: 1rem 0.75rem; border-radius: 16px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
-.shelf-slot { aspect-ratio: 1; display: grid; place-items: end center; padding: 0 0 0.25rem; border: 0; border-bottom: 8px solid var(--wood); border-radius: 4px 4px 2px 2px; background: none; color: inherit; font-size: 2.6rem; line-height: 1; cursor: pointer; }
+.shelf-slot { aspect-ratio: 1; display: grid; place-items: end center; padding: 0 0 0.25rem; border: 0; border-bottom: 8px solid var(--wood); border-radius: 4px 4px 2px 2px; background: none; color: inherit; font-size: min(2.6rem, var(--es, 2.6rem)); line-height: 1; cursor: pointer; }
 .shelf-slot[disabled] { cursor: default; }
 .shelf-slot.is-covered { background: var(--surface-2); }
 .shelf-slot.is-correct { background: var(--ok-soft); box-shadow: inset 0 0 0 4px var(--ok); }
@@ -1253,9 +1345,19 @@ body.has-tabs .page { padding-bottom: calc(7rem + env(safe-area-inset-bottom, 0p
 .offer-after:empty { display: none; }
 .offer-best { grid-column: 1 / -1; justify-self: start; display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.15rem 0.7rem 0.15rem 0.5rem; border-radius: 999px; background: var(--ok); color: var(--on-status); font-size: var(--fs-s); font-weight: 800; }
 .offer-best svg { width: 1.1em; height: 1.1em; }
+/* Telefon a největší písmo: cena na vlastním řádku pod popisem, ať se popis nemusí lámat po slovech. */
+@media (max-width: 30rem), (max-height: 44rem) {
+  :root[data-scale="3"] .choices.is-offers .choice { min-height: 0; padding: 0.45rem 0.7rem; }
+  :root[data-scale="3"] .offer { grid-template-columns: auto minmax(0, 1fr); gap: 0.15rem 0.5rem; }
+  :root[data-scale="3"] .offer-emo { font-size: 1.7rem; }
+  :root[data-scale="3"] .offer-price { grid-column: 1 / -1; display: flex; justify-content: flex-end; align-items: baseline; gap: 0.5rem; }
+  :root[data-scale="3"] .offer-price strong { font-size: var(--fs-l); }
+}
 
 /* Vyšší, nebo nižší? */
-.guess { display: grid; justify-items: center; align-content: center; gap: 0.7rem; width: 100%; max-width: 30rem; max-height: 100%; overflow-y: auto; touch-action: pan-y; padding: 2px; }
+/* align-content: start, ne center: když se obsah nevejde, center by horní část posunul tam, kam posouvání nedosáhne
+   (když se vejde, vycentruje ho plocha hry). Stejně u .ws. */
+.guess { display: grid; justify-items: center; align-content: start; gap: 0.7rem; width: 100%; max-width: 30rem; max-height: 100%; overflow-y: auto; touch-action: pan-y; padding: 2px; }
 .guess-hint { min-height: 1.5em; font-size: var(--fs-l); line-height: 1.3; text-align: center; text-wrap: balance; }
 .guess-hint strong { text-transform: uppercase; letter-spacing: 0.02em; }
 .guess-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.45rem; width: 100%; }
@@ -1273,7 +1375,18 @@ body.has-tabs .page { padding-bottom: calc(7rem + env(safe-area-inset-bottom, 0p
 .nline-range { position: absolute; top: 0; bottom: 0; left: 0; width: 100%; border-radius: 99px; background: var(--dec); transition: left 0.3s ease, width 0.3s ease; }
 .nline-ends { display: flex; justify-content: space-between; width: 100%; font-family: var(--font-num); font-size: var(--fs-s); color: var(--ink-2); }
 .nline-text { font-size: var(--fs-l); font-weight: 700; }
-.guess-pad .kp-key { min-height: 3.1rem; }
+.guess-pad .kp-key { min-height: var(--kp-h, 3.1rem); }
+@media (max-width: 30rem), (max-height: 44rem) {
+  :root[data-scale="3"] .guess { gap: 0.45rem; }
+  :root[data-scale="3"] .guess-hint, :root[data-scale="3"] .nline-text { font-size: var(--fs-m); }
+  :root[data-scale="3"] .guess-pad { gap: 0.3rem; }
+  :root[data-scale="3"] .nline { height: 1rem; }
+  :root[data-scale="3"] .cal-title { font-size: var(--fs-m); }
+  :root[data-scale="3"] .cal-dow { font-size: var(--fs-xs); }
+  :root[data-scale="3"] .cal-grid { gap: 0.2rem; }
+  :root[data-scale="3"] .cal .guess-num { min-height: 2.2rem; font-size: var(--fs-m); }
+  :root[data-scale="3"] .guess-grid .guess-num { font-size: var(--fs-l); }
+}
 
 /* Příbuzenstvo */
 .kin-card .blank { min-width: 5.5em; }
@@ -1307,15 +1420,24 @@ body.has-tabs .page { padding-bottom: calc(7rem + env(safe-area-inset-bottom, 0p
 .pairs-card { width: 100%; max-width: 30rem; padding: 0.8rem 1.1rem 0.9rem; border-radius: 16px; background: var(--paper); color: var(--paper-ink); box-shadow: var(--shadow), inset 0 0 0 1px var(--line); }
 .pairs-title { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.3rem; font-size: var(--fs-l); font-weight: 800; }
 .pairs-title .emo { font-size: 1.6rem; }
-.pair-row { display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0; border-top: 1px solid var(--paper-line); font-size: var(--fs-l); line-height: 1.25; }
+/* Když se hodnota k názvu nevejde, přejde na další řádek (místo aby se název lámal po písmenech). */
+.pair-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.1rem 0.6rem; padding: 0.4rem 0; border-top: 1px solid var(--paper-line); font-size: var(--fs-l); line-height: 1.25; }
 .pair-row .emo { flex: none; width: 2rem; font-size: 1.5rem; text-align: center; }
-.pair-item { flex: 1; min-width: 0; font-weight: 700; overflow-wrap: anywhere; }
-.pair-value { flex: none; font-family: var(--font-num); font-weight: 700; white-space: nowrap; }
+.pair-item { flex: 1 1 6rem; min-width: 0; font-weight: 700; overflow-wrap: break-word; }
+.pair-value { flex: none; margin-left: auto; font-family: var(--font-num); font-weight: 700; white-space: nowrap; }
 .pairs-note { margin-top: 0.5rem; font-size: var(--fs-s); opacity: 0.85; }
 .pair-q { display: grid; justify-items: center; gap: 0.3rem; min-width: min(16rem, 100%); padding: 1.1rem 1.4rem; border-radius: 20px; background: var(--surface); box-shadow: var(--shadow); text-align: center; }
 .pair-q .emo { font-size: 3rem; }
 .pair-q-text { font-size: var(--fs-xl); font-weight: 800; overflow-wrap: anywhere; }
 .pair-q.is-value .pair-q-text { font-family: var(--font-num); }
+@media (max-width: 30rem), (max-height: 44rem) {
+  :root[data-scale="3"] .pairs-card { padding: 0.5rem 0.8rem 0.6rem; }
+  :root[data-scale="3"] .pairs-title { font-size: var(--fs-m); }
+  :root[data-scale="3"] .pair-row { padding: 0.25rem 0; font-size: var(--fs-m); }
+  :root[data-scale="3"] .pair-q { grid-auto-flow: column; align-items: center; gap: 0.5rem; padding: 0.5rem 0.9rem; }
+  :root[data-scale="3"] .pair-q .emo { font-size: 1.9rem; }
+  :root[data-scale="3"] .pair-q-text { font-size: var(--fs-l); }
+}
 
 /* Kde co leží */
 .byt { width: 100%; max-width: 34rem; }
@@ -1328,12 +1450,21 @@ button.room { cursor: pointer; touch-action: manipulation; }
 .ri { display: flex; align-items: center; gap: 0.3rem; max-width: 100%; font-size: var(--fs-s); font-weight: 700; line-height: 1.2; }
 .ri > span:last-child { min-width: 0; overflow-wrap: break-word; }
 .ri .emo { flex: none; font-size: 1.25rem; }
+@media (max-width: 30rem), (max-height: 44rem) {
+  :root[data-scale="3"] .byt-q { font-size: var(--fs-l); }
+  :root[data-scale="3"] .byt-q .emo { font-size: 1.8rem; }
+  :root[data-scale="3"] .room { padding: 0.25rem 0.4rem; gap: 0.1rem; }
+  :root[data-scale="3"] .room-name { font-size: var(--fs-xs); }
+  /* Když se název nevejde vedle obrázku, přejde pod něj (místo lámání uprostřed slova). */
+  :root[data-scale="3"] .ri { flex-wrap: wrap; column-gap: 0.25rem; font-size: var(--fs-xs); }
+  :root[data-scale="3"] .ri .emo { font-size: 1.05rem; }
+}
 .room.is-correct { background: var(--ok-soft); box-shadow: inset 0 0 0 4px var(--ok); }
 .room.is-wrong { background: var(--bad-soft); box-shadow: inset 0 0 0 4px var(--bad); }
 
 /* ========== První vlna plánu: krok 3 ========== */
 /* Osmisměrka */
-.ws { display: grid; justify-items: center; align-content: center; gap: 0.45rem; width: 100%; max-height: 100%; overflow-y: auto; touch-action: pan-y; padding: 2px; }
+.ws { display: grid; justify-items: center; align-content: start; gap: 0.45rem; width: 100%; max-height: 100%; overflow-y: auto; touch-action: pan-y; padding: 2px; }
 .ws-words { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.3rem 0.4rem; max-width: 36rem; }
 .ws-word { padding: 0.05rem 0.55rem; border-radius: 999px; background: var(--surface); box-shadow: inset 0 0 0 2px var(--line); font-size: var(--fs-s); font-weight: 800; letter-spacing: 0.04em; }
 .ws-word.is-found { background: var(--surface-2); box-shadow: none; color: var(--ink-2); text-decoration: line-through; text-decoration-thickness: 3px; }
@@ -1371,6 +1502,12 @@ button.room { cursor: pointer; touch-action: manipulation; }
 .sud-key.is-pic { font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif; font-size: 1.8rem; }
 .sud-key.is-del { font-family: var(--font-text); font-size: var(--fs-s); }
 .sud-pad.is-locked .sud-key { pointer-events: none; opacity: 0.5; }
+@media (max-width: 30rem), (max-height: 44rem) {
+  :root[data-scale="3"] .sud-pad { grid-template-columns: repeat(auto-fit, minmax(2.4rem, 1fr)); gap: 0.3rem; }
+  :root[data-scale="3"] .sud-pad.is-two { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  :root[data-scale="3"] .sud-key { min-height: 2.5rem; }
+  :root[data-scale="3"] .sud-key.is-del { grid-column: span 2; font-size: var(--fs-xs); }
+}
 
 /* ========== Hádanka dne ========== */
 .stat-riddle { position: relative; padding-inline: 0.7rem; }
@@ -1485,7 +1622,9 @@ button.room { cursor: pointer; touch-action: manipulation; }
 }
 .tray-cloth.is-still { animation: none; }
 @keyframes cloth-in { from { transform: translateY(-104%); } to { transform: none; } }
-.podnos .pick-grid { padding-top: 0.6rem; row-gap: 0.75rem; }
+.podnos .pick-grid, .pick-grid.is-v { padding-top: 0.6rem; row-gap: 0.75rem; }
+.podnos .pick-grid.is-tight { row-gap: 0.4rem; }
+.pick-grid.is-tight .pick.is-v { gap: 0; padding-block: 0.1rem; }
 .pick.is-v { flex-direction: column; justify-content: center; gap: 0.1rem; padding: 0.3rem 0.25rem; font-size: 0.8rem; text-align: center; }
 .pick.is-v .emo { font-size: calc(var(--ph) * 0.4); }
 .pick.is-v .tray-svg { width: calc(var(--ph) * 0.46); height: calc(var(--ph) * 0.46); }
@@ -1511,7 +1650,7 @@ button.room { cursor: pointer; touch-action: manipulation; }
 .podnos-q p { font-size: var(--fs-l); font-weight: 800; }
 .color-opt { display: inline-flex; align-items: center; gap: 0.6rem; }
 .choices.is-colors .choice { justify-content: flex-start; min-height: 3.4rem; padding-inline: 0.9rem; }
-.swatch { flex: none; width: 1.7rem; height: 1.7rem; border-radius: 50%; box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.45); }
+.color-opt .swatch { flex: none; width: 1.7rem; height: 1.7rem; border-radius: 50%; box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.45); }
 
 /* ---------- Součty z paměti ---------- */
 .sumy-cards { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem; }
@@ -1605,6 +1744,10 @@ button.room { cursor: pointer; touch-action: manipulation; }
 .play-foot .pyr-hint { min-height: 2.5rem; }
 .pyr-pad .kp-del, .pyr-pad .kp-ok { font-size: var(--fs-s); }
 .pyr-pad.is-locked .kp-key { pointer-events: none; opacity: 0.5; }
+/* Nejužší displej a největší písmo: širší sloupec pro „Smazat“ a „Vložit“. */
+@media (max-width: 22.5rem) {
+  :root[data-scale="3"] .pyr-pad { grid-template-columns: repeat(5, minmax(0, 1fr)) minmax(0, 2.4fr); }
+}
 
 /* ---------- Hledání čísel ---------- */
 .ws-grid.is-num .ws-cell, .ws-words.is-num .ws-word { font-family: var(--font-num); }
@@ -1692,6 +1835,13 @@ button.room { cursor: pointer; touch-action: manipulation; }
 .choices.is-routes { gap: 0.5rem; }
 .choices.is-routes .choice { min-height: 2.9rem; padding: 0.3rem 0.5rem; }
 .choices.is-routes .choice.is-correct .route-step { box-shadow: inset 0 0 0 2px var(--ok); }
+/* Telefon a největší písmo: drobnější pokyny v nabídce, ať zbude místo na plánek. */
+@media (max-width: 30rem), (max-height: 44rem) {
+  :root[data-scale="3"] .choices.is-routes .choice { min-height: 2.5rem; padding: 0.2rem 0.4rem; }
+  :root[data-scale="3"] .choices.is-routes .route { gap: 0.25rem; }
+  :root[data-scale="3"] .choices.is-routes .route-step { padding: 0.15rem 0.35rem 0.15rem 0.25rem; font-size: var(--fs-xs); }
+  :root[data-scale="3"] .choices.is-routes .route-step svg { width: 1.05rem; height: 1.05rem; }
+}
 .trasa-pad { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.5rem; width: 100%; max-width: 30rem; flex: 1 1 100%; }
 .trasa-key { flex-direction: column; gap: 0.1rem; min-height: 3.6rem; padding: 0.3rem; background: var(--surface); color: var(--ink); box-shadow: inset 0 0 0 2px var(--line); font-size: var(--fs-s); }
 .trasa-key svg { width: 1.7rem; height: 1.7rem; }
@@ -1746,6 +1896,11 @@ button.room { cursor: pointer; touch-action: manipulation; }
 .jar-opt { display: inline-flex; align-items: center; gap: 0.45rem; }
 .jar-opt .emo { font-size: 1.4rem; letter-spacing: -0.15em; }
 .choices.is-jars .choice { min-height: 3.6rem; }
+@media (max-width: 30rem), (max-height: 44rem) {
+  :root[data-scale="3"] .choices.is-jars .choice { min-height: 2.9rem; padding-inline: 0.4rem; font-size: min(var(--fs-m), 7vw); }
+  :root[data-scale="3"] .jar-opt { flex-direction: column; gap: 0.1rem; }
+  :root[data-scale="3"] .jar-opt .emo { font-size: 1.15rem; }
+}
 
 /* ---------- Písmenková polévka ---------- */
 .soup-words { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.3rem 0.9rem; }
@@ -1763,6 +1918,11 @@ button.room { cursor: pointer; touch-action: manipulation; }
 .soup-plate { display: flex; flex-wrap: wrap; justify-content: center; align-content: center; gap: 0.45rem; width: 100%; max-width: 26rem; padding: 1.3rem 1.1rem; border-radius: 34px; background: radial-gradient(circle at 50% 45%, #fff6e2 0%, #f6e4bf 70%, #e8d2a6 100%); box-shadow: inset 0 0 0 8px #fffaf0, inset 0 0 0 10px #e3cfa6; }
 .soup-l { display: grid; place-items: center; width: var(--ls, 2.7rem); height: var(--ls, 2.7rem); padding: 0; border: 0; border-radius: 50%; background: #fffdf6; color: #2b2017; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); font-family: var(--font-num); font-size: min(var(--fs-l), calc(var(--ls, 2.7rem) * 0.52)); font-weight: 800; cursor: pointer; touch-action: manipulation; }
 .soup-l.is-used { opacity: 0.25; }
+@media (max-width: 30rem), (max-height: 44rem) {
+  :root[data-scale="3"] .polevka { gap: 0.6rem; }
+  :root[data-scale="3"] .soup-spoon, :root[data-scale="3"] .soup-back { min-height: 2.4rem; }
+  :root[data-scale="3"] .soup-plate { gap: 0.25rem; padding: 0.6rem; border-radius: 26px; }
+}
 .soup-l.is-gone { visibility: hidden; }
 
 
@@ -1823,6 +1983,12 @@ button.room { cursor: pointer; touch-action: manipulation; }
 .vessel.is-from .v-glass { box-shadow: inset 0 0 0 5px var(--dec); }
 .vessel.is-to .v-glass { box-shadow: inset 0 0 0 5px var(--dec); outline: 3px dashed var(--dec); outline-offset: 3px; }
 .vessel.is-goal .v-num { color: var(--ok); }
+/* Telefon a největší písmo: užší nádoby, ať se tři vejdou vedle sebe. */
+@media (max-width: 30rem), (max-height: 44rem) {
+  :root[data-scale="3"] .vessels { gap: 0.4rem; }
+  :root[data-scale="3"] .vessel { padding: 0.2rem; }
+  :root[data-scale="3"] .v-glass { width: min(4.4rem, 22vw); }
+}
 
 /* ---------- Škola paměti ---------- */
 .school-card { background: var(--dec-soft); }

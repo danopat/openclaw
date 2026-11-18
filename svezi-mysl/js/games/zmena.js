@@ -37,6 +37,7 @@
         const slots = shown.map((e) => h('button', { class: 'shelf-slot emo', type: 'button', disabled: true }, e));
         const shelf = h('div', { class: 'shelf', style: { '--cols': cols } }, slots);
         ctx.stage.appendChild(shelf);
+        shelf.style.setProperty('--es', Math.floor(slots[0].clientWidth * 0.72) + 'px'); // obrázek se vejde i do úzké poličky
         await ctx.sleep(1500 + k * 600);
         slots.forEach((s) => { s.textContent = ''; s.classList.add('is-covered'); });
         ctx.status('Pozor, něco se mění…');

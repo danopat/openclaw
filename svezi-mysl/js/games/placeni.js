@@ -82,7 +82,7 @@
           ctx.foot.textContent = '';
           const sumEl = h('strong', null, '0 Kč');
           const table = h('div', { class: 'counter', 'aria-label': 'Pult' });
-          const tray = h('div', { class: 'tray' });
+          const tray = h('div', { class: 'money-tray' });
           const pay = h('button', { class: 'btn btn-primary btn-lg', type: 'button', disabled: true }, 'Zaplatit');
           const sum = () => onTable.reduce((s, v) => s + v, 0);
           const render = () => {

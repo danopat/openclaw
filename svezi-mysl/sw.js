@@ -1,5 +1,5 @@
 /* Svěží mysl — offline režim. Při změně souborů zvyšte číslo verze. */
-const VERSION = 'svezi-mysl-v15';
+const VERSION = 'svezi-mysl-v16';
 const ASSETS = [
   './',
   'index.html',

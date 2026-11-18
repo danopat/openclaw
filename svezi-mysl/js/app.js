@@ -205,7 +205,8 @@
       sound: sound,
       get alive() { return alive; },
       status(text) { status.textContent = text || ''; },
-      progress(text) { progress.textContent = text || ''; },
+      // Zalomit jen u „·“, ne uprostřed „otázka 1 z 5“ (úzký displej, velké písmo).
+      progress(text) { progress.textContent = (text || '').split(' · ').map((p) => p.replace(/ /g, '\u00a0')).join(' · '); },
       sleep(ms) {
         return new Promise((resolve) => {
           if (!alive) return;

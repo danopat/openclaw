@@ -124,9 +124,9 @@
       });
 
       function sizes(R, W, H) {
-        const gap = (H - 8) / R < 40 ? 4 : 6; // na nízké ploše (velké písmo) menší mezery
+        const gap = (H - 18) / R < 40 ? 4 : 6; // na nízké ploše (velké písmo) menší mezery
         const bw = Math.floor(U.clamp((Math.min(W, 600) - 4 - gap * (R - 1)) / R, 40, 96));
-        const bh = Math.floor(U.clamp(Math.min(bw * 0.66, (H - 8 - gap * (R - 1)) / R), 30, 64));
+        const bh = Math.floor(U.clamp(Math.min(bw * 0.66, (H - 18 - gap * (R - 1)) / R), 30, 64)); // 18 = okraje posuvné plochy
         return { '--bw': bw + 'px', '--bh': bh + 'px', '--gap': gap + 'px' };
       }
 
@@ -213,6 +213,12 @@
             pyr.appendChild(row);
           }
           ctx.stage.appendChild(h('div', { class: 'stack' }, pyr));
+          // Delší pokyn (nápověda) zabere na malém displeji s velkým písmem víc řádků: pyramida se přizpůsobí.
+          const say = (text) => {
+            ctx.status(text);
+            const z = ctx.size(), st = sizes(R, z.w, z.h);
+            Object.keys(st).forEach((k) => pyr.style.setProperty(k, st[k]));
+          };
           const blanksHere = order.length;
           select(nextBlank(-1), true);
 
@@ -246,7 +252,7 @@
           }
           function press(key) {
             if (!ctx.alive || finished) return;
-            if (sel < 0) { ctx.status('Nejdřív klepněte na prázdnou cihlu.'); return; }
+            if (sel < 0) { say('Nejdřív klepněte na prázdnou cihlu.'); return; }
             if (key === 'ok') { submit(); return; }
             if (key === 'del') typed = typed.slice(0, -1);
             else if (typed.length < maxLen && !(typed === '' && key === '0')) typed += key;
@@ -265,7 +271,7 @@
               clearHint();
               ctx.sound.tap();
               if (known.every(Boolean)) { done(); return; }
-              ctx.status('Doplňte čísla do prázdných cihel.');
+              say('Doplňte čísla do prázdných cihel.');
               select(nextBlank(i), true);
               return;
             }
@@ -277,7 +283,7 @@
             el.classList.remove('is-shake');
             void el.offsetWidth;
             el.classList.add('is-shake');
-            ctx.status(wayOf(i) ? 'To nesedí. Zkuste to znovu.' : 'To nesedí. Tuhle cihlu zatím spočítat nejde, zkuste nejdřív jinou.');
+            say(wayOf(i) ? 'To nesedí. Zkuste to znovu.' : 'To nesedí. Tuhle cihlu zatím spočítat nejde, zkuste nejdřív jinou.');
             paint();
           }
           function hint() {
@@ -293,7 +299,7 @@
             els[target].classList.add('is-hint');
             (w.add || w.sub).forEach((j) => els[j].classList.add('is-src'));
             select(target);
-            ctx.status(w.add ? 'Tuto cihlu spočítáte: sečtěte dvě zvýrazněné cihly pod ní.' : 'Tuto cihlu spočítáte: od zvýrazněné cihly nad ní odečtěte cihlu vedle ní.');
+            say(w.add ? 'Tuto cihlu spočítáte: sečtěte dvě zvýrazněné cihly pod ní.' : 'Tuto cihlu spočítáte: od zvýrazněné cihly nad ní odečtěte cihlu vedle ní.');
           }
           function done() {
             finished = true;
@@ -303,7 +309,7 @@
             pad.classList.add('is-locked');
             hintBtn.disabled = true;
             ctx.feedback(true);
-            ctx.status('Pyramida je hotová!');
+            say('Pyramida je hotová!');
             const firstOkHere = order.filter((i) => !missed[i]).length;
             ctx.sleep(1500).then(() => resolve({ mistakes: mistakesHere, hints: hintsHere, blanks: blanksHere, firstOk: firstOkHere }));
           }

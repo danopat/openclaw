@@ -67,18 +67,20 @@
         return new Promise((resolve) => {
           ctx.clear();
           ctx.status('Zapamatujte si nákupní lístek.');
+          const btn = h('button', { class: 'btn btn-primary btn-lg', type: 'button' }, 'Mám zapamatováno');
+          ctx.foot.appendChild(btn); // nejdřív tlačítko, ať jde změřit zbylá plocha
           const sz = ctx.size();
+          const rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 18;
           const cols = targets.length >= 7 && sz.w >= 560 ? 2 : 1;
           const rows = Math.ceil(targets.length / cols);
-          const row = U.clamp(Math.floor((sz.h - 60) / rows), 34, 56);
+          // okraje lístku, proužek s časem a mezery kolem něj
+          const row = U.clamp(Math.floor((sz.h - 1.9 * rem - 28) / rows), 34, 56);
           const list = h('ul', { class: 'note-list' + (cols === 2 ? ' is-two' : '') },
             targets.map((t) => h('li', { class: 'note-item' }, h('span', { class: 'emo', 'aria-hidden': 'true' }, t[0]), h('span', null, t[1]))));
           const note = h('div', { class: 'note', style: { '--row': row + 'px', maxWidth: cols === 2 ? '40rem' : '30rem' } }, list);
           const bar = h('i');
           const timebar = h('div', { class: 'timebar', 'aria-hidden': 'true' }, bar);
           ctx.stage.appendChild(h('div', { class: 'stack' }, note, timebar));
-          const btn = h('button', { class: 'btn btn-primary btn-lg', type: 'button' }, 'Mám zapamatováno');
-          ctx.foot.appendChild(btn);
 
           const limit = (targets.length * 3000 + 3000) * SM.timeScale;
           const start = performance.now();
@@ -117,8 +119,25 @@
             row.appendChild(btn);
           });
           wrap.appendChild(row);
-          ctx.stage.appendChild(wrap);
+          ctx.stage.appendChild(h('div', { class: 'stack' }, wrap));
         });
+      }
+
+      /* Dlaždice do zbylé plochy: na malém displeji s velkým písmem nižší a s menším písmem (--ph, --pf),
+         a když by se nejdelší název nevešel vedle obrázku ani menším písmem, obrázek přijde nad název. */
+      function fitPick(all) {
+        const sz = ctx.size();
+        const rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 18;
+        const cols = sz.w >= 900 ? 4 : sz.w >= 560 ? 3 : 2;
+        const rows = Math.ceil(all.length / cols);
+        const ph = U.clamp(Math.floor((sz.h - 6 - 0.55 * rem - 8 * (rows - 1)) / rows), 38, 76);
+        const tw = (Math.min(sz.w, 48 * rem) - 4 - 8 * (cols - 1)) / cols;
+        const font = '700 20px ' + getComputedStyle(document.body).fontFamily;
+        const widest = Math.max.apply(null, all.map((it) => U.textWidth(it[1], font)));
+        const pf = Math.floor((20 * (tw - 0.9 * rem - 0.46 * ph - 0.35 * rem - 6)) / widest);
+        if (pf >= 0.8 * rem) return { cols: cols, ph: ph, pf: pf, v: false };
+        const pv = Math.floor((sz.h - 4 - 0.6 * rem - 0.75 * rem * (rows - 1)) / rows); // mezery jako v CSS (.pick-grid.is-v)
+        return { cols: cols, ph: U.clamp(pv, Math.round(2.7 * rem), 76), pf: pf, v: true };
       }
 
       function recall(targets, last) {
@@ -129,14 +148,12 @@
           const all = U.shuffle(targets.concat(distract));
           ctx.status('Co bylo na lístku? Vyberte ' + n + ' ' + U.plural(n, 'položku', 'položky', 'položek') + '.');
 
-          const sz = ctx.size();
-          const cols = sz.w >= 900 ? 4 : sz.w >= 560 ? 3 : 2;
-          const rows = Math.ceil(all.length / cols);
-          const ph = U.clamp(Math.floor((sz.h - 8 - 8 * (rows - 1)) / rows), 46, 76);
-          const grid = h('div', { class: 'pick-grid', style: { '--cols': cols, '--ph': ph + 'px' } });
+          const doneBtn = h('button', { class: 'btn btn-primary btn-lg', type: 'button', disabled: true }, 'Hotovo');
+          ctx.foot.appendChild(doneBtn); // nejdřív tlačítko, ať jde změřit zbylá plocha
+          const fit = fitPick(all);
+          const grid = h('div', { class: 'pick-grid' + (fit.v ? ' is-v' : ''), style: { '--cols': fit.cols, '--ph': fit.ph + 'px', '--pf': fit.pf + 'px' } });
           const chosen = [];
           let locked = false;
-          const doneBtn = h('button', { class: 'btn btn-primary btn-lg', type: 'button', disabled: true }, 'Hotovo');
           const count = () => {
             ctx.progress('Vybráno ' + chosen.length + ' z ' + n);
             doneBtn.disabled = chosen.length === 0;
@@ -144,7 +161,7 @@
 
           const tiles = all.map((item) => {
             const mark = h('span', { class: 'mark' }, U.svg(SM.icons.check));
-            const b = h('button', { class: 'pick', type: 'button', 'aria-pressed': 'false' },
+            const b = h('button', { class: 'pick' + (fit.v ? ' is-v' : ''), type: 'button', 'aria-pressed': 'false' },
               h('span', { class: 'emo', 'aria-hidden': 'true' }, item[0]), h('span', { class: 'lbl' }, item[1]), mark);
             b.addEventListener('click', () => {
               if (locked) return;
@@ -158,7 +175,6 @@
             return { item: item, b: b, mark: mark };
           });
           ctx.stage.appendChild(grid);
-          ctx.foot.appendChild(doneBtn);
           count();
 
           doneBtn.addEventListener('click', () => {

@@ -350,6 +350,8 @@
         const opts = seqs.map((st, k) => ({ value: k, node: nodes[k], aria: 'Pokyny: ' + words(st) }));
         const answer = seqs.indexOf(w.steps);
         const wait = K.choose(ctx, opts, { answer: answer, layout: 'col', cls: 'is-routes' });
+        // Malý displej s velkým písmem: když by se plánek nevešel ani s nejmenšími políčky, ustoupí mu vysvětlivka značek.
+        if (cellSize(L.n, stack, 0) <= 30) stack.firstChild.style.display = 'none';
         const t = townNode(map, cellSize(L.n, stack, 0));
         stack.insertBefore(t.box, stack.firstChild);
         t.cells[map.target].classList.add('is-target');

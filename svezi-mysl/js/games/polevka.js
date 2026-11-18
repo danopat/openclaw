@@ -114,14 +114,18 @@
           /* Velikost písmen v talíři podle zbylého místa (malý displej, velké písmo). */
           function fitTiles() {
             const rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 18;
-            const avail = ctx.stage.clientHeight - list.offsetHeight - spoon.parentNode.offsetHeight - 1.8 * rem - 16;
-            const W = Math.min(ctx.stage.clientWidth, 26 * rem) - 2.2 * rem;
-            const g = 0.45 * rem;
+            const cs = getComputedStyle(plate); // okraje a mezery talíře (na telefonu s největším písmem menší)
+            const padV = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
+            const padH = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
+            const sg = parseFloat(getComputedStyle(plate.parentNode).rowGap) || 0.9 * rem;
+            const avail = ctx.stage.clientHeight - list.offsetHeight - spoon.parentNode.offsetHeight - 2 * sg - 16;
+            const W = Math.min(ctx.stage.clientWidth, 26 * rem) - padH;
+            const g = parseFloat(cs.rowGap) || 0.45 * rem;
             let size = Math.max(30, 1.6 * rem);
             for (let sz = 2.7 * rem; sz >= Math.max(30, 1.6 * rem); sz -= 1) {
               const cols = Math.max(1, Math.floor((W + g) / (sz + g)));
               const rows = Math.ceil(letters.length / cols);
-              if (rows * (sz + g) - g + 2.6 * rem <= avail) { size = sz; break; }
+              if (rows * (sz + g) - g + padV <= avail) { size = sz; break; }
             }
             plate.style.setProperty('--ls', Math.floor(size) + 'px');
           }
@@ -172,6 +176,7 @@
             ctx.status('Ano, ' + w + '!');
             update();
             drawSpoon();
+            fitTiles(); // složené slovo je větším písmem a seznam se může protáhnout
             if (!remaining().length) {
               finished = true;
               back.disabled = true;
@@ -205,6 +210,7 @@
             slots[w].classList.add('is-hinted');
             ctx.sound.tap();
             ctx.status('Jedno slovo začíná na ' + w.charAt(0) + '. Další nápověda ho poskládá celé.');
+            fitTiles();
           }
         });
       }

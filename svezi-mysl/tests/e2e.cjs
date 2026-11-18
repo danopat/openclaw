@@ -35,10 +35,13 @@ function serve() {
 
 const T = 30000;
 const shot = async (page, name) => { if (SHOTS) await page.screenshot({ path: path.join(SHOTS, name + '.png') }); };
+/** Háčky pro jiné testy (tests/layout.cjs): hooks.step(page) se zavolá pokaždé, když hráč čeká na tah. */
+const hooks = {};
 /** Počká, až fn(arg) v prohlížeči vrátí pravdivou hodnotu, nebo až hra skončí. Vrací hodnotu, nebo null po konci hry. */
 async function next(page, fn, arg) {
   const h = await page.waitForFunction(new Function('arg', 'if (!document.querySelector(".play")) return "__gone"; return (' + fn + ')(arg);'), arg, { timeout: T });
   const v = await h.jsonValue();
+  if (v !== '__gone' && hooks.step) await hooks.step(page);
   return v === '__gone' ? null : v;
 }
 const progress = () => (document.querySelector('.play-progress') || {}).textContent || '';
@@ -180,17 +183,17 @@ const players = {
   async kolik(page) { await mcq(page, () => String(window.__dots)); },
   async placeni(page) {
     for (let r = 0; r < 8; r++) {
-      const kind = await next(page, () => (document.querySelector('.tray') && !document.querySelector('.money-btn[aria-label^="Vrátit"]') && !document.querySelector('.choice.is-correct') ? 'pay' : document.querySelector('.choices:not(.is-locked)') ? 'mcq' : false));
+      const kind = await next(page, () => (document.querySelector('.money-tray') && !document.querySelector('.money-btn[aria-label^="Vrátit"]') && !document.querySelector('.choice.is-correct') ? 'pay' : document.querySelector('.choices:not(.is-locked)') ? 'mcq' : false));
       if (!kind) return;
       if (kind === 'mcq') { await page.locator('.choice').first().click(); await page.waitForTimeout(50); continue; }
       const price = +/(\d+) Kč/.exec(await page.textContent('.play-status'))[1];
-      const vals = (await page.$$eval('.tray .money-btn', (els) => els.map((e) => +/(\d+)/.exec(e.getAttribute('aria-label'))[1]))).sort((a, b) => b - a);
+      const vals = (await page.$$eval('.money-tray .money-btn', (els) => els.map((e) => +/(\d+)/.exec(e.getAttribute('aria-label'))[1]))).sort((a, b) => b - a);
       let left = price;
       for (const v of vals) {
-        while (left >= v) { await page.locator('.tray .money-btn[aria-label="Položit ' + v + ' Kč"]').click(); left -= v; }
+        while (left >= v) { await page.locator('.money-tray .money-btn[aria-label="Položit ' + v + ' Kč"]').click(); left -= v; }
       }
       await page.getByRole('button', { name: 'Zaplatit' }).click();
-      await next(page, () => !document.querySelector('.tray') || document.querySelector('.play-status').textContent.indexOf('Zaplaťte') !== 0);
+      await next(page, () => !document.querySelector('.money-tray') || document.querySelector('.play-status').textContent.indexOf('Zaplaťte') !== 0);
     }
   },
   async presmycky(page) {
@@ -1045,7 +1048,9 @@ async function continueAll(page) {
   }
 }
 
-(async () => {
+module.exports = { players, serve, prepare, next, hooks, NEW_GAMES };
+
+if (require.main === module) (async () => {
   const srv = await serve();
   const base = 'http://127.0.0.1:' + srv.address().port + '/';
   const browser = await chromium.launch();

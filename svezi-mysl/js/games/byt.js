@@ -119,8 +119,9 @@
       /* Plánek. withItems = ukázat věci, asButtons = místnosti jako tlačítka. */
       function planNode(lay, withItems, asButtons) {
         const narrow = lay.plan.narrow && ctx.size().w < 520;
-        const grid = h('div', { class: 'plan', style: {
-          gridTemplateAreas: narrow ? lay.plan.narrow : lay.plan.areas,
+        const areas = narrow ? lay.plan.narrow : lay.plan.areas;
+        const grid = h('div', { class: 'plan', 'data-rows': areas.split('" "').length, style: {
+          gridTemplateAreas: areas,
           gridTemplateColumns: 'repeat(' + (narrow ? 2 : lay.plan.cols) + ', minmax(0, 1fr))'
         } });
         const rooms = {};
@@ -134,6 +135,15 @@
         return { grid: grid, rooms: rooms };
       }
 
+      /* Výška místností podle zbylého místa: na malém displeji s velkým písmem se plánek vejde celý
+         (místnost s věcmi se případně natáhne podle obsahu). */
+      function fitPlan(grid, box) {
+        const rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 18;
+        const rows = +grid.dataset.rows;
+        const free = ctx.stage.clientHeight - (box.scrollHeight - grid.offsetHeight) - 12 - 6 * (rows - 1);
+        grid.style.gridAutoRows = 'minmax(' + Math.floor(U.clamp(free / rows, 3.3 * rem, 6.2 * rem)) + 'px, auto)';
+      }
+
       function study(lay, p) {
         ctx.clear();
         ctx.progress(plans > 1 ? 'Byt ' + (p + 1) + ' z ' + plans : '');
@@ -141,7 +151,9 @@
         const pl = planNode(lay, true, false);
         const box = h('div', { class: 'stack byt', 'data-ask': 'study' }, pl.grid);
         ctx.stage.appendChild(box);
-        return K.study(ctx, { limit: L.time ? L.time * 1000 : null, container: box });
+        const wait = K.study(ctx, { limit: L.time ? L.time * 1000 : null, container: box });
+        fitPlan(pl.grid, box);
+        return wait;
       }
 
       function askWhere(lay, it) {
@@ -149,8 +161,10 @@
           ctx.clear();
           ctx.status('Kde ' + it[2] + ' ' + it[1] + '?');
           const pl = planNode(lay, false, true);
-          ctx.stage.appendChild(h('div', { class: 'stack byt', 'data-ask': 'where', 'data-item': it[1] },
-            h('p', { class: 'byt-q' }, h('span', { class: 'emo', 'aria-hidden': 'true' }, it[0]), ' ' + it[1]), pl.grid));
+          const box = h('div', { class: 'stack byt', 'data-ask': 'where', 'data-item': it[1] },
+            h('p', { class: 'byt-q' }, h('span', { class: 'emo', 'aria-hidden': 'true' }, it[0]), ' ' + it[1]), pl.grid);
+          ctx.stage.appendChild(box);
+          fitPlan(pl.grid, box);
           let done = false;
           Object.keys(pl.rooms).forEach((r) => {
             const b = pl.rooms[r];
@@ -180,17 +194,15 @@
           const others = U.shuffle(lay.items.filter((it) => targets.indexOf(it) === -1)).slice(0, 3)
             .concat(U.sample(ITEMS.filter((it) => lay.items.indexOf(it) === -1), 2));
           const all = U.shuffle(targets.concat(others));
-          const sz = ctx.size();
-          const cols = sz.w >= 560 ? 3 : 2;
-          const rows = Math.ceil(all.length / cols);
-          const ph = U.clamp(Math.floor((sz.h - 8 - 8 * (rows - 1)) / rows), 46, 72);
-          const grid = h('div', { class: 'pick-grid', style: { '--cols': cols, '--ph': ph + 'px' } });
+          const doneBtn = h('button', { class: 'btn btn-primary btn-lg', type: 'button', disabled: true }, 'Hotovo');
+          ctx.foot.appendChild(doneBtn); // nejdřív tlačítko, ať jde změřit zbylá plocha
+          const fit = fitPick(all.length);
+          const grid = h('div', { class: 'pick-grid' + (fit.v ? ' is-v' : ''), style: { '--cols': fit.cols, '--ph': fit.ph + 'px' } });
           const chosen = [];
           let locked = false;
-          const doneBtn = h('button', { class: 'btn btn-primary btn-lg', type: 'button', disabled: true }, 'Hotovo');
           const tiles = all.map((it) => {
             const mark = h('span', { class: 'mark' }, U.svg(SM.icons.check));
-            const b = h('button', { class: 'pick', type: 'button', 'aria-pressed': 'false', 'data-item': it[1] },
+            const b = h('button', { class: 'pick' + (fit.v ? ' is-v' : ''), type: 'button', 'aria-pressed': 'false', 'data-item': it[1] },
               h('span', { class: 'emo', 'aria-hidden': 'true' }, it[0]), h('span', { class: 'lbl' }, it[1]), mark);
             b.addEventListener('click', () => {
               if (locked) return;
@@ -204,7 +216,6 @@
             return { it: it, b: b, mark: mark };
           });
           ctx.stage.appendChild(h('div', { class: 'stack byt', 'data-ask': 'what', 'data-room': room }, grid));
-          ctx.foot.appendChild(doneBtn);
           doneBtn.addEventListener('click', async () => {
             if (locked || doneBtn.disabled) return;
             locked = true;
@@ -227,6 +238,21 @@
             resolve(score);
           });
         });
+      }
+
+      /* Nabídka věcí: dlaždice vedle sebe (obrázek a název), a když by byly moc úzké
+         (malý displej, velké písmo), obrázek nad názvem, ať se název nemusí lámat. */
+      function fitPick(n) {
+        const sz = ctx.size();
+        const rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 18;
+        const W = Math.min(sz.w, 34 * rem) - 4;
+        const H = sz.h - 18;
+        const cols = sz.w >= 560 ? 3 : 2;
+        const rows = Math.ceil(n / cols);
+        const v = (W - 8 * (cols - 1)) / cols < 8.8 * rem;
+        if (!v) return { cols: cols, v: false, ph: U.clamp(Math.floor((H - 8 * (rows - 1)) / rows), 46, 72) };
+        const ph = Math.floor((H - 0.6 * rem - 0.75 * rem * (rows - 1)) / rows); // mezery jako v CSS (.pick-grid.is-v)
+        return { cols: cols, v: true, ph: U.clamp(ph, Math.round(2.6 * rem), Math.round(4.2 * rem)) };
       }
 
       async function askCount(lay, room) {

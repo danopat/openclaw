@@ -185,7 +185,8 @@
           ctx.foot.appendChild(hintBtn);
 
           const sz = ctx.size();
-          const cell = Math.floor(U.clamp(Math.min((Math.min(sz.w, 560) - 8) / n, (sz.h - 8) / n), 30, 68));
+          // okraj mřížky, mezery mezi políčky a okraje posuvné plochy kolem ní
+          const cell = Math.floor(U.clamp(Math.min((Math.min(sz.w, 560) - 8 - (n - 1)) / n, (sz.h - 22 - (n - 1)) / n), 30, 68));
           const grid = h('div', { class: 'sud', style: { '--n': n, '--cell': cell + 'px' }, role: 'grid', 'aria-label': 'Sudoku ' + n + ' × ' + n });
           const els = cur.map((v, i) => {
             const given = !!pz.cells[i];
@@ -198,7 +199,8 @@
             grid.appendChild(b);
             return b;
           });
-          ctx.stage.appendChild(grid);
+          // Když se mřížka nevejde ani s nejmenšími políčky (malý displej, velké písmo), posouvá se a nepřekrývá klávesnici.
+          ctx.stage.appendChild(h('div', { class: 'stack' }, grid));
           const empties = cur.filter((v) => !v).length;
           select(cur.indexOf(0));
 

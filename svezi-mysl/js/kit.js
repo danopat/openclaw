@@ -43,7 +43,40 @@
       return b;
     });
     (conf.container || ctx.foot).appendChild(box);
+    K.fitLabels(box);
+    if (!conf.container) K.fitFoot(ctx, box);
   });
+
+  /**
+   * Dlouhé slovo, které se na úzkém displeji s velkým písmem nevejde na tlačítko: všem odpovědím menší písmo
+   * (nejméně 0,8 rem), a když ani to nestačí, odpovědi pod sebe.
+   */
+  K.fitLabels = (box) => {
+    const btns = Array.from(box.children);
+    const over = () => btns.some((b) => b.scrollWidth > b.clientWidth + 1);
+    if (!btns.length || !over()) return;
+    const rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 18;
+    for (let f = parseFloat(getComputedStyle(btns[0]).fontSize) - 1; f >= 0.8 * rem; f--) {
+      btns.forEach((b) => { b.style.fontSize = f + 'px'; });
+      if (!over()) return;
+    }
+    btns.forEach((b) => { b.style.fontSize = ''; });
+    box.classList.remove('is-grid', 'is-row');
+    box.classList.add('is-col');
+  };
+
+  /**
+   * Pojistka pro malý displej s velkým písmem: když by odpovědi dole vytlačily otázku nebo samy sebe
+   * mimo obrazovku, přesunou se pod otázku do posuvné plochy hry.
+   */
+  K.fitFoot = (ctx, box) => {
+    const stack = ctx.stage.firstElementChild;
+    if (!stack || !/(auto|scroll)/.test(getComputedStyle(stack).overflowY) || box.parentNode !== ctx.foot) return;
+    const play = ctx.stage.parentNode.getBoundingClientRect();
+    const foot = ctx.foot.getBoundingClientRect();
+    const squeezed = ctx.stage.clientHeight < Math.min(stack.scrollHeight, 48);
+    if (foot.bottom > play.bottom + 1 || squeezed) stack.appendChild(box);
+  };
 
   /**
    * Číselná klávesnice jako na telefonu → Promise<string> s napsanými číslicemi.
@@ -89,9 +122,37 @@
       else if (e.key === 'Backspace') press('del');
       else if (e.key === 'Enter') press('ok');
     });
-    (conf.container || ctx.stage).appendChild(h('div', { class: 'kp' }, disp, grid));
+    const kp = h('div', { class: 'kp' }, disp, grid);
+    (conf.container || ctx.stage).appendChild(kp);
     render();
+    K.fitPad(ctx, kp, grid);
   });
+
+  /**
+   * Zmenší klávesy, když se klávesnice na malý displej s velkým písmem nevejde do plochy hry
+   * (nejvýš na 46 px vysoké klávesy, zbytek případně dorovná posouvání plochy).
+   */
+  K.fitPad = (ctx, kp, grid) => {
+    const box = kp.closest('.stack, .guess');
+    const over = box ? K.overflow(box) : kp.offsetHeight - ctx.stage.clientHeight;
+    if (over <= 0 || !grid.firstElementChild) return;
+    const rows = Math.ceil(grid.children.length / 3);
+    const keyH = grid.firstElementChild.offsetHeight;
+    kp.style.setProperty('--kp-h', Math.max(46, Math.floor(keyH - over / rows)) + 'px');
+  };
+
+  /** O kolik px je obsah posuvné plochy vyšší než plocha sama (počítá i obsah vystrčený nahoru). */
+  K.overflow = (box) => {
+    let top = Infinity;
+    let bottom = -Infinity;
+    Array.from(box.children).forEach((k) => {
+      const r = k.getBoundingClientRect();
+      if (r.height) { top = Math.min(top, r.top); bottom = Math.max(bottom, r.bottom); }
+    });
+    if (top === Infinity) return 0;
+    const cs = getComputedStyle(box);
+    return Math.max(0, Math.ceil(bottom - top + parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom) - box.clientHeight));
+  };
 
   /** Velké tlačítko dole (např. „Další“), hráč si tempo určuje sám → Promise po klepnutí. */
   K.next = (ctx, label, conf) => new Promise((resolve) => {

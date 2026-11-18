@@ -127,8 +127,12 @@
           const box = h('div', { class: 'stack prelevani', 'data-cap': cap.join(','), 'data-goal': task.goal, 'data-best': task.best }, goalEl, row);
           ctx.stage.appendChild(box);
           const sz = ctx.size();
-          row.style.setProperty('--vh', Math.floor(U.clamp(sz.h - goalEl.offsetHeight - 110, 120, 300)) + 'px');
+          const vh = Math.floor(U.clamp(sz.h - goalEl.offsetHeight - 110, 120, 300));
+          row.style.setProperty('--vh', vh + 'px');
           paint();
+          // Když se nádoby s popisky nevejdou (malý displej, velké písmo), nejvyšší se sníží o to, co přečnívá.
+          const over = K.overflow(box);
+          if (over > 0) row.style.setProperty('--vh', Math.max(100, vh - over) + 'px');
 
           function paint() {
             els.forEach((b, i) => {

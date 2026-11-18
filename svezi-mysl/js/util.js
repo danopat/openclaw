@@ -43,6 +43,12 @@
     if (Array.isArray(kid)) { kid.forEach(function (k) { U.append(el, k); }); return; }
     el.appendChild(kid instanceof Node ? kid : document.createTextNode(String(kid)));
   };
+  /** Šířka textu v px při daném písmu (např. '700 20px ' + rodina písma), bez vkládání do stránky. */
+  U.textWidth = function (text, font) {
+    var c = U._measure || (U._measure = document.createElement('canvas').getContext('2d'));
+    c.font = font;
+    return c.measureText(text).width;
+  };
   /** SVG ikona z řetězce. */
   U.svg = function (markup, cls) {
     var span = document.createElement('span');

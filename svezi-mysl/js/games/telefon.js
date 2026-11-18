@@ -44,13 +44,12 @@
         K.show(ctx, h('div', { class: 'phone-card' }, h('span', { class: 'phone-label' }, 'Telefon'), h('span', { class: 'phone-num' }, group(num))));
         await ctx.sleep(Math.max(2600, len * 900));
         ctx.status('Napište číslo, které jste viděli.');
-        ctx.stage.textContent = '';
-        const typed = await K.keypad(ctx, { length: len });
+        const typed = await K.keypad(ctx, { length: len, container: K.show(ctx) });
         const good = typed === num;
         ctx.feedback(good);
         ctx.stage.textContent = '';
         const cmp = h('div', { class: 'phone-card is-check' }, h('span', { class: 'phone-label' }, good ? 'Správně' : 'Mělo být'),
-          h('span', { class: 'phone-num' }, [...num].map((d, k) => h('span', { class: typed[k] === d ? 'is-ok' : 'is-bad' }, d))));
+          h('span', { class: 'phone-num' }, [...num].map((d, k) => [h('span', { class: typed[k] === d ? 'is-ok' : 'is-bad' }, d), k % 3 === 2 && k < num.length - 1 ? ' ' : null])));
         ctx.stage.appendChild(h('div', { class: 'stack' }, cmp));
         if (good) { ok++; maxOk = Math.max(maxOk, len); len = Math.min(len + 1, 12); }
         else len = Math.max(3, len - 1);
