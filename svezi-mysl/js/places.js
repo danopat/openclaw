@@ -350,6 +350,19 @@
         '<ellipse cx="163" cy="188" rx="22" ry="6" fill="#4f8c8a"/><path d="M152 184h20l-3 4h-14z" fill="#7a5a3a"/><rect x="160" y="178" width="3" height="6" fill="#d9c6a0"/>' +
         pines([[16, 76, 0.9], [40, 74], [64, 73, 0.85], [92, 72], [116, 72, 0.8], [226, 68, 0.8], [252, 69], [278, 70, 0.9], [304, 72]], '#3f6b45') +
         '<path d="M196 72l34-6" stroke="#5a4632" stroke-width="3.5" stroke-linecap="round"/><path d="M200 71v-8M210 69v-8M220 67v-8M200 63l24-4" stroke="#5a4632" stroke-width="2" stroke-linecap="round"/>';
+    },
+    kokorin(id) {
+      // Kokořín: hrad s vysokou věží na pískovcové skále a v lese skalní „pokličky“.
+      const poklicka = (x, y, s) => '<path d="M' + (x - 4 * s) + ' ' + y + 'h' + (8 * s) + 'l' + (-1.6 * s) + ' ' + (-17 * s) + 'h' + (-4.8 * s) + 'z" fill="#d9c391"/>' +
+        '<ellipse cx="' + x + '" cy="' + (y - 19 * s) + '" rx="' + (11 * s) + '" ry="' + (4.6 * s) + '" fill="#b4965f"/>';
+      return sky(id, '#a9d1ee', '#f3f7fa') +
+        '<path d="M0 118C60 98 120 108 170 102S270 94 320 108V200H0Z" fill="#86ab74"/>' +
+        '<path d="M118 200V132c10-8 16-20 36-22s36 8 46 20v70z" fill="#d6be8c"/><path d="M132 150c8-4 14-4 22 0M150 172c10-4 20-4 30 0" stroke="#c0a571" stroke-width="3" fill="none"/>' +
+        '<rect x="136" y="96" width="70" height="20" fill="#d3c9b6"/><path d="M136 96v-6h7v6h7v-6h7v6h7v-6h7v6h7v-6h7v6h7v-6h7v6h7v-6h7v6" fill="#d3c9b6"/>' +
+        '<rect x="160" y="38" width="22" height="62" fill="#ddd4c3"/><path d="M156 40h30v-9h-4v4h-5v-4h-4v4h-4v-4h-4v4h-5v-4h-4z" fill="#c4baa7"/>' +
+        '<rect x="168" y="52" width="6" height="10" rx="3" fill="#7d8790"/><rect x="146" y="102" width="6" height="8" rx="3" fill="#7d8790"/><rect x="190" y="102" width="6" height="8" rx="3" fill="#7d8790"/>' +
+        pines([[18, 150], [44, 156, 0.9], [72, 152], [96, 160, 0.85], [232, 156, 0.9], [258, 150], [286, 158], [310, 152, 0.85]], '#3f6b45') +
+        poklicka(60, 196, 1.2) + poklicka(262, 198, 1.4) + roundTrees([[100, 196, 10], [222, 196, 11]], '#4f8a4a');
     }
   };
 
@@ -399,7 +412,9 @@
     { id: 'zdar', gen: 'Žďáru nad Sázavou', name: 'Žďár nad Sázavou', color: '#2f6b55', intro: ['pohled', 'stavby'],
       fact: 'Poutní kostel svatého Jana Nepomuckého na Zelené hoře u Žďáru nad Sázavou má půdorys pěticípé hvězdy. Postavil ho Jan Blažej Santini-Aichel a od roku 1994 je na seznamu UNESCO.' },
     { id: 'kras', gen: 'Moravského krasu', name: 'Moravský kras', color: '#3d6170', intro: ['krychle', 'hrnky'],
-      fact: 'Propast Macocha v Moravském krasu je hluboká přes 138 metrů. Na její dno se dá doplout lodičkou po podzemní říčce Punkvě.' }
+      fact: 'Propast Macocha v Moravském krasu je hluboká přes 138 metrů. Na její dno se dá doplout lodičkou po podzemní říčce Punkvě.' },
+    { id: 'kokorin', gen: 'Kokořína', name: 'Kokořín', color: '#6a5a3a', intro: ['sifra', 'cikcak'],
+      fact: 'Hrad Kokořín stojí na pískovcové skále nad hlubokým údolím. V okolních lesích jsou skalní „pokličky“, kameny ve tvaru hřibů.' }
   ];
 
   SM.places = {

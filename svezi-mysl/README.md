@@ -12,9 +12,9 @@ Navrženo pro starší uživatele:
 
 ## Jak aplikace motivuje (ve stylu Duolinga)
 
-- **Cesta po Česku**: hlavní obrazovka je cesta přes 23 zastávek (Praha, Karlovy Vary, Český Krumlov, Kutná Hora, Olomouc, Krkonoše, Lednice, Telč, Třeboň, Brno, Litomyšl, České Švýcarsko, Šumava, Kroměříž, Pálava, Ještěd, Ostrava, Karlštejn, Hluboká, Třebíč, Plzeň, Žďár nad Sázavou, Moravský kras). Každá zastávka má 4 lekce, truhlu s odměnou a závěrečnou lekci.
+- **Cesta po Česku**: hlavní obrazovka je cesta přes 24 zastávek (Praha, Karlovy Vary, Český Krumlov, Kutná Hora, Olomouc, Krkonoše, Lednice, Telč, Třeboň, Brno, Litomyšl, České Švýcarsko, Šumava, Kroměříž, Pálava, Ještěd, Ostrava, Karlštejn, Hluboká, Třebíč, Plzeň, Žďár nad Sázavou, Moravský kras, Kokořín). Každá zastávka má 4 lekce, truhlu s odměnou a závěrečnou lekci.
 - **Lekce**: tři krátké minihry za sebou (asi 5 minut), závěrečná lekce zastávky má čtyři. Mezi hrami je mezivýsledek a pravidla další hry, na konci souhrn s body.
-- **Postupné odemykání**: prvních 7 zastávek přináší vždy 3 až 4 nové hry, další zastávky po dvou (České Švýcarsko Sudoku a Sčítací pyramidu, Šumava Podnos a Součty z paměti), Kroměříž Cestu podle šipek a Hledání čísel, Pálava Oslí můstek a Paměťové kolíky, Ještěd Popletené štítky a Písmenkovou polévku, Ostrava Terč a Balonky, Karlštejn Smajlíky a Přelévání, Hluboká Vynesené karty a Chybějící dílek, Třebíč Najdi pravidlo a Slovní úlohy, Plzeň Stavbu z kostek a Slovní žebřík, Žďár nad Sázavou Pohled z boku a Otočené stavby, Moravský kras Skládání krychle a Tři hrnky. Seniora tak hned na začátku nezahltí 54 her. Zamčenou hru jde v kartě Hry odemknout i hned.
+- **Postupné odemykání**: prvních 7 zastávek přináší vždy 3 až 4 nové hry, další zastávky po dvou (České Švýcarsko Sudoku a Sčítací pyramidu, Šumava Podnos a Součty z paměti), Kroměříž Cestu podle šipek a Hledání čísel, Pálava Oslí můstek a Paměťové kolíky, Ještěd Popletené štítky a Písmenkovou polévku, Ostrava Terč a Balonky, Karlštejn Smajlíky a Přelévání, Hluboká Vynesené karty a Chybějící dílek, Třebíč Najdi pravidlo a Slovní úlohy, Plzeň Stavbu z kostek a Slovní žebřík, Žďár nad Sázavou Pohled z boku a Otočené stavby, Moravský kras Skládání krychle a Tři hrnky, Kokořín Tajnou šifru a Slovní cikcak. Seniora tak hned na začátku nezahltí 56 her. Zamčenou hru jde v kartě Hry odemknout i hned.
 - **Body a denní cíl**: 5 až 10 bodů za hru podle výkonu, 5 za dokončenou lekci, 5 za lekci bez chyby, 15 za truhlu. Denní cíl si hráč vybere: 20, 40 nebo 60 bodů (asi 5, 10 nebo 15 minut).
 - **Série dní** s **ohníčkem** a **záchranným dnem**: za každých 7 dní v řadě přibude záchranný den (nejvýš 2), který podrží sérii, když jeden den vynecháte. Žádné „životy“ ani tresty za chyby.
 - **Sbírka**: za každou zastávku sběratelská **pohlednice** („Pozdrav z Prahy“) s ilustrací a zajímavostí o místě, za vytrvalost a pokroky **odznaky** v několika stupních (Vytrvalost, Splněný cíl, Píle, Cestovatel, Bez chyby, Všestrannost, Ranní ptáče, Rekordy, Luštitel, Mistr paměti).
@@ -26,7 +26,7 @@ Navrženo pro starší uživatele:
 
 Žebříčky s cizími lidmi záměrně chybí: bez serveru by byly falešné a pro seniory spíš stresují.
 
-## Hry (54)
+## Hry (56)
 
 | Oblast | Hra | Co trénuje | Výzkumný vzor |
 |---|---|---|---|
@@ -67,6 +67,8 @@ Navrženo pro starší uživatele:
 | Slova | Osmisměrka | hledání očima, slovní zásobu | vizuální vyhledávání slov, tajenka z přísloví |
 | Slova | Slovní žebřík | slovní pohotovost a pružnost myšlení | slovní žebřík (změna jednoho písmene) |
 | Slova | Písmenková polévka | práci se slovy a plánování | skládání slov z daných písmen |
+| Slova | Tajná šifra | pracovní paměť a práci s abecedou | posun písmen v abecedě (Caesarova šifra): známý posun, nebo hledání kolečkem |
+| Slova | Slovní cikcak | slovní zásobu a práci s písmeny | řetěz slov, kde další začíná posledními dvěma písmeny předchozího |
 | Počty a logika | Hodiny | orientaci v čase | čtení ručičkových hodin |
 | Počty a logika | Placení | počítání s penězi v korunách | běžné denní činnosti (IADL) |
 | Počty a logika | Co bude dál | logické uvažování | doplňování řad |
@@ -163,7 +165,7 @@ js/fx.js              konfety a napočítávání čísel
 js/engine.js          motivace: body, denní cíl, série, záchranné dny, odznaky, sestavení lekcí (i podle oblíbenosti her)
 js/app.js             kostra: navigace, spodní lišta, dialogy, běh hry
 js/screens/*.js       cesta, lekce a oslavy, karta Hry, sbírka, pokrok, nastavení a první spuštění
-js/games/*.js         jednotlivé minihry (54)
+js/games/*.js         jednotlivé minihry (56)
 tests/e2e.cjs         automatický test v Playwrightu
 ```
 
@@ -213,7 +215,7 @@ SM.registerGame({
 
 ## Možné další kroky
 
-Z první vlny je hotových všech 9 her: Řetězové počty, Výhodný nákup, Vyšší, nebo nižší?, Příbuzenstvo, Kde je kulička?, Co k čemu patří, Kde co leží, Osmisměrka a Sudoku. Hotová je i Hádanka dne. Z druhé vlny jsou hotové Podnos, Součty z paměti, Sčítací pyramida, Cesta podle šipek, Hledání čísel, Oslí můstek, Paměťové kolíky, Popletené štítky, Písmenková polévka, Terč, Balonky, Smajlíci, Přelévání, Vynesené karty, Chybějící dílek, Najdi pravidlo, Slovní úlohy, Stavba z kostek a Slovní žebřík, tedy všech 19 nových her druhé vlny. Hotová jsou i rozšíření druhé vlny (Co se změnilo: co přibylo a víc změn najednou; Jména a tváře: kreslené portréty, otázka na konci hry a volba s trikem; Otočené tvary: najdi vetřelce) a Škola paměti, takže druhá vlna je celá hotová. Ze třetí vlny jsou hotové Pohled z boku a Otočené stavby (zastávka Žďár nad Sázavou; kreslí stavby stejným kódem jako Stavba z kostek) a Skládání krychle s Třemi hrnky (Moravský kras). Podrobný plán dalších miniher (44 nových her, 7 rozšíření, Hádanka dne a Škola paměti) je v [`docs/minihry-databaze.md`](docs/minihry-databaze.md), tabulka v [`docs/minihry-databaze.csv`](docs/minihry-databaze.csv).
+Z první vlny je hotových všech 9 her: Řetězové počty, Výhodný nákup, Vyšší, nebo nižší?, Příbuzenstvo, Kde je kulička?, Co k čemu patří, Kde co leží, Osmisměrka a Sudoku. Hotová je i Hádanka dne. Z druhé vlny jsou hotové Podnos, Součty z paměti, Sčítací pyramida, Cesta podle šipek, Hledání čísel, Oslí můstek, Paměťové kolíky, Popletené štítky, Písmenková polévka, Terč, Balonky, Smajlíci, Přelévání, Vynesené karty, Chybějící dílek, Najdi pravidlo, Slovní úlohy, Stavba z kostek a Slovní žebřík, tedy všech 19 nových her druhé vlny. Hotová jsou i rozšíření druhé vlny (Co se změnilo: co přibylo a víc změn najednou; Jména a tváře: kreslené portréty, otázka na konci hry a volba s trikem; Otočené tvary: najdi vetřelce) a Škola paměti, takže druhá vlna je celá hotová. Ze třetí vlny jsou hotové Pohled z boku a Otočené stavby (zastávka Žďár nad Sázavou; kreslí stavby stejným kódem jako Stavba z kostek) Skládání krychle s Třemi hrnky (Moravský kras) a Tajná šifra se Slovním cikcakem (Kokořín). Podrobný plán dalších miniher (44 nových her, 7 rozšíření, Hádanka dne a Škola paměti) je v [`docs/minihry-databaze.md`](docs/minihry-databaze.md), tabulka v [`docs/minihry-databaze.csv`](docs/minihry-databaze.csv).
 
 1. **Vyzkoušet s 5 až 8 seniory** různého věku. Sledovat, jestli rozumí pokynům, jak zvládají dotyk a co je frustruje. Doladit úroveň 1 všech her.
 2. **Denní připomínka**: v Capacitoru jako lokální notifikace, na webu jako Web Push (iOS 16.4+, jen pro aplikaci na ploše).

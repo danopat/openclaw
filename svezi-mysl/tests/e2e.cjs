@@ -1122,6 +1122,47 @@ players.hrnky = async function (page) {
     await next(page, () => !document.querySelector('.hr-decide'));
   }
 };
+players.sifra = async function (page) {
+  let k = 0;
+  for (let g = 0; g < 30; g++) {
+    const st = await next(page, () => {
+      const b = document.querySelector('.sifra');
+      if (!b) return false;
+      if (document.querySelector('.choices:not(.is-locked)')) return 'pick';
+      return document.querySelector('.sf-turn:not([disabled])') && document.querySelector('.play-foot .btn-primary:not([disabled])') ? 'wheel' : false;
+    });
+    if (!st) return;
+    const word = await page.getAttribute('.sifra', 'data-word');
+    if (st === 'pick') {
+      if (k++ === 1) await page.locator('.choices:not(.is-locked) .choice').filter({ hasNotText: new RegExp('^' + esc(word) + '$') }).first().click();
+      else await page.locator('.choices:not(.is-locked) .choice', { hasText: new RegExp('^' + esc(word) + '$') }).click();
+      await next(page, () => !document.querySelector('.choices:not(.is-locked)'));
+      continue;
+    }
+    // kolečko: otočit na správný posun (jednou schválně o jedna vedle)
+    const s = +(await page.getAttribute('.sifra', 'data-s'));
+    const want = k++ === 1 ? s + 1 : s;
+    for (let i = 0; i < want; i++) await page.locator('.sf-turn').nth(1).click();
+    const plain = await page.$$eval('.sf-word.is-plain .sf-tile', (els) => els.map((e) => e.textContent).join(''));
+    if (want === s && plain !== word) throw new Error('kolečko ukazuje ' + plain + ' místo ' + word);
+    await page.locator('.play-foot .btn-primary:not([disabled])').first().click();
+    await next(page, () => !document.querySelector('.sf-turn:not([disabled])'));
+  }
+};
+players.cikcak = async function (page) {
+  let k = 0;
+  for (let g = 0; g < 60; g++) {
+    const st = await next(page, () => (document.querySelector('.cikcak') ? (document.querySelector('.choices:not(.is-locked)') ? 'pick' : document.querySelector('.play-foot .btn-primary:not([disabled])') ? 'next' : false) : false));
+    if (!st) return;
+    if (st === 'next') { await page.locator('.play-foot .btn-primary:not([disabled])').first().click(); await page.waitForTimeout(60); continue; }
+    const seq = await page.getAttribute('.cikcak', 'data-seq');
+    const now = +(await page.getAttribute('.cikcak', 'data-now'));
+    const ch = Array.from(seq)[now];
+    if (k++ === 1) await page.locator('.choices:not(.is-locked) .choice').filter({ hasNotText: new RegExp('^' + esc(ch) + '$') }).first().click();
+    else await page.locator('.choices:not(.is-locked) .choice', { hasText: new RegExp('^' + esc(ch) + '$') }).click();
+    await next(page, () => !document.querySelector('.choices:not(.is-locked)'));
+  }
+};
 players.zebrik = async function (page) {
   let k = 0;
   for (let g = 0; g < 40; g++) {
@@ -1164,7 +1205,7 @@ players.koliky = async function (page) {
     await next(page, () => !document.querySelector('.choices:not(.is-locked)'));
   }
 };
-const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina', 'kulicka', 'dvojice', 'byt', 'osmismerka', 'sudoku', 'podnos', 'sumy', 'pyramida', 'trasa', 'cisla', 'mustek', 'koliky', 'stitky', 'polevka', 'terc', 'balonky', 'smajlici', 'prelevani', 'karty', 'dilek', 'pravidlo', 'ulohy', 'kostky', 'zebrik', 'tvary', 'zmena', 'jmena', 'pohled', 'stavby', 'krychle', 'hrnky'];
+const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina', 'kulicka', 'dvojice', 'byt', 'osmismerka', 'sudoku', 'podnos', 'sumy', 'pyramida', 'trasa', 'cisla', 'mustek', 'koliky', 'stitky', 'polevka', 'terc', 'balonky', 'smajlici', 'prelevani', 'karty', 'dilek', 'pravidlo', 'ulohy', 'kostky', 'zebrik', 'tvary', 'zmena', 'jmena', 'pohled', 'stavby', 'krychle', 'hrnky', 'sifra', 'cikcak'];
 
 async function mcq(page, answerFn) {
   for (let r = 0; r < 16; r++) {

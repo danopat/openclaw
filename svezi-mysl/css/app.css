@@ -2020,6 +2020,36 @@ button.room { cursor: pointer; touch-action: manipulation; }
 .hr-good { color: var(--ok); font-weight: 700; }
 .hr-bad { color: var(--bad); font-weight: 700; }
 .hr-sum { font-weight: 700; }
+/* Tajná šifra */
+.sf-theme { margin: 0; color: var(--ink-2); font-size: var(--fs-m); font-weight: 700; }
+.sf-word { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.3rem; }
+.sf-tile { display: grid; place-items: center; width: min(2.6rem, 10.5vw); height: min(3rem, 12vw); border-radius: 10px; background: var(--surface); box-shadow: inset 0 0 0 2px var(--line); font-family: var(--font-num); font-size: min(1.8rem, 7.5vw); font-weight: 700; }
+.sf-word.is-cipher .sf-tile { background: #2b2417; color: #f7e7c4; box-shadow: none; }
+.sf-word.is-ok .sf-tile { background: var(--ok-soft); box-shadow: inset 0 0 0 3px var(--ok); }
+.sf-word.is-fixed .sf-tile { background: var(--surface-2); box-shadow: inset 0 0 0 3px var(--ink-2); }
+.sf-rule, .sf-label { margin: 0; font-size: var(--fs-m); font-weight: 700; }
+.sf-wheel { display: flex; align-items: center; justify-content: center; gap: 0.8rem; }
+.sf-turn { min-width: 4rem; min-height: 3.2rem; font-size: var(--fs-xl); }
+.sf-num { min-width: 6.5rem; text-align: center; font-size: var(--fs-l); font-weight: 700; }
+.sf-strip { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(1.9rem, 6.9vw), 1fr)); gap: 0.15rem; width: 100%; max-width: 34rem; }
+.sf-cell { display: grid; justify-items: center; padding: 0.15rem 0; border-radius: 6px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); font-family: var(--font-num); line-height: 1.15; }
+.sf-cell b { font-size: min(var(--fs-m), 4.6vw); }
+.sf-cell i { color: var(--ok); font-size: min(var(--fs-m), 4.6vw); font-style: normal; font-weight: 700; }
+.sifra.is-tight .sf-theme { display: none; }
+.sifra.is-tight { gap: 0.5rem; }
+.choices.sf-opts .choice { min-height: 3.2rem; font-family: var(--font-num); font-size: min(var(--fs-xl), 6.2vw); letter-spacing: 0.04em; }
+.sf-cell.is-used { background: var(--surface-2); box-shadow: inset 0 0 0 2px var(--ink); }
+/* Slovní cikcak */
+.cc-rows { display: grid; gap: 0.45rem; justify-items: start; }
+.cc-row { display: flex; gap: 0.22rem; }
+.cc-tile { display: grid; place-items: center; width: min(2.5rem, 9.4vw); height: min(2.8rem, 10.4vw); border-radius: 8px; background: var(--surface); box-shadow: inset 0 0 0 2px var(--line); font-family: var(--font-num); font-size: min(1.6rem, 6.8vw); font-weight: 700; }
+.cc-tile.is-link { box-shadow: inset 0 0 0 2px var(--line), inset 0 -6px 0 #e0a93a; }
+.cc-tile.is-hole { background: var(--surface-2); box-shadow: inset 0 0 0 2px var(--ink-2); }
+.cc-tile.is-now { box-shadow: inset 0 0 0 4px var(--ink); }
+.cc-tile.is-hole.is-link { box-shadow: inset 0 0 0 2px var(--ink-2), inset 0 -6px 0 #e0a93a; }
+.cc-tile.is-now.is-link { box-shadow: inset 0 0 0 4px var(--ink), inset 0 -6px 0 #e0a93a; }
+.cc-tile.is-fixed { color: var(--bad); }
+.choices.cc-opts .choice { font-size: var(--fs-2xl); }
 
 /* ---------- Slovní žebřík ---------- */
 .rungs { display: grid; justify-items: center; gap: 0.55rem; padding: 0.4rem 1.2rem; border-left: 5px solid var(--ink-2); border-right: 5px solid var(--ink-2); border-radius: 6px; }
