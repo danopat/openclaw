@@ -1603,6 +1603,9 @@ button.room { cursor: pointer; touch-action: manipulation; }
 .pyr-pad .kp-del, .pyr-pad .kp-ok { font-size: var(--fs-s); }
 .pyr-pad.is-locked .kp-key { pointer-events: none; opacity: 0.5; }
 
+/* ---------- Hledání čísel ---------- */
+.ws-grid.is-num .ws-cell, .ws-words.is-num .ws-word { font-family: var(--font-num); }
+
 /* ---------- Cesta podle šipek ---------- */
 .town {
   position: relative;

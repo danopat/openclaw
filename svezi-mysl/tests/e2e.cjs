@@ -747,7 +747,8 @@ const players = {
     }
   }
 };
-const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina', 'kulicka', 'dvojice', 'byt', 'osmismerka', 'sudoku', 'podnos', 'sumy', 'pyramida', 'trasa'];
+players.cisla = players.osmismerka; // stejné ovládání jako Osmisměrka, jen s číslicemi
+const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina', 'kulicka', 'dvojice', 'byt', 'osmismerka', 'sudoku', 'podnos', 'sumy', 'pyramida', 'trasa', 'cisla'];
 
 async function mcq(page, answerFn) {
   for (let r = 0; r < 16; r++) {
