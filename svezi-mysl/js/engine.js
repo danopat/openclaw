@@ -169,13 +169,15 @@
       text: (n) => 'Získejte ' + n + ' ' + pl(n, 'pohlednici', 'pohlednice', 'pohlednic') + '.' },
     { id: 'presnost', name: 'Bez chyby', icon: 'check', tiers: [1, 5, 20, 50], value: () => P().perfect || 0,
       text: (n) => 'Dokončete ' + n + ' ' + pl(n, 'lekci', 'lekce', 'lekcí') + ' bez chyby.' },
-    { id: 'pestrost', name: 'Všestrannost', icon: 'grid', tiers: [5, 10, 15, 22],
+    { id: 'pestrost', name: 'Všestrannost', icon: 'grid', tiers: [5, 10, 15, 22, 31],
       value: () => Object.keys(SM.games).filter((id) => store.game(id).plays > 0).length,
       text: (n) => 'Vyzkoušejte ' + n + ' různých her.' },
     { id: 'rano', name: 'Ranní ptáče', icon: 'sunrise', tiers: [1, 10, 30], value: () => P().early || 0,
       text: (n) => 'Dokončete ' + n + ' ' + pl(n, 'lekci', 'lekce', 'lekcí') + ' před devátou ráno.' },
     { id: 'rekord', name: 'Rekordy', icon: 'trophy', tiers: [3, 10, 30], value: () => P().records || 0,
-      text: (n) => 'Překonejte ' + n + '× svůj osobní rekord ve hře.' }
+      text: (n) => 'Překonejte ' + n + '× svůj osobní rekord ve hře.' },
+    { id: 'lustitel', name: 'Luštitel', icon: 'bulb', tiers: [1, 10, 30, 100], value: () => Object.keys(P().riddles || {}).length,
+      text: (n) => (n === 1 ? 'Vyluštěte hádanku dne.' : 'Vyluštěte ' + n + ' hádanek dne.') }
   ];
   E.badgeTier = (b) => b.tiers.filter((t) => b.value() >= t).length;
   E.checkBadges = () => {
@@ -186,6 +188,21 @@
       if (tier > (p.badges[b.id] || 0)) { p.badges[b.id] = tier; out.push({ id: b.id, tier: tier }); }
     });
     return out;
+  };
+
+  /* ---------- Hádanka dne ---------- */
+  /** Dnešní hádanka (pro všechny stejná, střídají se po dnech) a případná dnešní odpověď. */
+  E.riddleToday = () => {
+    const list = SM.riddles.LIST;
+    const key = U.dayKey();
+    return { key: key, r: list[U.dayNumber() % list.length], done: (P().riddles || {})[key] || null };
+  };
+  /** Uloží odpověď na dnešní hádanku a připíše body (správně 10, jinak 5). */
+  E.answerRiddle = (snap, r, ok, value) => {
+    const p = P();
+    p.riddles = p.riddles || {};
+    p.riddles[U.dayKey()] = { id: r.id, ok: !!ok, v: value };
+    return E.finish(snap, { kind: 'riddle', ok: !!ok });
   };
 
   /* ---------- Průběh hraní ---------- */
@@ -233,6 +250,7 @@
       if (new Date().getHours() < 9) p.early = (p.early || 0) + 1;
     }
     if (info.kind === 'chest') { bonus += CHEST_XP; parts.push({ label: 'Truhla', xp: CHEST_XP }); }
+    if (info.kind === 'riddle') { const x = info.ok ? 10 : 5; bonus += x; parts.push({ label: 'Hádanka dne', xp: x }); }
     if (bonus) store.addXp(bonus);
 
     if ((info.kind === 'lesson' || info.kind === 'chest') && info.u != null) {

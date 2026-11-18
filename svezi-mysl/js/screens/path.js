@@ -62,7 +62,22 @@
         ui.icon('flame', 'stat-flame'), h('strong', null, String(s)), h('span', null, U.plural(s, 'den', 'dny', 'dní'))),
       h('button', { class: 'stat' + (xp >= goal ? ' is-done' : ''), type: 'button', onclick: goalInfo, 'aria-label': 'Dnes ' + xp + ' z ' + goal + ' bodů' },
         ring(xp / goal), h('strong', null, xp + '/' + goal), h('span', null, 'bodů')),
-      h('button', { class: 'btn btn-quiet head-icon', type: 'button', 'aria-label': 'Nastavení', onclick: () => ui.go('nastaveni') }, ui.icon('sliders')));
+      riddleStat());
+  };
+  /* Nadpis stránky s tlačítkem Nastavení vpravo. */
+  SM.screens.pageTitle = function (title, text) {
+    return h('div', { class: 'path-intro' },
+      h('div', { class: 'title-row' }, h('h1', null, title),
+        h('button', { class: 'btn btn-quiet head-icon', type: 'button', 'aria-label': 'Nastavení', onclick: () => ui.go('nastaveni') }, ui.icon('sliders'))),
+      text ? h('p', null, text) : null);
+  };
+  /* Žárovka v horní liště: Hádanka dne je vidět, i když je cesta posunutá k aktuální lekci. */
+  function riddleStat() {
+    if (!SM.riddles) return null;
+    const done = !!E.riddleToday().done;
+    const label = done ? 'Hádanka dne: dnes vyluštěno' : 'Hádanka dne: čeká na vás';
+    return h('button', { class: 'stat stat-riddle' + (done ? ' is-done' : ''), type: 'button', 'aria-label': label, title: label, onclick: () => ui.go('hadanka') },
+      ui.icon('bulb'), done ? null : h('span', { class: 'stat-dot', 'aria-hidden': 'true' }));
   };
 
   function noticeBox() {
@@ -93,10 +108,9 @@
     const note = noticeBox();
     if (note) page.appendChild(note);
     const doneCount = Object.keys(store.profile().done).length;
-    page.appendChild(h('div', { class: 'path-intro' },
-      h('h1', null, 'Cesta po Česku'),
-      h('p', null, E.finished() ? 'Celou cestu máte za sebou. Výborně!' :
-        'Zastávka ' + (pos.u + 1) + ' z ' + UNITS.length + ': ' + UNITS[pos.u].name + '. Za každou zastávku získáte pohlednici.')));
+    page.appendChild(SM.screens.pageTitle('Cesta po Česku', E.finished() ? 'Celou cestu máte za sebou. Výborně!' :
+      'Zastávka ' + (pos.u + 1) + ' z ' + UNITS.length + ': ' + UNITS[pos.u].name + '. Za každou zastávku získáte pohlednici.'));
+    if (SM.screens.riddleCard) page.appendChild(SM.screens.riddleCard());
 
     let currentEl = null;
     UNITS.forEach((unit, u) => {

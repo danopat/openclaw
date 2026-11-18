@@ -198,9 +198,9 @@
       fact: 'U Třeboně leží Rožmberk, největší rybník v Česku. V 16. století ho založil rybníkář Jakub Krčín.' },
     { id: 'brno', gen: 'Brna', name: 'Brno', color: '#7c3f50', intro: ['kulicka', 'byt'],
       fact: 'Nad Brnem se tyčí hrad Špilberk a katedrála na Petrově. Její zvony odbíjejí poledne už v 11 hodin.' },
-    { id: 'litomysl', gen: 'Litomyšle', name: 'Litomyšl', color: '#5c4d80', intro: ['dvojice'],
+    { id: 'litomysl', gen: 'Litomyšle', name: 'Litomyšl', color: '#5c4d80', intro: ['dvojice', 'osmismerka'],
       fact: 'V Litomyšli se v roce 1824 narodil skladatel Bedřich Smetana. Zdejší zámek zdobí tisíce sgrafit.' },
-    { id: 'svycarsko', gen: 'Českého Švýcarska', name: 'České Švýcarsko', color: '#86501f', intro: [],
+    { id: 'svycarsko', gen: 'Českého Švýcarska', name: 'České Švýcarsko', color: '#86501f', intro: ['sudoku'],
       fact: 'Pravčická brána je největší přírodní pískovcová brána v Evropě.' }
   ];
 

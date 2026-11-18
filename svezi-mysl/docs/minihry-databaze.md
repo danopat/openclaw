@@ -1,6 +1,6 @@
 # Databáze miniher: plán
 
-Stav k 18. 11. 2026: hotových je 7 her z první vlny (Kde co leží, Co k čemu patří, Kde je kulička?, Vyšší, nebo nižší?, Příbuzenstvo, Řetězové počty, Výhodný nákup), ostatní je zatím plán. Zdrojem nápadů jsou jen vybrané nafocené strany knihy: str. 56–72 a 77 z kapitoly *Myšlenkové schopnosti* a str. 84–87 a 92–101 z kapitoly *Zkoušejte nové věci*, celkem 92 cvičení a tipů z 32 stran. Stejná data jsou i v tabulce [`minihry-databaze.csv`](minihry-databaze.csv) pro Excel, Numbers nebo Google Tabulky.
+Stav k 18. 11. 2026: hotových je 9 her z první vlny (Kde co leží, Co k čemu patří, Kde je kulička?, Vyšší, nebo nižší?, Osmisměrka s tajenkou, Příbuzenstvo, Řetězové počty, Sudoku, Výhodný nákup), ostatní je zatím plán. Zdrojem nápadů jsou jen vybrané nafocené strany knihy: str. 56–72 a 77 z kapitoly *Myšlenkové schopnosti* a str. 84–87 a 92–101 z kapitoly *Zkoušejte nové věci*, celkem 92 cvičení a tipů z 32 stran. Stejná data jsou i v tabulce [`minihry-databaze.csv`](minihry-databaze.csv) pro Excel, Numbers nebo Google Tabulky.
 
 ## Shrnutí
 
@@ -40,10 +40,10 @@ Stav k 18. 11. 2026: hotových je 7 her z první vlny (Kde co leží, Co k čemu
 | PA-02 | Co k čemu patří (hotovo) | Paměť | Nová minihra | P1 | M | Nová | 56/3, 58/9, 58/10 |
 | PO-01 | Kde je kulička? (hotovo) | Postřeh | Nová minihra | P1 | M | Nová | 71/5 |
 | RO-01 | Vyšší, nebo nižší? (hotovo) | Rozhodování | Nová minihra | P1 | S | Nová | 68/14 |
-| SL-01 | Osmisměrka s tajenkou | Slova | Nová minihra | P1 | M | Nová | 61/4, 95/V2 |
+| SL-01 | Osmisměrka s tajenkou (hotovo) | Slova | Nová minihra | P1 | M | Nová | 61/4, 95/V2 |
 | SL-04 | Příbuzenstvo (hotovo) | Slova | Nová minihra | P1 | S | Nová | 64/9 |
 | PL-01 | Řetězové počty (hotovo) | Počty a logika | Nová minihra | P1 | S | Nová | 62/4, 65/15 |
-| PL-02 | Sudoku | Počty a logika | Nová minihra | P1 | M | Nová | 63/7, 98/V1, 99/V2, 99/R |
+| PL-02 | Sudoku (hotovo) | Počty a logika | Nová minihra | P1 | M | Nová | 63/7, 98/V1, 99/V2, 99/R |
 | PL-03 | Výhodný nákup (hotovo) | Počty a logika | Nová minihra | P1 | S | Nová | 64/11 |
 | PA-03 | Smajlíci | Paměť | Nová minihra | P2 | S | Nová | 56/1 |
 | PA-04 | Oslí můstek | Paměť | Nová minihra | P2 | M | Nová (učí paměťovou techniku, procvičení k TR-02 a TR-03) | 58/8, 86/R, 87/R |
@@ -363,7 +363,7 @@ Stav k 18. 11. 2026: hotových je 7 her z první vlny (Kde co leží, Co k čemu
 
 ### SL-01 Osmisměrka s tajenkou
 
-*Slova · Nová minihra · priorita P1 · pracnost M*
+*Slova · Nová minihra · priorita P1 · pracnost M* · **hotovo v aplikaci**
 
 - **Inspirace:** str. 61, č. 4 Stopař; str. 95, výzva 2 Stopař
 - **Trénuje:** Zrakové vyhledávání, slovní zásobu a soustředění. Osmisměrky senioři znají z časopisů.
@@ -513,7 +513,7 @@ Stav k 18. 11. 2026: hotových je 7 her z první vlny (Kde co leží, Co k čemu
 
 ### PL-02 Sudoku
 
-*Počty a logika · Nová minihra · priorita P1 · pracnost M*
+*Počty a logika · Nová minihra · priorita P1 · pracnost M* · **hotovo v aplikaci**
 
 - **Inspirace:** str. 63, č. 7 Obkličovací sudoku; str. 98, výzva 1 Sudoku; str. 99, výzva 2 Outside sudoku; str. 99, rámeček Sudoku bez čísel
 - **Trénuje:** Logické vyvozování a soustředění. Sudoku senioři znají a mají rádi.
@@ -863,6 +863,7 @@ Stav k 18. 11. 2026: hotových je 7 her z první vlny (Kde co leží, Co k čemu
 
 ## Hádanka dne (nová funkce)
 
+- **Stav: hotovo v aplikaci.** 32 vlastních hádanek, karta na Cestě a žárovka v horní liště, za správnou odpověď 10 bodů, za pokus 5, odznak Luštitel. Další hádanky lze průběžně přidávat do js/riddles.js.
 - Na obrazovce Cesta karta „Hádanka dne“: jedna hádanka denně, bez časového limitu.
 - Odpověď výběrem ze 3–4 možností. U hádanek, kde se vymýšlí postup, tlačítko „Ukázat řešení“.
 - Po odpovědi vysvětlení s jednoduchým obrázkem, +10 bodů, odznak Luštitel (1, 10, 30, 100 hádanek).

@@ -16,9 +16,7 @@
     page.appendChild(SM.screens.statBar());
     const total = Object.keys(SM.games).length;
     const open = E.unlockedGames().length;
-    page.appendChild(h('div', { class: 'path-intro' },
-      h('h1', null, 'Hry'),
-      h('p', null, open < total ? 'Odemčeno ' + open + ' z ' + total + ' her. Další přibývají na cestě po Česku.' : 'Všech ' + total + ' her je odemčeno. Hrajte, co vás baví.')));
+    page.appendChild(SM.screens.pageTitle('Hry', open < total ? 'Odemčeno ' + open + ' z ' + total + ' her. Další přibývají na cestě po Česku.' : 'Všech ' + total + ' her je odemčeno. Hrajte, co vás baví.'));
 
     page.appendChild(h('section', { class: 'practice' },
       h('div', null,

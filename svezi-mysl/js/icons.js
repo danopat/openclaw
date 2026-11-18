@@ -40,6 +40,8 @@
     kulicka: '<svg viewBox="0 0 48 48"><path d="M3 33 6.5 17h9L19 33z" fill="currentColor" opacity=".45"/><path d="M29 33l3.5-16h9L45 33z" fill="currentColor" opacity=".45"/><path d="M15 23 18.5 5h11L33 23z" fill="currentColor"/><circle cx="24" cy="37" r="5.5" fill="currentColor"/></svg>',
     dvojice: '<svg viewBox="0 0 48 48"><g fill="currentColor"><rect x="3" y="7" width="15" height="12" rx="3"/><rect x="3" y="29" width="15" height="12" rx="3" opacity=".45"/><rect x="30" y="7" width="15" height="12" rx="3" opacity=".45"/><rect x="30" y="29" width="15" height="12" rx="3"/></g><path d="M18 14l12 20M18 34l12-20" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>',
     byt: '<svg viewBox="0 0 48 48"><rect x="5" y="7" width="38" height="34" rx="3" fill="none" stroke="currentColor" stroke-width="3.5"/><path d="M25 7v13M25 28v13M5 24h10M31 24h12" fill="none" stroke="currentColor" stroke-width="3" opacity=".55"/><circle cx="14.5" cy="15.5" r="3.6" fill="currentColor"/><path d="M17.5 15.5h4.5M20.5 15.5v3" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="34" cy="33" r="3.4" fill="currentColor" opacity=".7"/></svg>',
+    osmismerka: '<svg viewBox="0 0 48 48"><g fill="currentColor" opacity=".4"><rect x="4" y="4" width="10" height="10" rx="2"/><rect x="19" y="4" width="10" height="10" rx="2"/><rect x="34" y="4" width="10" height="10" rx="2"/><rect x="4" y="19" width="10" height="10" rx="2"/><rect x="34" y="19" width="10" height="10" rx="2"/><rect x="4" y="34" width="10" height="10" rx="2"/><rect x="19" y="34" width="10" height="10" rx="2"/></g><path d="M9 9l30 30" stroke="currentColor" stroke-width="9" stroke-linecap="round" opacity=".85"/></svg>',
+    sudoku: '<svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="5" fill="none" stroke="currentColor" stroke-width="3.5"/><path d="M24 4v40M4 24h40" stroke="currentColor" stroke-width="3.5"/><path d="M14 4v40M34 4v40M4 14h40M4 34h40" stroke="currentColor" stroke-width="1.6" opacity=".45"/><rect x="6" y="6" width="6" height="6" rx="1.5" fill="currentColor"/><rect x="26" y="16" width="6" height="6" rx="1.5" fill="currentColor"/><rect x="16" y="36" width="6" height="6" rx="1.5" fill="currentColor"/><rect x="36" y="26" width="6" height="6" rx="1.5" fill="currentColor"/></svg>',
 
     /* ----- Ovládání (24 × 24) ----- */
     back: ui('<path d="M15 5l-7 7 7 7"/>'),
@@ -71,6 +73,7 @@
     album: ui('<rect x="3.5" y="7.5" width="12.5" height="13" rx="2"/><path d="M8 7.5V5.5a2 2 0 0 1 2-2h8.5a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H16"/>'),
     person: ui('<circle cx="12" cy="8" r="4"/><path d="M4.5 20.5c0-4.2 3.4-7.2 7.5-7.2s7.5 3 7.5 7.2"/>'),
     shield: ui('<path d="M12 3.2 5 5.8v5.7c0 4.4 3 7.7 7 9.2 4-1.5 7-4.8 7-9.2V5.8z"/><path d="M8.8 12.2l2.2 2.2 4.2-4.6"/>'),
+    bulb: ui('<path d="M9.5 18h5M10.5 21h3"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.7.6 1.1 1.3 1.1 2.1v.1h5v-.1c0-.8.4-1.5 1.1-2.1A6 6 0 0 0 12 3z"/>'),
     trendUp: ui('<path d="M4 16.5l5.5-5.5 4 4L20 8.5"/><path d="M14.5 8.5H20V14"/>'),
     trendDown: ui('<path d="M4 7.5l5.5 5.5 4-4 6.5 6.5"/><path d="M14.5 15.5H20V10"/>'),
     bolt: ui('<path fill="currentColor" d="M13.2 2.5 5.5 13.6h5.3l-1 7.9 7.7-11.2h-5.3z"/>', true),

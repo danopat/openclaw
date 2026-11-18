@@ -872,7 +872,9 @@ body.has-tabs .page { padding-bottom: calc(7rem + env(safe-area-inset-bottom, 0p
 .stat-flame { width: 1.7rem; height: 1.7rem; color: var(--ink-2); opacity: 0.55; }
 .stat.is-lit .stat-flame, .sum-tile.is-lit .stat-flame { color: var(--per); opacity: 1; }
 .stat.is-done { box-shadow: inset 0 0 0 2px var(--ok); }
-.statbar .head-icon { margin-left: auto; }
+.statbar .stat-riddle { margin-left: auto; }
+.title-row { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
+.title-row .head-icon { flex: none; margin-right: -0.4rem; }
 .ring { width: 2rem; height: 2rem; flex: none; }
 .ring-track { fill: none; stroke: var(--meter-track); stroke-width: 5; }
 .ring-fill { fill: none; stroke: var(--ok); stroke-width: 5; stroke-linecap: round; }
@@ -1318,6 +1320,76 @@ button.room { cursor: pointer; touch-action: manipulation; }
 .room.is-correct { background: var(--ok-soft); box-shadow: inset 0 0 0 4px var(--ok); }
 .room.is-wrong { background: var(--bad-soft); box-shadow: inset 0 0 0 4px var(--bad); }
 
+/* ========== První vlna plánu: krok 3 ========== */
+/* Osmisměrka */
+.ws { display: grid; justify-items: center; align-content: center; gap: 0.45rem; width: 100%; max-height: 100%; overflow-y: auto; touch-action: pan-y; padding: 2px; }
+.ws-words { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.3rem 0.4rem; max-width: 36rem; }
+.ws-word { padding: 0.05rem 0.55rem; border-radius: 999px; background: var(--surface); box-shadow: inset 0 0 0 2px var(--line); font-size: var(--fs-s); font-weight: 800; letter-spacing: 0.04em; }
+.ws-word.is-found { background: var(--surface-2); box-shadow: none; color: var(--ink-2); text-decoration: line-through; text-decoration-thickness: 3px; }
+.ws-grid { display: grid; grid-template-columns: repeat(var(--n), var(--cell)); grid-auto-rows: var(--cell); gap: 3px; }
+.ws-cell { display: grid; place-items: center; width: var(--cell); height: var(--cell); margin: 0; padding: 0; border: 0; border-radius: 8px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); color: var(--ink); font-family: var(--font-text); font-size: calc(var(--cell) * 0.5); font-weight: 800; line-height: 1; cursor: pointer; touch-action: manipulation; }
+.ws-cell.is-found { box-shadow: none; }
+.ws-cell.is-found.c0 { background: var(--mem-soft); }
+.ws-cell.is-found.c1 { background: var(--per-soft); }
+.ws-cell.is-found.c2 { background: var(--dec-soft); }
+.ws-cell.is-found.c3 { background: var(--word-soft); }
+.ws-cell.is-found.c4 { background: var(--logic-soft); }
+.ws-cell.is-start { background: var(--ink); color: var(--bg); box-shadow: none; }
+.ws-cell.is-hint { box-shadow: inset 0 0 0 4px var(--warn); animation: pulse 1s ease-in-out infinite; }
+.ws-cell.is-taj { background: var(--sun); color: var(--on-sun); box-shadow: none; }
+.ws-cell.is-shake, .sud-cell.is-shake { animation: shake 0.3s ease; }
+
+/* Sudoku */
+.sud { display: grid; grid-template-columns: repeat(var(--n), var(--cell)); grid-auto-rows: var(--cell); gap: 1px; padding: 3px; border-radius: 10px; background: var(--ink); }
+.sud-cell { display: grid; place-items: center; width: 100%; height: 100%; margin: 0; padding: 0; border: 0; border-radius: 0; background: var(--surface); color: var(--dec-ink); font-family: var(--font-num); font-size: calc(var(--cell) * 0.55); font-weight: 700; line-height: 1; cursor: pointer; touch-action: manipulation; }
+.sud-cell.bt { border-top: 3px solid var(--ink); }
+.sud-cell.bl { border-left: 3px solid var(--ink); }
+.sud-cell.is-given { background: var(--surface-2); color: var(--ink); font-weight: 800; cursor: default; opacity: 1; }
+.sud-cell.is-zone { background: var(--dec-soft); }
+.sud-cell.is-same { box-shadow: inset 0 0 0 3px var(--dec); }
+.sud-cell.is-sel { background: var(--dec); color: #ffffff; }
+.sud-cell.is-wrong { background: var(--bad-soft); color: var(--bad); text-decoration: line-through; }
+.sud-cell.is-sel.is-wrong { background: var(--bad); color: var(--on-status); }
+.sud-cell.is-hinted { font-style: italic; }
+.sud.is-done .sud-cell { background: var(--ok-soft); color: var(--ink); }
+.sud.is-example .sud-cell { color: var(--ink); cursor: default; }
+.sud.is-example .sud-cell.is-zone { background: var(--sun); color: var(--on-sun); }
+.sud-pad { display: grid; grid-template-columns: repeat(auto-fit, minmax(3.1rem, 1fr)); gap: 0.4rem; width: 100%; max-width: 36rem; flex: 1 1 100%; }
+.sud-pad.is-two { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.sud-key { min-height: 3rem; padding: 0; background: var(--surface); color: var(--ink); box-shadow: inset 0 0 0 2px var(--line); font-family: var(--font-num); font-size: var(--fs-xl); }
+.sud-key.is-pic { font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif; font-size: 1.8rem; }
+.sud-key.is-del { font-family: var(--font-text); font-size: var(--fs-s); }
+.sud-pad.is-locked .sud-key { pointer-events: none; opacity: 0.5; }
+
+/* ========== Hádanka dne ========== */
+.stat-riddle { position: relative; padding-inline: 0.7rem; }
+.stat-riddle svg { width: 1.7rem; height: 1.7rem; color: var(--sun-ink); }
+.stat-riddle.is-done svg { color: var(--ink-2); opacity: 0.6; }
+.stat-dot { position: absolute; top: 0.35rem; right: 0.35rem; width: 0.65rem; height: 0.65rem; border-radius: 50%; background: var(--bad); box-shadow: 0 0 0 2px var(--surface); }
+.riddle-card { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 0.5rem 0.8rem; margin-top: 0.6rem; padding: 0.8rem 1rem; border-radius: 16px; background: var(--sun-soft); color: var(--ink); }
+.riddle-card > svg { width: 2rem; height: 2rem; color: var(--sun-ink); }
+.riddle-card.is-done { background: var(--surface-2); }
+.riddle-card.is-done > svg { color: var(--ok); }
+.riddle-card-title { font-size: var(--fs-m); font-weight: 800; }
+.riddle-card-text { font-size: var(--fs-s); color: var(--ink-2); }
+@media (max-width: 26rem) {
+  .riddle-card { grid-template-columns: auto minmax(0, 1fr); }
+  .riddle-card .btn { grid-column: 2; justify-self: start; }
+}
+.riddle { display: grid; gap: 0.6rem; margin-top: 0.4rem; padding: 1.1rem 1.2rem; border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow); }
+.riddle-q { font-size: var(--fs-l); font-weight: 700; line-height: 1.4; }
+.riddle-speak { justify-self: start; }
+.riddle-pic svg { display: block; width: 100%; max-width: 15rem; height: auto; margin: 0 auto; color: var(--ink); }
+.riddle-opts { max-width: none; margin-top: 0.8rem; }
+.riddle-opts .choice { justify-content: flex-start; min-height: 3.6rem; padding: 0.6rem 1rem; font-size: var(--fs-m); text-align: left; }
+.riddle-opts.is-locked .choice { pointer-events: none; }
+.riddle-after { display: grid; gap: 0.7rem; margin-top: 0.9rem; }
+.riddle-after:empty { display: none; }
+.riddle-verdict { display: flex; align-items: center; gap: 0.5rem; margin: 0; font-size: var(--fs-l); }
+.riddle-verdict svg { width: 1.6rem; height: 1.6rem; flex: none; color: var(--ink-2); }
+.riddle-verdict.is-ok svg { color: var(--ok); }
+.riddle-why { display: grid; gap: 0.6rem; padding: 0.9rem 1rem; border-radius: 14px; background: var(--surface-2); font-size: var(--fs-m); line-height: 1.45; }
+
 /* ========== Pokrok: úspěšnost, rychlost a vývoj v čase ========== */
 .gp-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); gap: 0.5rem; }
 .gp-stat { display: grid; align-content: start; gap: 0.1rem; padding: 0.55rem 0.75rem; border-radius: 12px; background: var(--surface-2); }
@@ -1369,5 +1441,5 @@ button.room { cursor: pointer; touch-action: manipulation; }
   .btn:active, .game-row:active { transform: none; }
   .fb.is-ok, .fb.is-bad { animation-name: fb-fade; }
   .odd-cell.is-wrong, .dot.is-wrong { animation: none; }
-  .odd-cell.is-hint, .dot.is-hint { animation: none; }
+  .odd-cell.is-hint, .dot.is-hint, .ws-cell.is-hint, .ws-cell.is-shake, .sud-cell.is-shake { animation: none; }
 }

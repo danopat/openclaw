@@ -436,9 +436,97 @@ const players = {
         await next(page, () => !document.querySelector('.choices:not(.is-locked)'));
       }
     }
+  },
+  async osmismerka(page) {
+    for (let k = 0; k < 40; k++) {
+      const st = await next(page, () => (document.querySelector('.choices:not(.is-locked)') ? 'taj'
+        : document.querySelector('.ws-word:not(.is-found)') && !document.querySelector('.ws-grid.is-done') ? 'find' : false));
+      if (!st) return;
+      if (st === 'taj') {
+        const ans = await page.evaluate(() => {
+          const L = (t) => t.toUpperCase().replace(/[^A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]/g, '');
+          const left = Array.from(document.querySelectorAll('.ws-cell.is-taj')).map((c) => c.textContent).join('');
+          return Array.from(document.querySelectorAll('.choices .choice')).map((b) => b.textContent).find((t) => L(t) === left);
+        });
+        await page.locator('.choices:not(.is-locked) .choice').filter({ hasText: new RegExp('^' + esc(ans) + '$') }).click();
+        await next(page, () => !document.querySelector('.choices:not(.is-locked)'));
+        continue;
+      }
+      const f = await page.evaluate(() => {
+        const cells = Array.from(document.querySelectorAll('.ws-cell'));
+        const n = Math.round(Math.sqrt(cells.length));
+        const g = cells.map((c) => c.textContent);
+        const w = document.querySelector('.ws-word:not(.is-found)').dataset.w;
+        const D = [[0, 1], [1, 0], [0, -1], [-1, 0], [1, 1], [-1, -1], [-1, 1], [1, -1]];
+        for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) for (const d of D) {
+          const path = [];
+          for (let i = 0; i < w.length; i++) {
+            const rr = r + d[0] * i, cc = c + d[1] * i;
+            if (rr < 0 || cc < 0 || rr >= n || cc >= n || g[rr * n + cc] !== w[i]) break;
+            path.push(rr * n + cc);
+          }
+          if (path.length === w.length) return { w: w, path: path };
+        }
+        return null;
+      });
+      const before = await page.$$eval('.ws-word.is-found', (els) => els.length);
+      if (k === 1) {
+        // Nápověda dvakrát: první písmeno, pak celé slovo (nápověda si slovo vybere sama).
+        await page.getByRole('button', { name: 'Nápověda' }).click();
+        await page.getByRole('button', { name: 'Nápověda' }).click();
+      } else {
+        if (k === 0) {
+          // Schválně špatně: o písmeno kratší výběr.
+          await page.locator('.ws-cell[data-i="' + f.path[0] + '"]').click();
+          await page.locator('.ws-cell[data-i="' + f.path[f.path.length - 2] + '"]').click();
+        }
+        await page.locator('.ws-cell[data-i="' + f.path[0] + '"]').click();
+        await page.locator('.ws-cell[data-i="' + f.path[f.path.length - 1] + '"]').click();
+      }
+      await next(page, (n) => document.querySelectorAll('.ws-word.is-found').length > n, before);
+      await page.waitForTimeout(30);
+    }
+  },
+  async sudoku(page) {
+    for (let k = 0; k < 10; k++) {
+      const st = await next(page, () => (document.querySelector('.sud.is-example') ? 'ex'
+        : document.querySelector('.sud:not(.is-done) .sud-cell:not(.is-given)') ? 'play' : false));
+      if (!st) return;
+      if (st === 'ex') { await page.locator('.play-foot .btn:not([disabled])').first().click(); await page.waitForTimeout(40); continue; }
+      const info = await page.evaluate(() => {
+        const cells = Array.from(document.querySelectorAll('.sud .sud-cell'));
+        const n = Math.round(Math.sqrt(cells.length));
+        const br = n === 6 ? 2 : Math.round(Math.sqrt(n)), bc = n === 6 ? 3 : br;
+        const g = cells.map((c) => +(c.dataset.given || 0));
+        const ok = (r, c, d) => {
+          for (let i = 0; i < n; i++) if (g[r * n + i] === d || g[i * n + c] === d) return false;
+          const r0 = r - (r % br), c0 = c - (c % bc);
+          for (let i = 0; i < br; i++) for (let j = 0; j < bc; j++) if (g[(r0 + i) * n + c0 + j] === d) return false;
+          return true;
+        };
+        const empty = g.map((v, i) => (v ? -1 : i)).filter((i) => i >= 0);
+        const solve = (k) => {
+          if (k === empty.length) return true;
+          const i = empty[k], r = Math.floor(i / n), c = i % n;
+          for (let d = 1; d <= n; d++) if (ok(r, c, d)) { g[i] = d; if (solve(k + 1)) return true; g[i] = 0; }
+          return false;
+        };
+        solve(0);
+        return { n: n, sol: g, empty: empty };
+      });
+      for (let j = 0; j < info.empty.length; j++) {
+        const i = info.empty[j];
+        await page.locator('.sud-cell[data-i="' + i + '"]').click();
+        if (j === 0) await page.locator('.sud-key[data-v="' + (info.sol[i] % info.n + 1) + '"]').click();
+        if (j === 1) { await page.getByRole('button', { name: 'Nápověda' }).click(); continue; }
+        await page.locator('.sud-key[data-v="' + info.sol[i] + '"]').click();
+      }
+      await next(page, () => !!document.querySelector('.sud.is-done'));
+      await page.waitForTimeout(40);
+    }
   }
 };
-const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina', 'kulicka', 'dvojice', 'byt'];
+const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina', 'kulicka', 'dvojice', 'byt', 'osmismerka', 'sudoku'];
 
 async function mcq(page, answerFn) {
   for (let r = 0; r < 16; r++) {
@@ -637,6 +725,34 @@ async function continueAll(page) {
         console.log('[' + label + '] vývoj ' + gid + ' FAILED: ' + e.message.split('\n')[0]);
         await shot(page, label + '-vyvoj-' + gid + '-FAIL');
       }
+    }
+
+    // 3d) Hádanka dne: data, odpověď, body, karta na cestě
+    try {
+      const bad = await page.evaluate(() => {
+        const L = SM.riddles.LIST;
+        const ids = new Set(L.map((r) => r.id));
+        return L.filter((r) => r.opts.indexOf(r.a) === -1).map((r) => r.id).concat(ids.size !== L.length ? ['duplicitní id'] : []);
+      });
+      if (bad.length) throw new Error('chybné hádanky: ' + bad.join(', '));
+      await page.goto(base + '?ts=0.1');
+      await page.waitForSelector('.riddle-card');
+      await page.locator('.riddle-card .btn').click();
+      await page.waitForSelector('.riddle-opts .choice');
+      const xp0 = await page.evaluate(() => SM.store.profile().xp);
+      await page.locator('.riddle-opts .choice').first().click();
+      await page.waitForSelector('.riddle-why');
+      const xp1 = await page.evaluate(() => SM.store.profile().xp);
+      await shot(page, label + '-hadanka');
+      if (xp1 - xp0 < 5) throw new Error('nepřipsaly se body');
+      await page.getByRole('button', { name: 'Zpět na cestu' }).click();
+      await continueAll(page);
+      await page.waitForSelector('.riddle-card.is-done');
+      console.log('[' + label + '] hádanka dne OK  → +' + (xp1 - xp0) + ' bodů, ' + (await page.evaluate(() => SM.riddles.LIST.length)) + ' hádanek');
+    } catch (e) {
+      failures++;
+      console.log('[' + label + '] hádanka dne FAILED: ' + e.message.split('\n')[0]);
+      await shot(page, label + '-hadanka-FAIL');
     }
 
     // 4) přehledy a nastavení

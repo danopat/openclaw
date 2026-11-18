@@ -14,16 +14,17 @@ Navrženo pro starší uživatele:
 
 - **Cesta po Česku**: hlavní obrazovka je cesta přes 12 zastávek (Praha, Karlovy Vary, Český Krumlov, Kutná Hora, Olomouc, Krkonoše, Lednice, Telč, Třeboň, Brno, Litomyšl, České Švýcarsko). Každá zastávka má 4 lekce, truhlu s odměnou a závěrečnou lekci.
 - **Lekce**: tři krátké minihry za sebou (asi 5 minut), závěrečná lekce zastávky má čtyři. Mezi hrami je mezivýsledek a pravidla další hry, na konci souhrn s body.
-- **Postupné odemykání**: prvních 7 zastávek přináší vždy 3 až 4 nové hry, Telč, Třeboň a Brno po dvou dalších a Litomyšl jednu. Seniora tak hned na začátku nezahltí 29 her. Zamčenou hru jde v kartě Hry odemknout i hned.
+- **Postupné odemykání**: prvních 7 zastávek přináší vždy 3 až 4 nové hry, Telč, Třeboň, Brno a Litomyšl po dvou dalších a České Švýcarsko poslední, Sudoku. Seniora tak hned na začátku nezahltí 31 her. Zamčenou hru jde v kartě Hry odemknout i hned.
 - **Body a denní cíl**: 5 až 10 bodů za hru podle výkonu, 5 za dokončenou lekci, 5 za lekci bez chyby, 15 za truhlu. Denní cíl si hráč vybere: 20, 40 nebo 60 bodů (asi 5, 10 nebo 15 minut).
 - **Série dní** s **ohníčkem** a **záchranným dnem**: za každých 7 dní v řadě přibude záchranný den (nejvýš 2), který podrží sérii, když jeden den vynecháte. Žádné „životy“ ani tresty za chyby.
-- **Sbírka**: za každou zastávku sběratelská **pohlednice** („Pozdrav z Prahy“) s ilustrací a zajímavostí o místě, za vytrvalost a pokroky **odznaky** v několika stupních (Vytrvalost, Splněný cíl, Píle, Cestovatel, Bez chyby, Všestrannost, Ranní ptáče, Rekordy).
+- **Sbírka**: za každou zastávku sběratelská **pohlednice** („Pozdrav z Prahy“) s ilustrací a zajímavostí o místě, za vytrvalost a pokroky **odznaky** v několika stupních (Vytrvalost, Splněný cíl, Píle, Cestovatel, Bez chyby, Všestrannost, Ranní ptáče, Rekordy, Luštitel).
 - **Oslavy**: konfety a samostatné obrazovky pro prodlouženou sérii, splněný cíl, novou pohlednici, nové hry a nový odznak. Při zapnutém „omezit pohyb“ se animace vypnou.
 - **Procvičování**: v kartě Hry jedno tlačítko sestaví lekci ze tří her, které hráč hrál nejméně.
+- **Hádanka dne**: jedna klidná hádanka denně bez časového limitu (32 vlastních hádanek: chytáky, logika, čísla, prostor) s vysvětlením řešení a jednoduchým obrázkem. Najdete ji na Cestě a pod žárovkou v horní liště, tečka u ní znamená, že dnešní hádanka ještě čeká. Za správnou odpověď 10 bodů, za pokus 5, odznak Luštitel.
 
 Žebříčky s cizími lidmi záměrně chybí: bez serveru by byly falešné a pro seniory spíš stresují.
 
-## Hry (29)
+## Hry (31)
 
 | Oblast | Hra | Co trénuje | Výzkumný vzor |
 |---|---|---|---|
@@ -50,12 +51,14 @@ Navrženo pro starší uživatele:
 | Slova | Přesmyčky | práci se slovy | anagramy |
 | Slova | Co sem nepatří | třídění pojmů | sémantická kategorizace |
 | Slova | Příbuzenstvo | jazyk a úvahy o vztazích | slovní úsudek o příbuzenských vztazích |
+| Slova | Osmisměrka | hledání očima, slovní zásobu | vizuální vyhledávání slov, tajenka z přísloví |
 | Počty a logika | Hodiny | orientaci v čase | čtení ručičkových hodin |
 | Počty a logika | Placení | počítání s penězi v korunách | běžné denní činnosti (IADL) |
 | Počty a logika | Co bude dál | logické uvažování | doplňování řad |
 | Počty a logika | Otočené tvary | prostorovou představivost | mentální rotace |
 | Počty a logika | Řetězové počty | počítání zpaměti, pracovní paměť | řetězové počítání (serial arithmetic) |
 | Počty a logika | Výhodný nákup | úsudek s cenami a množstvím | běžné denní činnosti (IADL) |
+| Počty a logika | Sudoku | logické vyvozování | latinský čtverec (4 × 4 s obrázky až 9 × 9) |
 
 Každá hra má několik úrovní obtížnosti, které se mění podle výsledků. V lekcích se hraje kratší verze, ve volném hraní delší. **Bleskový pohled** vychází z tréninku rychlosti zpracování ze studie ACTIVE, který má mezi „mozkovými hrami“ nejsilnější důkazy (viz níže).
 
@@ -127,13 +130,14 @@ js/stats.js           úspěšnost a rychlost her a jejich vývoj v čase
 js/sound.js           zvuky (Web Audio) a předčítání (Web Speech, cs-CZ)
 js/icons.js           ikony
 js/places.js          zastávky cesty, nové hry v nich a ilustrace pohlednic
-js/content.js         obsah slovních her (přísloví, protiklady, přesmyčky, kategorie, jména)
+js/content.js         obsah slovních her (přísloví, protiklady, přesmyčky, kategorie, jména, příbuzní)
+js/riddles.js         hádanky pro Hádanku dne
 js/kit.js             společné prvky miniher (výběr odpovědi, číselná klávesnice)
 js/fx.js              konfety a napočítávání čísel
 js/engine.js          motivace: body, denní cíl, série, záchranné dny, odznaky, sestavení lekcí
 js/app.js             kostra: navigace, spodní lišta, dialogy, běh hry
 js/screens/*.js       cesta, lekce a oslavy, karta Hry, sbírka, pokrok, nastavení a první spuštění
-js/games/*.js         jednotlivé minihry (29)
+js/games/*.js         jednotlivé minihry (31)
 tests/e2e.cjs         automatický test v Playwrightu
 ```
 
@@ -183,7 +187,7 @@ SM.registerGame({
 
 ## Možné další kroky
 
-Z první vlny jsou hotové Řetězové počty, Výhodný nákup, Vyšší, nebo nižší?, Příbuzenstvo, Kde je kulička?, Co k čemu patří a Kde co leží. Podrobný plán dalších miniher (44 nových her, 7 rozšíření, Hádanka dne a Škola paměti) je v [`docs/minihry-databaze.md`](docs/minihry-databaze.md), tabulka v [`docs/minihry-databaze.csv`](docs/minihry-databaze.csv).
+Z první vlny je hotových všech 9 her: Řetězové počty, Výhodný nákup, Vyšší, nebo nižší?, Příbuzenstvo, Kde je kulička?, Co k čemu patří, Kde co leží, Osmisměrka a Sudoku. Hotová je i Hádanka dne. Podrobný plán dalších miniher (44 nových her, 7 rozšíření, Hádanka dne a Škola paměti) je v [`docs/minihry-databaze.md`](docs/minihry-databaze.md), tabulka v [`docs/minihry-databaze.csv`](docs/minihry-databaze.csv).
 
 1. **Vyzkoušet s 5 až 8 seniory** různého věku. Sledovat, jestli rozumí pokynům, jak zvládají dotyk a co je frustruje. Doladit úroveň 1 všech her.
 2. **Denní připomínka**: v Capacitoru jako lokální notifikace, na webu jako Web Push (iOS 16.4+, jen pro aplikaci na ploše).

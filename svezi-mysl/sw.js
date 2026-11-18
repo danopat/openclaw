@@ -1,5 +1,5 @@
 /* Svěží mysl — offline režim. Při změně souborů zvyšte číslo verze. */
-const VERSION = 'svezi-mysl-v5';
+const VERSION = 'svezi-mysl-v7';
 const ASSETS = [
   './',
   'index.html',
@@ -17,6 +17,7 @@ const ASSETS = [
   'js/icons.js',
   'js/places.js',
   'js/content.js',
+  'js/riddles.js',
   'js/kit.js',
   'js/fx.js',
   'js/games/pexeso.js',
@@ -48,6 +49,8 @@ const ASSETS = [
   'js/games/kulicka.js',
   'js/games/dvojice.js',
   'js/games/byt.js',
+  'js/games/osmismerka.js',
+  'js/games/sudoku.js',
   'js/engine.js',
   'js/app.js',
   'js/screens/path.js',
@@ -56,6 +59,7 @@ const ASSETS = [
   'js/screens/collection.js',
   'js/screens/progress.js',
   'js/screens/settings.js',
+  'js/screens/riddle.js',
   'js/main.js',
   'icons/icon.svg',
   'icons/icon-192.png',

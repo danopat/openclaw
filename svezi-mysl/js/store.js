@@ -27,7 +27,8 @@
       early_unlock: {},  // hry odemčené předčasně
       seen: {},          // hry, u kterých už hráč viděl úvod
       streakChecked: null,
-      notice: null       // zpráva na úvodní obrazovku (např. využitý záchranný den)
+      notice: null,      // zpráva na úvodní obrazovku (např. využitý záchranný den)
+      riddles: {}        // Hádanka dne: den → { id, ok, v }
     };
   }
   function defaults() {
