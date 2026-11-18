@@ -1,6 +1,6 @@
 # Databáze miniher: plán
 
-Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co k čemu patří, Kde je kulička?, Vyšší, nebo nižší?, Osmisměrka s tajenkou, Příbuzenstvo, Řetězové počty, Sudoku, Výhodný nákup), z druhé vlny je hotových 20 her (Smajlíci, Oslí můstek, Vynesené karty, Podnos, Součty z paměti, Paměťové kolíky, Hledání čísel, Chybějící dílek, Přelévání, Popletené štítky, Písmenková polévka, Slovní žebřík, Terč, Balonky, Slovní úlohy, Stavba z kostek, Cesta podle šipek, Sčítací pyramida, Najdi pravidlo, Otočené tvary: najdi vetřelce), ostatní je zatím plán. Zdrojem nápadů jsou jen vybrané nafocené strany knihy: str. 56–72 a 77 z kapitoly *Myšlenkové schopnosti* a str. 84–87 a 92–101 z kapitoly *Zkoušejte nové věci*, celkem 92 cvičení a tipů z 32 stran. Stejná data jsou i v tabulce [`minihry-databaze.csv`](minihry-databaze.csv) pro Excel, Numbers nebo Google Tabulky.
+Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co k čemu patří, Kde je kulička?, Vyšší, nebo nižší?, Osmisměrka s tajenkou, Příbuzenstvo, Řetězové počty, Sudoku, Výhodný nákup), z druhé vlny je hotových všech 19 her (Smajlíci, Oslí můstek, Vynesené karty, Podnos, Součty z paměti, Paměťové kolíky, Hledání čísel, Chybějící dílek, Přelévání, Popletené štítky, Písmenková polévka, Slovní žebřík, Terč, Balonky, Slovní úlohy, Stavba z kostek, Cesta podle šipek, Sčítací pyramida, Najdi pravidlo) a 4 rozšíření (Co se změnilo: víc změn, Co se změnilo: co přibylo, Jména a tváře: portréty a vybavení později, Otočené tvary: najdi vetřelce), ostatní je zatím plán. Zdrojem nápadů jsou jen vybrané nafocené strany knihy: str. 56–72 a 77 z kapitoly *Myšlenkové schopnosti* a str. 84–87 a 92–101 z kapitoly *Zkoušejte nové věci*, celkem 92 cvičení a tipů z 32 stran. Stejná data jsou i v tabulce [`minihry-databaze.csv`](minihry-databaze.csv) pro Excel, Numbers nebo Google Tabulky.
 
 ## Shrnutí
 
@@ -80,9 +80,9 @@ Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co 
 | PL-15 | Součtové čtverce | Počty a logika | Nová minihra | P3 | L | Nová (příbuzná Sudoku a Křížovým počtům) | 93/V2, 93/R |
 | PL-16 | Skládání krychle | Počty a logika | Nová minihra | P3 | M | Nová | 96/V1 |
 | PL-18 | Hadí cesta | Počty a logika | Nová minihra | P3 | M | Nová | 101/V2 |
-| EX-01 | Co se změnilo: víc změn | Paměť | Rozšíření | P2 | S | Rozšíření hry Co se změnilo | 56/4 |
-| EX-02 | Co se změnilo: co přibylo | Paměť | Rozšíření | P2 | S | Rozšíření hry Co se změnilo | 58/11 |
-| EX-03 | Jména a tváře: portréty a vybavení později | Paměť | Rozšíření | P2 | M | Rozšíření hry Jména a tváře | 57/5, 86/1–2 |
+| EX-01 | Co se změnilo: víc změn (hotovo) | Paměť | Rozšíření | P2 | S | Rozšíření hry Co se změnilo | 56/4 |
+| EX-02 | Co se změnilo: co přibylo (hotovo) | Paměť | Rozšíření | P2 | S | Rozšíření hry Co se změnilo | 58/11 |
+| EX-03 | Jména a tváře: portréty a vybavení později (hotovo) | Paměť | Rozšíření | P2 | M | Rozšíření hry Jména a tváře | 57/5, 86/1–2 |
 | EX-04 | Telefonní číslo: dlouhá čísla | Paměť | Rozšíření | P3 | S | Rozšíření hry Telefonní číslo | 56/2 |
 | EX-05 | Nákupní seznam: vybavení s kategoriemi | Paměť | Rozšíření | P3 | S | Rozšíření hry Nákupní seznam | 57/7 |
 | EX-06 | Mozaika: víc vzorů za sebou | Paměť | Rozšíření | P3 | S | Rozšíření hry Mozaika | 59/13, 85/V2 |
@@ -769,7 +769,7 @@ Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co 
 
 ### EX-01 Co se změnilo: víc změn
 
-*Paměť · Rozšíření · priorita P2 · pracnost S · Rozšíření hry Co se změnilo*
+*Paměť · Rozšíření · priorita P2 · pracnost S · Rozšíření hry Co se změnilo* · **hotovo v aplikaci**
 
 - **Inspirace:** str. 56, č. 4 Změna tvaru
 - **Trénuje:** Zrakovou paměť na detaily.
@@ -782,7 +782,7 @@ Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co 
 
 ### EX-02 Co se změnilo: co přibylo
 
-*Paměť · Rozšíření · priorita P2 · pracnost S · Rozšíření hry Co se změnilo*
+*Paměť · Rozšíření · priorita P2 · pracnost S · Rozšíření hry Co se změnilo* · **hotovo v aplikaci**
 
 - **Inspirace:** str. 58, č. 11 Předměty navíc
 - **Trénuje:** Zrakovou paměť.
@@ -795,18 +795,18 @@ Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co 
 
 ### EX-03 Jména a tváře: portréty a vybavení později
 
-*Paměť · Rozšíření · priorita P2 · pracnost M · Rozšíření hry Jména a tváře*
+*Paměť · Rozšíření · priorita P2 · pracnost M · Rozšíření hry Jména a tváře* · **hotovo v aplikaci**
 
 - **Inspirace:** str. 57, č. 5 Rozpomenutí se na obličej; str. 86, č. 1–2 Zapamatování jmen
 - **Trénuje:** Paměť na jména, odložené vybavení a použití triku se spojováním jména a obrazu.
 - **Jak se hraje:**
   1. Kreslené portréty místo emoji (lépe rozlišitelné).
-  2. Otázka na jméno se zopakuje ještě na konci lekce (odložené vybavení).
-  3. Režim s trikem (navazuje na Školu paměti TR-01): u nové tváře nabídka „Připomíná vám…“ se 3 obrázky (zvíře, povolání, věc). Vybraný obrázek se při vybavování ukáže jako nápověda.
+  2. Otázka na jméno se zopakuje ještě na konci hry (odložené vybavení): po druhém kole se hra zeptá na dva sousedy z prvního kola.
+  3. Režim s trikem (navazuje na Školu paměti TR-01): sousedé mají příjmení, která něco připomínají. U nové tváře nabídka „Co vám připomíná jméno…?“ se 3 obrázky (zvíře, povolání, věc) a scéna k zapamatování. Při vybavování ukáže obrázek tlačítko Nápověda.
 - **Obsah a data:** 15–20 kreslených portrétů v SVG (různé účesy, brýle, vousy). Pro režim s trikem jména, která něco připomínají (Kovář, Zahradníková, Liška), a ikony k nim.
-- **Úrovně:** Odložené vybavení od úrovně 3. Režim s trikem jako volba v nastavení hry.
-- **Hodnocení:** Jako dosud, odložená otázka se počítá zvlášť.
-- **Krátká verze do lekce:** Beze změny.
+- **Úrovně:** Odložené vybavení od úrovně 3. Režim s trikem jako volba v nastavení hry (přepínač na úvodní obrazovce hry).
+- **Hodnocení:** Jako dosud, odložená otázka se počítá zvlášť. Odpověď s nápovědou se počítá napůl.
+- **Krátká verze do lekce:** Beze změny (jedno kolo, bez odložené otázky).
 - **Pozor u seniorů:** —
 
 ### EX-04 Telefonní číslo: dlouhá čísla
@@ -914,7 +914,7 @@ Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co 
 ## Návrh postupu
 
 1. **První vlna:** 9 her P1 a Hádanka dne se 30 hádankami. Zastávky 8–12 (Telč, Třeboň, Brno, Litomyšl, České Švýcarsko) dnes žádné nové hry nepřinášejí, takže každá dostane 2 hry z první vlny.
-2. **Druhá vlna:** 19 her P2, rozšíření EX-01 až EX-03 a EX-07 a Škola paměti. Hotové jsou: Podnos, Součty z paměti a Sčítací pyramida (Šumava a České Švýcarsko), Cesta podle šipek s Hledáním čísel (Kroměříž), Oslí můstek s Paměťovými kolíky (Pálava), Popletené štítky s Písmenkovou polévkou (Ještěd), Terč s Balonky (Ostrava), Smajlíci s Přeléváním (Karlštejn), Vynesené karty s Chybějícím dílkem (Hluboká), Najdi pravidlo se Slovními úlohami (Třebíč) a Stavba z kostek se Slovním žebříkem (Plzeň), tedy všech 19 nových her druhé vlny, a rozšíření EX-07 (najdi vetřelce v Otočených tvarech). Zbývají rozšíření EX-01 až EX-03.
+2. **Druhá vlna:** 19 her P2, rozšíření EX-01 až EX-03 a EX-07 a Škola paměti. Hotové jsou: Podnos, Součty z paměti a Sčítací pyramida (Šumava a České Švýcarsko), Cesta podle šipek s Hledáním čísel (Kroměříž), Oslí můstek s Paměťovými kolíky (Pálava), Popletené štítky s Písmenkovou polévkou (Ještěd), Terč s Balonky (Ostrava), Smajlíci s Přeléváním (Karlštejn), Vynesené karty s Chybějícím dílkem (Hluboká), Najdi pravidlo se Slovními úlohami (Třebíč) a Stavba z kostek se Slovním žebříkem (Plzeň), tedy všech 19 nových her druhé vlny. Hotová jsou i rozšíření EX-01 a EX-02 (Co se změnilo: víc změn v tabulce tvarů a co přibylo), EX-03 (Jména a tváře: kreslené portréty, otázka na konci hry a volba s trikem) a EX-07 (najdi vetřelce v Otočených tvarech) a Škola paměti. Druhá vlna je tím celá hotová.
 3. **Třetí vlna:** P3 podle toho, co se osvědčí při zkoušení se seniory. Pohled z boku a Otočené stavby (PL-11, PL-12) postavit na kreslení kostek ze Stavby z kostek (PL-07) z druhé vlny.
 
 ## Obsah, který bude potřeba vytvořit

@@ -33,7 +33,7 @@
       const st = store.game(id);
       const first = !store.profile().seen[id] && !st.plays;
       const level = U.clamp(st.level || 1, 1, g.maxLevel);
-      const steps = ui.howTo(g, level);
+      const steps = ui.howTo(g, level, { short: true });
       const page = h('main', { class: 'page gate' });
       page.appendChild(h('div', { class: 'gate-top' },
         h('button', { class: 'btn btn-quiet', type: 'button', 'aria-label': 'Ukončit lekci', onclick: () => {

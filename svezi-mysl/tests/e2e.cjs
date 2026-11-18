@@ -220,30 +220,47 @@ const players = {
   },
   async jmena(page) {
     const seen = {};
-    for (let r = 0; r < 30; r++) {
+    for (let r = 0; r < 40; r++) {
       const state = await next(page, () => {
+        if (document.querySelector('.choices.is-trick:not(.is-locked)')) return 'trick';
         const btn = Array.from(document.querySelectorAll('.play-foot .btn')).find((b) => /Další soused|Můžeme začít/.test(b.textContent));
         if (btn && document.querySelector('.person-name')) return 'meet';
-        if (document.querySelector('.choices:not(.is-locked)')) return 'quiz';
+        if (document.querySelector('.choices:not(.is-locked):not(.is-trick)')) return 'quiz';
         return false;
       });
       if (!state) return;
-      if (state === 'meet') {
-        const face = await page.textContent('.person-face');
-        seen[face] = (await page.textContent('.person-name')).split(' ').pop();
-        await page.locator('.play-foot .btn').first().click();
-        await next(page, (f) => { const el = document.querySelector('.person-face'); return !el || el.textContent !== f || !document.querySelector('.person-name'); }, face);
+      const face = await page.getAttribute('.person-face', 'data-face');
+      if (state === 'trick') {
+        // Trik: vybrat obrázek, který k příjmení patří.
+        const pic = await page.getAttribute('.person-card', 'data-pic');
+        await page.locator('.choices.is-trick .choice', { hasText: pic }).click();
+      } else if (state === 'meet') {
+        seen[face] = (await page.textContent('.person-name')).replace(/^(paní|pan) /, '');
+        await page.locator('.play-foot .btn', { hasText: /Další soused|Můžeme začít/ }).click();
+        await next(page, (f) => { const el = document.querySelector('.person-face'); return !el || el.getAttribute('data-face') !== f || !document.querySelector('.person-name'); }, face);
       } else {
-        const face = await page.textContent('.person-face');
-        await page.locator('.choice', { hasText: new RegExp('^' + seen[face] + '$') }).click();
+        if (!seen[face]) throw new Error('neznámá tvář ' + face);
+        await page.locator('.choice', { hasText: new RegExp('^' + esc(seen[face]) + '$') }).click();
         await page.waitForTimeout(30);
       }
     }
   },
   async zmena(page) {
-    for (let r = 0; r < 10; r++) {
-      const ok = await next(page, () => /Která věc je nová/.test(document.querySelector('.play-status').textContent) && !document.querySelector('.shelf-slot.is-correct'));
-      if (!ok) return;
+    for (let r = 0; r < 12; r++) {
+      const st = await next(page, () => {
+        if (document.querySelector('.zm[data-new]:not(.is-done)') && document.querySelector('.play-foot .btn-primary')) return 'multi';
+        return /Která věc je nová/.test(document.querySelector('.play-status').textContent) && !document.querySelector('.shelf-slot.is-correct') ? 'swap' : false;
+      });
+      if (!st) return;
+      if (st === 'multi') {
+        // Režimy „co přibylo“ a „víc změn“: označit všechna nová místa a potvrdit.
+        const idx = (await page.getAttribute('.zm', 'data-new')).split(',');
+        for (const i of idx) await page.locator('.zm-slot[data-i="' + i + '"]').click();
+        await page.getByRole('button', { name: 'Hotovo' }).click();
+        await next(page, () => !!document.querySelector('.zm.is-done'));
+        await next(page, () => !document.querySelector('.zm.is-done'));
+        continue;
+      }
       const idx = await page.evaluate(() => {
         const now = Array.from(document.querySelectorAll('.shelf-slot')).map((s) => s.textContent);
         return now.findIndex((t, i) => t !== window.__shelf[i]);
@@ -1081,7 +1098,7 @@ players.koliky = async function (page) {
     await next(page, () => !document.querySelector('.choices:not(.is-locked)'));
   }
 };
-const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina', 'kulicka', 'dvojice', 'byt', 'osmismerka', 'sudoku', 'podnos', 'sumy', 'pyramida', 'trasa', 'cisla', 'mustek', 'koliky', 'stitky', 'polevka', 'terc', 'balonky', 'smajlici', 'prelevani', 'karty', 'dilek', 'pravidlo', 'ulohy', 'kostky', 'zebrik', 'tvary'];
+const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina', 'kulicka', 'dvojice', 'byt', 'osmismerka', 'sudoku', 'podnos', 'sumy', 'pyramida', 'trasa', 'cisla', 'mustek', 'koliky', 'stitky', 'polevka', 'terc', 'balonky', 'smajlici', 'prelevani', 'karty', 'dilek', 'pravidlo', 'ulohy', 'kostky', 'zebrik', 'tvary', 'zmena', 'jmena'];
 
 async function mcq(page, answerFn) {
   for (let r = 0; r < 16; r++) {
@@ -1231,6 +1248,25 @@ async function continueAll(page) {
 
     // 3b) nové hry na všech úrovních obtížnosti
     if (label === 'iphone') {
+      // Volba hry: přepínač „S trikem ze Školy paměti“ u Jmen a tváří se uloží a změní pokyny.
+      if (!ONLY || ONLY.indexOf('jmena') !== -1) {
+        try {
+          await page.goto(base + '?ts=0.1#hry');
+          await page.waitForSelector('.game-row');
+          await page.goto(base + '?ts=0.1#hra-jmena');
+          await page.waitForSelector('.game-opts');
+          await page.locator('label[for="opt-jmena-trik"]').click();
+          const on = await page.evaluate(() => !!(SM.store.game('jmena').opts || {}).trik && /Lišková/.test(document.querySelector('.howto').textContent));
+          await page.locator('label[for="opt-jmena-trik"]').click();
+          const off = await page.evaluate(() => !(SM.store.game('jmena').opts || {}).trik && !/Lišková/.test(document.querySelector('.howto').textContent));
+          if (!on || !off) throw new Error('přepínač se neuložil nebo nezměnil pokyny');
+          console.log('[' + label + '] volba hry   OK  → S trikem ze Školy paměti');
+        } catch (e) {
+          failures++;
+          console.log('[' + label + '] volba hry FAILED: ' + e.message.split('\n')[0]);
+          await shot(page, label + '-volba-FAIL');
+        }
+      }
       for (const id of NEW_GAMES.filter((g) => !ONLY || ONLY.indexOf(g) !== -1)) {
         const max = await page.evaluate((g) => SM.games[g].maxLevel, id);
         for (let lv = 1; lv <= max; lv++) {
@@ -1238,6 +1274,8 @@ async function continueAll(page) {
           await page.goto(base + '?ts=0.1#hry');
           await page.waitForSelector('.game-row');
           await page.evaluate((a) => { SM.store.game(a[0]).level = a[1]; SM.store.save(); }, [id, lv]);
+          // Jména a tváře: na sudých úrovních s trikem ze Školy paměti.
+          if (id === 'jmena') await page.evaluate((v) => { SM.store.game('jmena').opts = { trik: v % 2 === 0 }; SM.store.save(); }, lv);
           try {
             const res = await playFree(page, base, id, label + '-lv' + lv);
             console.log('[' + label + '] ' + (id + ' úroveň ' + lv).padEnd(18) + ' OK  → ' + res.replace(/\s+/g, ' '));

@@ -66,8 +66,21 @@
       h('span', { class: 'pill' }, 'Úroveň ' + level + ' z ' + g.maxLevel),
       h('span', { class: 'pill' }, g.duration || 'asi 2 minuty')));
     page.appendChild(h('h2', null, 'Jak se hraje'));
-    page.appendChild(h('ol', { class: 'howto' }, steps.map((s) => h('li', null, h('span', null, s)))));
-    const speakText = g.name + '. ' + steps.join(' ');
+    const list = h('ol', { class: 'howto' }, steps.map((s) => h('li', null, h('span', null, s))));
+    page.appendChild(list);
+    let speakText = g.name + '. ' + steps.join(' ');
+    // Volby hry (např. režim s trikem): ukládají se u hry a hned se promítnou do pokynů.
+    if (g.options && g.options.length && !locked) {
+      page.appendChild(h('div', { class: 'game-opts' }, g.options.map((o) => ui.switchRow('opt-' + id + '-' + o.id, o.title, o.desc, !!(st.opts && st.opts[o.id]), (v) => {
+        st.opts = Object.assign({}, st.opts);
+        st.opts[o.id] = v;
+        store.save();
+        const now = ui.howTo(g, level);
+        list.textContent = '';
+        now.forEach((s) => list.appendChild(h('li', null, h('span', null, s))));
+        speakText = g.name + '. ' + now.join(' ');
+      }))));
+    }
     const actions = h('div', { class: 'intro-actions' });
     if (locked) {
       const unit = E.UNITS[E.introUnit(id)];

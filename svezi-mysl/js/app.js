@@ -37,7 +37,19 @@
     live.textContent = '';
     setTimeout(() => { live.textContent = text; }, 40);
   }
-  const howTo = (g, level) => (typeof g.howTo === 'function' ? g.howTo(level) : g.howTo);
+  /* Volby hry (např. režim s trikem), ukládají se u hry. */
+  const gameOpts = (id) => Object.assign({}, store.game(id).opts);
+  /* Pokyny ke hře; info.short = krátká verze do lekce. */
+  const howTo = (g, level, info) => (typeof g.howTo === 'function' ? g.howTo(level, { opts: gameOpts(g.id), short: !!(info && info.short) }) : g.howTo);
+  /* Řádek s přepínačem (nastavení, volby hry). */
+  function switchRow(id, title, desc, checked, onChange) {
+    const input = h('input', { type: 'checkbox', role: 'switch', id: id });
+    input.checked = !!checked;
+    input.addEventListener('change', () => onChange(input.checked));
+    return h('label', { class: 'switch-row', for: id },
+      h('span', { class: 'txt' }, h('strong', null, title), desc ? h('span', { class: 'muted' }, desc) : null),
+      h('span', { class: 'switch' }, input, h('i')));
+  }
 
   /* ---------- Obrazovky ---------- */
   const TABS = [
@@ -200,6 +212,7 @@
       level: level,
       maxLevel: g.maxLevel,
       short: !!opts.short,
+      opts: gameOpts(id),
       stage: stage,
       foot: foot,
       sound: sound,
@@ -284,7 +297,7 @@
   /* ---------- Sdílené pro obrazovky ---------- */
   SM.screens = SM.screens || {};
   SM.ui = {
-    DOMAINS: DOMAINS, domain: domain, icon: icon, tile: tile, clearNode: clearNode, announce: announce, howTo: howTo,
+    DOMAINS: DOMAINS, domain: domain, icon: icon, tile: tile, clearNode: clearNode, announce: announce, howTo: howTo, switchRow: switchRow,
     setScreen: setScreen, go: go, topbar: topbar, modal: modal, dialog: dialog, closeModal: closeModal,
     runGame: runGame, applySettings: applySettings, views: VIEWS, route: route
   };

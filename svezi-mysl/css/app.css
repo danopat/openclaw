@@ -1196,12 +1196,43 @@ body.has-tabs .page { padding-bottom: calc(7rem + env(safe-area-inset-bottom, 0p
 .person-face { font-size: 5.5rem; }
 .person-name { font-size: var(--fs-2xl); font-weight: 800; }
 .person-job { color: var(--ink-2); font-size: var(--fs-l); }
+.person-face.is-drawn { display: block; width: min(8.5rem, 22vh); aspect-ratio: 1; font-size: 0; }
+.person-face.is-drawn svg { display: block; width: 100%; height: 100%; }
+.person-pic { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.25rem 0.9rem; border-radius: 99px; background: var(--surface-2); font-size: var(--fs-m); font-weight: 700; }
+.person-pic .emo { font-size: 1.5em; line-height: 1; }
+.person-hint { margin-top: 0.2rem; }
+.person-scene { max-width: 22rem; color: var(--ink-2); font-size: var(--fs-m); line-height: 1.3; }
+.person-scene .emo { font-size: 1.4em; vertical-align: -0.15em; }
+.person-card .person-name { font-size: var(--fs-xl); line-height: 1.15; }
+.person-card:has(.is-drawn) { gap: 0.3rem; padding: 0.9rem 1.1rem; }
+.choices.is-tight .choice { padding-inline: 0.3rem; font-size: var(--fs-m); }
+.person-card.is-compact { gap: 0.15rem; padding: 0.4rem 0.8rem; }
+.person-card.is-compact .person-name { font-size: var(--fs-l); }
+.person-card.is-compact .person-job { display: none; }
+.choices.is-trick { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.choices.is-trick .choice { min-height: 0; padding: 0.5rem 0.3rem; white-space: normal; line-height: 1.15; font-size: min(var(--fs-s), 4.6vw); }
+.trick-opt { display: grid; justify-items: center; gap: 0.25rem; }
+.trick-opt .emo { font-size: 2.2rem; line-height: 1; }
+/* Volby hry na úvodní obrazovce (např. režim s trikem) */
+.game-opts { display: grid; gap: 0.8rem; margin-top: 1.25rem; padding: 1rem 1.1rem; border-radius: 18px; background: var(--surface-2); }
 .shelf { display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 5.5rem)); justify-content: center; gap: 1.2rem 0.6rem; width: 100%; padding: 1rem 0.75rem; border-radius: 16px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
-.shelf-slot { aspect-ratio: 1; display: grid; place-items: end center; padding: 0 0 0.25rem; border: 0; border-bottom: 8px solid var(--wood); border-radius: 4px 4px 2px 2px; background: none; color: inherit; font-size: 2.6rem; line-height: 1; cursor: pointer; }
+.shelf-slot { aspect-ratio: 1; display: grid; place-items: end center; padding: 0 0 0.25rem; border: 0; border-bottom: 8px solid var(--wood); border-radius: 4px 4px 2px 2px; background: none; color: inherit; font-size: min(2.6rem, calc(68vw / var(--cols, 3))); line-height: 1; cursor: pointer; }
 .shelf-slot[disabled] { cursor: default; }
 .shelf-slot.is-covered { background: var(--surface-2); }
 .shelf-slot.is-correct { background: var(--ok-soft); box-shadow: inset 0 0 0 4px var(--ok); }
 .shelf-slot.is-wrong { background: var(--bad-soft); box-shadow: inset 0 0 0 4px var(--bad); }
+.zm-slot { aspect-ratio: 1; display: grid; place-items: end center; padding: 0 0 0.25rem; border: 0; border-bottom: 8px solid var(--wood); border-radius: 4px 4px 2px 2px; background: none; color: inherit; font-size: min(2.6rem, calc(68vw / var(--cols, 3))); line-height: 1; cursor: pointer; touch-action: manipulation; }
+.zm-slot[disabled] { cursor: default; }
+.zm-slot.is-covered { background: var(--surface-2); }
+.zm-slot[aria-pressed="true"] { background: var(--surface-2); box-shadow: inset 0 0 0 4px var(--ink); }
+.zm-slot.is-correct { background: var(--ok-soft); box-shadow: inset 0 0 0 4px var(--ok); }
+.zm-slot.is-wrong { background: var(--bad-soft); box-shadow: inset 0 0 0 4px var(--bad); }
+.zm-slot.is-miss { background: var(--warn-soft); box-shadow: inset 0 0 0 3px var(--warn); }
+.zm.is-grid { gap: 0.45rem; }
+.zm-slot.is-shape { place-items: center; padding: 0.25rem; border: 0; border-radius: 12px; background: var(--surface-2); }
+.zm-slot.is-shape.is-covered { background: var(--line); }
+.zm-shape { display: block; width: 78%; height: 78%; }
+.zm-shape svg { display: block; width: 100%; height: 100%; }
 .mosaic { display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: 8px; width: var(--side, 20rem); height: var(--side, 20rem); }
 .mosaic-cell { padding: 0; border: 0; border-radius: 10px; background: var(--surface); box-shadow: inset 0 0 0 2px var(--line); cursor: pointer; }
 .mosaic-cell[disabled] { cursor: default; }

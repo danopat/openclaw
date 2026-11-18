@@ -26,14 +26,7 @@
         h('strong', null, g.name), h('span', null, g.xp + ' bodů · ' + g.time)));
     }));
   }
-  function switchRow(id, title, desc, checked, onChange) {
-    const input = h('input', { type: 'checkbox', role: 'switch', id: id });
-    input.checked = !!checked;
-    input.addEventListener('change', () => onChange(input.checked));
-    return h('label', { class: 'switch-row', for: id },
-      h('span', { class: 'txt' }, h('strong', null, title), desc ? h('span', { class: 'muted' }, desc) : null),
-      h('span', { class: 'switch' }, input, h('i')));
-  }
+  const switchRow = ui.switchRow;
   const SCALES = [{ value: 1, label: 'Běžné' }, { value: 2, label: 'Větší' }, { value: 3, label: 'Největší' }];
 
   /* ---------- První spuštění ---------- */
