@@ -1824,6 +1824,41 @@ button.room { cursor: pointer; touch-action: manipulation; }
 .vessel.is-to .v-glass { box-shadow: inset 0 0 0 5px var(--dec); outline: 3px dashed var(--dec); outline-offset: 3px; }
 .vessel.is-goal .v-num { color: var(--ok); }
 
+/* ---------- Vynesené karty ---------- */
+.mcard-spot { display: grid; place-items: center; min-height: 13rem; }
+.mcard-pile { font-size: var(--fs-s); color: var(--ink-2); }
+.mcard { display: grid; justify-items: center; align-content: space-between; width: 8rem; height: 11.5rem; padding: 0.6rem 0.4rem; border-radius: 14px; background: #fffdf7; color: #1d1d1d; box-shadow: inset 0 0 0 3px var(--sc), 0 4px 10px rgba(0, 0, 0, 0.15); transition: transform 0.25s ease, opacity 0.25s ease; }
+.mcard.is-gone { transform: translateY(1.5rem) scale(0.85); opacity: 0; }
+.mcard-rank { font-size: var(--fs-l); font-weight: 800; }
+.mcard-sym { width: 4.4rem; height: 4.4rem; }
+.mcard-sym svg { width: 100%; height: 100%; }
+.mcard-suit { font-size: var(--fs-s); font-weight: 700; color: var(--sc); filter: brightness(0.75); }
+.mtab { display: grid; gap: 0.2rem; width: 100%; max-width: 26rem; }
+.mtab-row { display: grid; grid-template-columns: minmax(4.6rem, auto) repeat(4, minmax(0, 1fr)); align-items: center; gap: 0.3rem; }
+.mtab-row.is-head { position: sticky; top: 0; z-index: 1; background: var(--bg); }
+.mtab-suit { display: grid; justify-items: center; font-size: var(--fs-xs); font-weight: 700; }
+.mtab-suit svg { width: 1.5rem; height: 1.5rem; }
+.mtab-rank { font-size: var(--fs-s); font-weight: 700; }
+.mtab-cell { display: grid; place-items: center; height: 2.15rem; padding: 0; border: 0; border-radius: 10px; background: var(--surface); box-shadow: inset 0 0 0 2px var(--line); cursor: pointer; touch-action: manipulation; }
+.mtab-cell svg { width: 1.4rem; height: 1.4rem; opacity: 0.45; }
+.mtab-cell[aria-pressed="true"] { background: var(--surface-2); box-shadow: inset 0 0 0 4px var(--ink); }
+.mtab-cell[aria-pressed="true"] svg { opacity: 1; }
+.mtab-cell.is-hit { background: var(--ok-soft); box-shadow: inset 0 0 0 4px var(--ok); }
+.mtab-cell.is-hit svg, .mtab-cell.is-miss svg, .mtab-cell.is-false svg { opacity: 1; }
+.mtab-cell.is-false { background: var(--bad-soft); box-shadow: inset 0 0 0 4px var(--bad); }
+.mtab-cell.is-miss { background: var(--warn-soft); box-shadow: inset 0 0 0 3px var(--warn); }
+
+/* ---------- Chybějící dílek ---------- */
+.dboard { display: grid; grid-template-columns: repeat(var(--n), 1fr); gap: 2px; width: min(100%, 14rem); aspect-ratio: 1; padding: 4px; border-radius: 12px; background: #8a6e52; }
+.dcell { border-radius: 3px; background: #e9d9bf; }
+.dcell.is-alt { background: #dcc7a6; }
+.dcell.is-hole { background: #2a2420; box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.6); }
+.dcell.is-hole.is-filled { background: var(--ok); box-shadow: none; }
+.piece { display: grid; grid-template-rows: repeat(var(--pr), 1.25rem); grid-template-columns: repeat(var(--pc), 1.25rem); gap: 2px; transition: transform 0.25s ease; }
+.piece i { border-radius: 3px; background: #c98f4f; box-shadow: inset 0 0 0 2px #6b4320; }
+.choices.is-pieces .choice { min-height: 6.6rem; padding: 0.5rem; }
+.dilek-rot { gap: 0.4rem; }
+
 /* ---------- Škola paměti ---------- */
 .school-card { background: var(--dec-soft); }
 .school-card > svg { color: var(--dec-ink); }
@@ -1871,6 +1906,6 @@ button.room { cursor: pointer; touch-action: manipulation; }
   .odd-cell.is-hint, .dot.is-hint, .ws-cell.is-hint, .ws-cell.is-shake, .sud-cell.is-shake { animation: none; }
   .tray-cloth, .pyr-brick.is-shake, .walker.is-shake svg, .soup-spoon.is-shake { animation: none; }
   .bal.is-flying { animation: none; opacity: 0; }
-  .v-water { transition: none; }
+  .v-water, .mcard, .piece { transition: none; }
   .walker { transition: none; }
 }

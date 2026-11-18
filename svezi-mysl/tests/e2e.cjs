@@ -957,6 +957,49 @@ players.prelevani = async function (page) {
     await next(page, () => !document.querySelector('.vessel.is-goal'));
   }
 };
+players.karty = async function (page) {
+  let played = [];
+  let asked = 0;
+  for (let g = 0; g < 40; g++) {
+    const st = await next(page, () => {
+      const m = document.querySelector('.karty');
+      if (!m) return false;
+      if (m.dataset.ask === 'deal') return 'deal';
+      if (m.dataset.ask === 'table') return document.querySelector('.mtab-cell.is-hit, .mtab-cell.is-miss, .mtab-cell.is-false') ? (document.querySelector('.play-foot .btn-primary:not([disabled])') ? 'next' : false) : 'table';
+      return document.querySelector('.choices:not(.is-locked)') ? 'yesno' : false;
+    });
+    if (!st) return;
+    if (st === 'deal') {
+      played = (await page.getAttribute('.karty', 'data-played')).split('|');
+      await next(page, () => document.querySelector('.karty').dataset.ask !== 'deal');
+    } else if (st === 'yesno') {
+      const id = await page.getAttribute('.karty', 'data-card');
+      let yes = played.indexOf(id) !== -1;
+      if (asked++ === 1) yes = !yes;
+      await page.locator('.choices:not(.is-locked) .choice', { hasText: yes ? /^Ano$/ : /^Ne$/ }).click();
+      await next(page, () => !document.querySelector('.choices:not(.is-locked)'));
+    } else if (st === 'table') {
+      for (const id of played.slice(1)) await page.locator('.mtab-cell[data-card="' + id + '"]').click();
+      await page.getByRole('button', { name: 'Hotovo' }).click();
+      await next(page, () => !!document.querySelector('.mtab-cell.is-hit, .mtab-cell.is-miss'));
+    } else {
+      await page.locator('.play-foot .btn-primary:not([disabled])').first().click();
+      await page.waitForTimeout(60);
+    }
+  }
+};
+players.dilek = async function (page) {
+  let k = 0;
+  for (let g = 0; g < 20; g++) {
+    const st = await next(page, () => (document.querySelector('.dilek') && document.querySelector('.choices:not(.is-locked)') ? 'pick' : false));
+    if (!st) return;
+    const right = +(await page.getAttribute('.dilek', 'data-right'));
+    if (k === 0 && (await page.$('.dilek-rot'))) await page.locator('.dilek-rot').click();
+    const idx = k++ === 1 ? (right + 1) % (await page.locator('.choices:not(.is-locked) .choice').count()) : right;
+    await page.locator('.choices:not(.is-locked) .choice').nth(idx).click();
+    await next(page, () => !document.querySelector('.choices:not(.is-locked)'));
+  }
+};
 players.koliky = async function (page) {
   const PEG = ['svíčka', 'labuť', 'trojlístek', 'plachetnice', 'ruka', 'šnek', 'vlajka', 'sněhulák', 'balonek', 'kuželky'];
   let things = [];
@@ -983,7 +1026,7 @@ players.koliky = async function (page) {
     await next(page, () => !document.querySelector('.choices:not(.is-locked)'));
   }
 };
-const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina', 'kulicka', 'dvojice', 'byt', 'osmismerka', 'sudoku', 'podnos', 'sumy', 'pyramida', 'trasa', 'cisla', 'mustek', 'koliky', 'stitky', 'polevka', 'terc', 'balonky', 'smajlici', 'prelevani'];
+const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina', 'kulicka', 'dvojice', 'byt', 'osmismerka', 'sudoku', 'podnos', 'sumy', 'pyramida', 'trasa', 'cisla', 'mustek', 'koliky', 'stitky', 'polevka', 'terc', 'balonky', 'smajlici', 'prelevani', 'karty', 'dilek'];
 
 async function mcq(page, answerFn) {
   for (let r = 0; r < 16; r++) {

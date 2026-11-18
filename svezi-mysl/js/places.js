@@ -264,6 +264,23 @@
         wins +
         roundTrees([[30, 150, 12], [52, 156, 10], [250, 150, 12], [276, 156, 11], [300, 150, 10]], '#4f7a4a') +
         '<path d="M0 172C80 160 160 164 220 170S300 174 320 168V200H0Z" fill="#6e9a62"/>';
+    },
+    hluboka(id) {
+      let towers = '';
+      [[96, 70, 14], [150, 46, 18], [206, 64, 14], [240, 82, 12]].forEach((t) => {
+        const x0 = t[0] - t[2] / 2;
+        towers += '<rect x="' + x0 + '" y="' + t[1] + '" width="' + t[2] + '" height="' + (150 - t[1]) + '" fill="#f3efe6"/>' +
+          '<rect x="' + (x0 - 2) + '" y="' + (t[1] - 4) + '" width="' + (t[2] + 4) + '" height="5" fill="#e2dccf"/>' +
+          [0, 0.5, 1].map((k) => '<rect x="' + (x0 - 2 + k * (t[2])) + '" y="' + (t[1] - 9) + '" width="4" height="6" fill="#e2dccf"/>').join('');
+      });
+      let wins = '';
+      for (let x = 82; x < 250; x += 16) wins += '<rect x="' + x + '" y="112" width="6" height="12" rx="3" fill="#7a8a96"/>';
+      return sky(id, '#a7d1f0', '#f2f7fb') +
+        '<path d="M0 156C60 140 120 134 170 134S270 142 320 152V200H0Z" fill="#6c9a5e"/>' +
+        '<rect x="70" y="96" width="186" height="56" fill="#f6f2ea"/><path d="M68 96h190v-5h-4v3h-4v-3h-6v3h-4v-3h-6v3h-4v-3h-6v3h-4v-3H68z" fill="#e2dccf"/>' +
+        towers + wins +
+        roundTrees([[30, 164, 13], [56, 170, 11], [276, 166, 12], [300, 160, 13]], '#3f6e3c') +
+        '<path d="M0 182C80 172 160 176 220 180S300 184 320 178V200H0Z" fill="#82ad6d"/>';
     }
   };
 
@@ -303,7 +320,9 @@
     { id: 'ostrava', gen: 'Ostravy', name: 'Ostrava', color: '#6a4a3c', intro: ['terc', 'balonky'],
       fact: 'V Dolních Vítkovicích v Ostravě stojí bývalé vysoké pece a doly. Dnes slouží jako kulturní a vzdělávací centrum.' },
     { id: 'karlstejn', gen: 'Karlštejna', name: 'Karlštejn', color: '#8a3a3a', intro: ['smajlici', 'prelevani'],
-      fact: 'Hrad Karlštejn dal postavit Karel IV. ve 14. století. Uchovávaly se tu korunovační klenoty a říšské poklady.' }
+      fact: 'Hrad Karlštejn dal postavit Karel IV. ve 14. století. Uchovávaly se tu korunovační klenoty a říšské poklady.' },
+    { id: 'hluboka', gen: 'Hluboké', name: 'Hluboká', color: '#3e5f7a', intro: ['karty', 'dilek'],
+      fact: 'Zámek Hluboká nad Vltavou dostal dnešní podobu v 19. století. Jeho stavitelé se inspirovali anglickým hradem Windsor.' }
   ];
 
   SM.places = {
