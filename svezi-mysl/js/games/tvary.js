@@ -68,11 +68,15 @@
     duration: 'asi 1 až 2 minuty',
     pace: { per: 'na odpověď' }, // rychlost pro přehled pokroku
     maxLevel: SIZES.length,
-    howTo: [
-      'Uvidíte dva tvary z kostiček.',
-      'Pravý tvar je otočený. Představte si, že ho natočíte zpátky.',
-      'Je to stejný tvar? Nebo je zrcadlově obrácený, jako levá a pravá rukavice?'
-    ],
+    howTo(level) {
+      const steps = [
+        'Uvidíte dva tvary z kostiček.',
+        'Pravý tvar je otočený. Představte si, že ho natočíte zpátky.',
+        'Je to stejný tvar? Nebo je zrcadlově obrácený, jako levá a pravá rukavice?'
+      ];
+      if (level >= 3) steps.push('Občas uvidíte čtyři tvary: tři jsou jen pootočené, jeden je zrcadlově obrácený. Klepněte na ten, který mezi ostatní nepatří.');
+      return steps;
+    },
     async run(ctx) {
       const n = SIZES[ctx.level - 1];
       const N = ctx.short ? 6 : 10;
@@ -80,6 +84,11 @@
       let correct = 0;
       for (let i = 0; i < N; i++) {
         ctx.progress((i + 1) + ' / ' + N);
+        // Od 3. úrovně je každá třetí úloha „najdi vetřelce“.
+        if (ctx.level >= 3 && i % 3 === 2) {
+          if (await intruder(n)) correct++;
+          continue;
+        }
         ctx.status('Je to stejný tvar, jen otočený?');
         const a = shape(n);
         const same = flags[i];
@@ -95,6 +104,21 @@
         await ctx.sleep(r.correct ? 800 : 1900);
       }
       const acc = correct / N;
+
+      /* Čtyři tvary: tři pootočené kopie a jeden zrcadlový. */
+      async function intruder(size) {
+        ctx.status('Který tvar mezi ostatní nepatří?');
+        const a = shape(size);
+        const odd = U.randInt(0, 3);
+        const ks = U.shuffle([0, 1, 2, 3]);
+        const list = [0, 1, 2, 3].map((j) => (j === odd ? rot(mirror(a), ks[j]) : rot(a, ks[j])));
+        K.show(ctx, h('p', { class: 'shapes-note', 'data-odd': odd }, 'Tři tvary jsou jen pootočené, jeden je zrcadlově obrácený.'));
+        const r = await K.choose(ctx, list.map((cells, j) => ({ value: j, label: 'Tvar ' + (j + 1), aria: 'Tvar ' + (j + 1), node: draw(cells, 'is-opt') })), { answer: odd, layout: 'grid', cls: 'is-shapes' });
+        ctx.status(r.correct ? 'Správně!' : 'Zrcadlově obrácený byl tvar označený zeleně.');
+        await ctx.sleep(r.correct ? 800 : 1900);
+        return r.correct;
+      }
+
       ctx.finish({
         perf: U.clamp((acc - 0.5) / 0.5, 0, 1), levelDelta: K.levelByAcc(acc, 0.85, 0.6),
         big: correct + ' z ' + N, bigLabel: 'správných odpovědí',

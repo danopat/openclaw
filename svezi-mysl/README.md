@@ -68,7 +68,7 @@ Navrženo pro starší uživatele:
 | Počty a logika | Hodiny | orientaci v čase | čtení ručičkových hodin |
 | Počty a logika | Placení | počítání s penězi v korunách | běžné denní činnosti (IADL) |
 | Počty a logika | Co bude dál | logické uvažování | doplňování řad |
-| Počty a logika | Otočené tvary | prostorovou představivost | mentální rotace |
+| Počty a logika | Otočené tvary | prostorovou představivost | mentální rotace (od 3. úrovně i „najdi vetřelce“) |
 | Počty a logika | Řetězové počty | počítání zpaměti, pracovní paměť | řetězové počítání (serial arithmetic) |
 | Počty a logika | Výhodný nákup | úsudek s cenami a množstvím | běžné denní činnosti (IADL) |
 | Počty a logika | Sudoku | logické vyvozování | latinský čtverec (4 × 4 s obrázky až 9 × 9) |
