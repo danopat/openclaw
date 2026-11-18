@@ -837,6 +837,64 @@ players.polevka = async function (page) {
     await next(page, (n) => document.querySelectorAll('.soup-word.is-found').length > n, before);
   }
 };
+players.terc = async function (page) {
+  let round = 0;
+  for (let g = 0; g < 30; g++) {
+    const st = await next(page, () => (document.querySelector('.terc .terc-board:not(.is-done)') ? 'play' : false));
+    if (!st) return;
+    const info = await page.evaluate(() => { const m = document.querySelector('.terc'); return { t: +m.dataset.target, rings: JSON.parse(m.dataset.rings), minus: m.dataset.minus === '' ? -1 : +m.dataset.minus }; });
+    let combo = null;
+    const walk = (k, acc, pick) => {
+      if (combo) return;
+      if (k === info.rings.length) { if (acc === info.t) combo = pick.slice(); return; }
+      info.rings[k].forEach((v) => walk(k + 1, acc + (k === info.minus ? -v : v), pick.concat(v)));
+    };
+    walk(0, 0, []);
+    if (!combo) throw new Error('terč nemá řešení');
+    if (round++ === 0) {
+      // Napoprvé schválně špatně: v posledním kruhu jiné číslo.
+      const last = info.rings.length - 1;
+      const other = info.rings[last].find((v) => v !== combo[last]);
+      for (let k = 0; k < last; k++) await page.locator('.terc-n[data-ring="' + k + '"][data-v="' + combo[k] + '"]').click();
+      await page.locator('.terc-n[data-ring="' + last + '"][data-v="' + other + '"]').click();
+      await page.locator('.terc-n[data-ring="' + last + '"][data-v="' + combo[last] + '"]').click();
+    } else {
+      for (let k = 0; k < combo.length; k++) await page.locator('.terc-n[data-ring="' + k + '"][data-v="' + combo[k] + '"]').click();
+    }
+    await next(page, () => !!document.querySelector('.terc-board.is-done'));
+    await page.waitForTimeout(40);
+  }
+};
+players.balonky = async function (page) {
+  let round = 0;
+  for (let g = 0; g < 30; g++) {
+    const st = await next(page, () => (document.querySelector('.balonky') && !document.querySelector('.bal.is-flying') ? 'play' : false));
+    if (!st) return;
+    const info = await page.evaluate(() => {
+      const m = document.querySelector('.balonky');
+      return { goal: +m.dataset.goal, k: +m.dataset.k, bal: Array.from(document.querySelectorAll('.bal:not([disabled])')).map((b) => [+b.dataset.i, +b.dataset.v]) };
+    });
+    let pick = null;
+    const rec = (from, left, sum, acc) => {
+      if (pick) return;
+      if (left === 0) { if (sum === info.goal) pick = acc; return; }
+      for (let j = from; j < info.bal.length; j++) rec(j + 1, left - 1, sum + info.bal[j][1], acc.concat(info.bal[j][0]));
+    };
+    rec(0, info.k, 0, []);
+    if (!pick) throw new Error('cíl nejde složit');
+    if (round++ === 0) {
+      const wrong = info.bal.map((b) => b[0]).find((i) => pick.indexOf(i) === -1);
+      for (let j = 0; j < pick.length - 1; j++) await page.locator('.bal[data-i="' + pick[j] + '"]').click();
+      await page.locator('.bal[data-i="' + wrong + '"]').click();
+      await page.locator('.bal[data-i="' + wrong + '"]').click();
+      await page.locator('.bal[data-i="' + pick[pick.length - 1] + '"]').click();
+    } else {
+      for (const i of pick) await page.locator('.bal[data-i="' + i + '"]').click();
+    }
+    await next(page, () => !!document.querySelector('.bal.is-flying'));
+    await next(page, () => !document.querySelector('.bal.is-flying'));
+  }
+};
 players.koliky = async function (page) {
   const PEG = ['svíčka', 'labuť', 'trojlístek', 'plachetnice', 'ruka', 'šnek', 'vlajka', 'sněhulák', 'balonek', 'kuželky'];
   let things = [];
@@ -863,7 +921,7 @@ players.koliky = async function (page) {
     await next(page, () => !document.querySelector('.choices:not(.is-locked)'));
   }
 };
-const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina', 'kulicka', 'dvojice', 'byt', 'osmismerka', 'sudoku', 'podnos', 'sumy', 'pyramida', 'trasa', 'cisla', 'mustek', 'koliky', 'stitky', 'polevka'];
+const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina', 'kulicka', 'dvojice', 'byt', 'osmismerka', 'sudoku', 'podnos', 'sumy', 'pyramida', 'trasa', 'cisla', 'mustek', 'koliky', 'stitky', 'polevka', 'terc', 'balonky'];
 
 async function mcq(page, answerFn) {
   for (let r = 0; r < 16; r++) {

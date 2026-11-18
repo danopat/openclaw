@@ -1766,6 +1766,34 @@ button.room { cursor: pointer; touch-action: manipulation; }
 .soup-l.is-gone { visibility: hidden; }
 
 
+/* ---------- Terč ---------- */
+.terc-goal { display: inline-flex; align-items: baseline; gap: 0.5rem; padding: 0.15rem 1rem; border-radius: 99px; background: var(--logic-soft); }
+.terc-goal span { font-size: var(--fs-s); font-weight: 700; color: var(--ink-2); }
+.terc-goal b { font-family: var(--font-num); font-size: var(--fs-2xl); }
+.terc-board { position: relative; flex: none; }
+.terc-ring { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); border-radius: 50%; box-shadow: inset 0 0 0 3px var(--line); }
+.terc-ring.r0 { background: var(--logic-soft); }
+.terc-ring.r1 { background: var(--surface-2); }
+.terc-ring.r2 { background: var(--surface); }
+.terc-n { position: absolute; display: grid; place-items: center; width: var(--b); height: var(--b); padding: 0; border: 0; border-radius: 50%; background: var(--surface); color: var(--ink); box-shadow: inset 0 0 0 2px var(--ink-2); font-family: var(--font-num); font-size: calc(var(--b) * 0.4); font-weight: 800; cursor: pointer; touch-action: manipulation; }
+.terc-n.is-on { background: var(--ink); color: var(--surface); box-shadow: 0 0 0 3px var(--surface), 0 0 0 5px var(--ink); }
+.terc-board.is-done .terc-n.is-on { background: var(--ok); color: var(--on-status); box-shadow: 0 0 0 3px var(--surface), 0 0 0 5px var(--ok); }
+.terc-sum { min-height: 1.6em; font-family: var(--font-num); font-size: var(--fs-l); font-weight: 700; text-align: center; white-space: pre-wrap; }
+.terc-sum.is-ok { color: var(--ok); }
+
+/* ---------- Balonky ---------- */
+.bal-sum { min-height: 1.6em; font-family: var(--font-num); font-size: var(--fs-l); font-weight: 700; text-align: center; }
+.bal-sum.is-over { color: var(--bad); }
+.bal-sum.is-empty { font-family: var(--font-text); font-size: var(--fs-s); font-weight: 400; color: var(--ink-2); }
+.bal-sky { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem 0.9rem; width: 100%; max-width: 30rem; }
+.bal { display: grid; justify-items: center; padding: 0; border: 0; background: none; color: #1d1d1d; cursor: pointer; touch-action: manipulation; }
+.bal-body { display: grid; place-items: center; width: var(--bw, 4rem); height: calc(var(--bw, 4rem) * 1.2); border-radius: 50% 50% 46% 46% / 55% 55% 45% 45%; background: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0) 40%), var(--c); box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.12); font-family: var(--font-num); font-size: min(var(--fs-xl), calc(var(--bw, 4rem) * 0.42)); font-weight: 800; }
+.bal-string { width: 2px; height: calc(var(--bw, 4rem) * 0.3); background: #8a8a8a; }
+.bal.is-on .bal-body { box-shadow: 0 0 0 4px var(--surface), 0 0 0 7px var(--ink); }
+.bal.is-gone { visibility: hidden; }
+.bal.is-flying { animation: bal-fly 1s ease-in forwards; }
+@keyframes bal-fly { to { transform: translateY(-120px); opacity: 0; } }
+
 /* ---------- Škola paměti ---------- */
 .school-card { background: var(--dec-soft); }
 .school-card > svg { color: var(--dec-ink); }
@@ -1812,5 +1840,6 @@ button.room { cursor: pointer; touch-action: manipulation; }
   .odd-cell.is-wrong, .dot.is-wrong { animation: none; }
   .odd-cell.is-hint, .dot.is-hint, .ws-cell.is-hint, .ws-cell.is-shake, .sud-cell.is-shake { animation: none; }
   .tray-cloth, .pyr-brick.is-shake, .walker.is-shake svg, .soup-spoon.is-shake { animation: none; }
+  .bal.is-flying { animation: none; opacity: 0; }
   .walker { transition: none; }
 }

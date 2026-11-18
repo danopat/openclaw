@@ -12,9 +12,9 @@ Navrženo pro starší uživatele:
 
 ## Jak aplikace motivuje (ve stylu Duolinga)
 
-- **Cesta po Česku**: hlavní obrazovka je cesta přes 16 zastávek (Praha, Karlovy Vary, Český Krumlov, Kutná Hora, Olomouc, Krkonoše, Lednice, Telč, Třeboň, Brno, Litomyšl, České Švýcarsko, Šumava, Kroměříž, Pálava, Ještěd). Každá zastávka má 4 lekce, truhlu s odměnou a závěrečnou lekci.
+- **Cesta po Česku**: hlavní obrazovka je cesta přes 17 zastávek (Praha, Karlovy Vary, Český Krumlov, Kutná Hora, Olomouc, Krkonoše, Lednice, Telč, Třeboň, Brno, Litomyšl, České Švýcarsko, Šumava, Kroměříž, Pálava, Ještěd, Ostrava). Každá zastávka má 4 lekce, truhlu s odměnou a závěrečnou lekci.
 - **Lekce**: tři krátké minihry za sebou (asi 5 minut), závěrečná lekce zastávky má čtyři. Mezi hrami je mezivýsledek a pravidla další hry, na konci souhrn s body.
-- **Postupné odemykání**: prvních 7 zastávek přináší vždy 3 až 4 nové hry, další zastávky po dvou (České Švýcarsko Sudoku a Sčítací pyramidu, Šumava Podnos a Součty z paměti), Kroměříž Cestu podle šipek a Hledání čísel, Pálava Oslí můstek a Paměťové kolíky, Ještěd Popletené štítky a Písmenkovou polévku. Seniora tak hned na začátku nezahltí 40 her. Zamčenou hru jde v kartě Hry odemknout i hned.
+- **Postupné odemykání**: prvních 7 zastávek přináší vždy 3 až 4 nové hry, další zastávky po dvou (České Švýcarsko Sudoku a Sčítací pyramidu, Šumava Podnos a Součty z paměti), Kroměříž Cestu podle šipek a Hledání čísel, Pálava Oslí můstek a Paměťové kolíky, Ještěd Popletené štítky a Písmenkovou polévku, Ostrava Terč a Balonky. Seniora tak hned na začátku nezahltí 42 her. Zamčenou hru jde v kartě Hry odemknout i hned.
 - **Body a denní cíl**: 5 až 10 bodů za hru podle výkonu, 5 za dokončenou lekci, 5 za lekci bez chyby, 15 za truhlu. Denní cíl si hráč vybere: 20, 40 nebo 60 bodů (asi 5, 10 nebo 15 minut).
 - **Série dní** s **ohníčkem** a **záchranným dnem**: za každých 7 dní v řadě přibude záchranný den (nejvýš 2), který podrží sérii, když jeden den vynecháte. Žádné „životy“ ani tresty za chyby.
 - **Sbírka**: za každou zastávku sběratelská **pohlednice** („Pozdrav z Prahy“) s ilustrací a zajímavostí o místě, za vytrvalost a pokroky **odznaky** v několika stupních (Vytrvalost, Splněný cíl, Píle, Cestovatel, Bez chyby, Všestrannost, Ranní ptáče, Rekordy, Luštitel, Mistr paměti).
@@ -25,7 +25,7 @@ Navrženo pro starší uživatele:
 
 Žebříčky s cizími lidmi záměrně chybí: bez serveru by byly falešné a pro seniory spíš stresují.
 
-## Hry (40)
+## Hry (42)
 
 | Oblast | Hra | Co trénuje | Výzkumný vzor |
 |---|---|---|---|
@@ -68,6 +68,8 @@ Navrženo pro starší uživatele:
 | Počty a logika | Výhodný nákup | úsudek s cenami a množstvím | běžné denní činnosti (IADL) |
 | Počty a logika | Sudoku | logické vyvozování | latinský čtverec (4 × 4 s obrázky až 9 × 9) |
 | Počty a logika | Sčítací pyramida | sčítání a odčítání zpaměti, logické doplňování | číselné pyramidy |
+| Počty a logika | Terč | sčítání zpaměti a hledání kombinací | součty z několika množin (i s odčítáním) |
+| Počty a logika | Balonky | sčítání a plánování | hledání podmnožiny se zadaným součtem |
 | Počty a logika | Cesta podle šipek | prostorovou orientaci (vlevo a vpravo z pohledu chodce), sledování pokynů | egocentrická navigace podle pokynů |
 
 Každá hra má několik úrovní obtížnosti, které se mění podle výsledků. V lekcích se hraje kratší verze, ve volném hraní delší. **Bleskový pohled** vychází z tréninku rychlosti zpracování ze studie ACTIVE, který má mezi „mozkovými hrami“ nejsilnější důkazy (viz níže).
@@ -148,7 +150,7 @@ js/fx.js              konfety a napočítávání čísel
 js/engine.js          motivace: body, denní cíl, série, záchranné dny, odznaky, sestavení lekcí
 js/app.js             kostra: navigace, spodní lišta, dialogy, běh hry
 js/screens/*.js       cesta, lekce a oslavy, karta Hry, sbírka, pokrok, nastavení a první spuštění
-js/games/*.js         jednotlivé minihry (40)
+js/games/*.js         jednotlivé minihry (42)
 tests/e2e.cjs         automatický test v Playwrightu
 ```
 
@@ -198,7 +200,7 @@ SM.registerGame({
 
 ## Možné další kroky
 
-Z první vlny je hotových všech 9 her: Řetězové počty, Výhodný nákup, Vyšší, nebo nižší?, Příbuzenstvo, Kde je kulička?, Co k čemu patří, Kde co leží, Osmisměrka a Sudoku. Hotová je i Hádanka dne. Z druhé vlny jsou hotové Podnos, Součty z paměti, Sčítací pyramida, Cesta podle šipek, Hledání čísel, Oslí můstek, Paměťové kolíky, Popletené štítky a Písmenková polévka a také Škola paměti. Podrobný plán dalších miniher (44 nových her, 7 rozšíření, Hádanka dne a Škola paměti) je v [`docs/minihry-databaze.md`](docs/minihry-databaze.md), tabulka v [`docs/minihry-databaze.csv`](docs/minihry-databaze.csv).
+Z první vlny je hotových všech 9 her: Řetězové počty, Výhodný nákup, Vyšší, nebo nižší?, Příbuzenstvo, Kde je kulička?, Co k čemu patří, Kde co leží, Osmisměrka a Sudoku. Hotová je i Hádanka dne. Z druhé vlny jsou hotové Podnos, Součty z paměti, Sčítací pyramida, Cesta podle šipek, Hledání čísel, Oslí můstek, Paměťové kolíky, Popletené štítky, Písmenková polévka, Terč a Balonky a také Škola paměti. Podrobný plán dalších miniher (44 nových her, 7 rozšíření, Hádanka dne a Škola paměti) je v [`docs/minihry-databaze.md`](docs/minihry-databaze.md), tabulka v [`docs/minihry-databaze.csv`](docs/minihry-databaze.csv).
 
 1. **Vyzkoušet s 5 až 8 seniory** různého věku. Sledovat, jestli rozumí pokynům, jak zvládají dotyk a co je frustruje. Doladit úroveň 1 všech her.
 2. **Denní připomínka**: v Capacitoru jako lokální notifikace, na webu jako Web Push (iOS 16.4+, jen pro aplikaci na ploše).

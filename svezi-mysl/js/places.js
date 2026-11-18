@@ -232,6 +232,25 @@
         '<path d="M160 28V10" stroke="#8a959c" stroke-width="2"/>' +
         '<rect x="144" y="88" width="32" height="6" rx="2" fill="#9aa4ab"/>' +
         pines([[18, 200, 1.5], [300, 200, 1.6]], '#24402f');
+    },
+    ostrava(id) {
+      let spokes = '';
+      for (let a = 0; a < 180; a += 45) {
+        const r = a * Math.PI / 180;
+        spokes += '<path d="M' + (262 - 11 * Math.cos(r)).toFixed(1) + ' ' + (54 - 11 * Math.sin(r)).toFixed(1) + 'L' + (262 + 11 * Math.cos(r)).toFixed(1) + ' ' + (54 + 11 * Math.sin(r)).toFixed(1) + '" stroke="#3f3f45" stroke-width="2"/>';
+      }
+      return sky(id, '#a9cbe6', '#f5ece0') +
+        '<path d="M0 150C60 140 120 146 180 142S280 136 320 144V200H0Z" fill="#7a8f7a"/>' +
+        '<rect x="18" y="98" width="96" height="54" fill="#7d6f66"/><ellipse cx="66" cy="98" rx="48" ry="9" fill="#93857b"/>' +
+        '<path d="M18 112h96M18 126h96M18 140h96" stroke="#6a5d55" stroke-width="2"/>' +
+        '<path d="M104 152L156 64" stroke="#5d5d63" stroke-width="5"/>' +
+        '<path d="M146 152V70l8-26h16l8 26v82z" fill="#6e4b3d"/>' +
+        '<path d="M150 84h24M148 104h28M148 124h28" stroke="#5a3d31" stroke-width="3"/>' +
+        '<path d="M170 46c18 0 22 10 22 26v80" fill="none" stroke="#5d5d63" stroke-width="6"/>' +
+        '<g fill="#ffffff" opacity=".75"><circle cx="164" cy="34" r="6"/><circle cx="172" cy="24" r="8"/><circle cx="184" cy="14" r="9"/></g>' +
+        '<path d="M244 152L258 62M286 152L266 62M250 116h31M254 88h22" stroke="#3f3f45" stroke-width="4" fill="none"/>' +
+        '<circle cx="262" cy="54" r="12" fill="none" stroke="#3f3f45" stroke-width="3"/>' + spokes +
+        '<path d="M0 176C70 166 150 170 210 174S290 178 320 172V200H0Z" fill="#5f7a5c"/>';
     }
   };
 
@@ -267,7 +286,9 @@
     { id: 'palava', gen: 'Pálavy', name: 'Pálava', color: '#7b2f4f', intro: ['mustek', 'koliky'],
       fact: 'Pálava je vápencové pohoří na jižní Moravě. Na jednom z vrcholů stojí zřícenina hradu Děvičky a ve svazích rostou vinice.' },
     { id: 'jested', gen: 'Ještědu', name: 'Ještěd', color: '#2d5b78', intro: ['stitky', 'polevka'],
-      fact: 'Hotel a vysílač na vrcholu Ještědu navrhl architekt Karel Hubáček. Stavba byla dokončena v roce 1973 a je vidět z dalekého okolí.' }
+      fact: 'Hotel a vysílač na vrcholu Ještědu navrhl architekt Karel Hubáček. Stavba byla dokončena v roce 1973 a je vidět z dalekého okolí.' },
+    { id: 'ostrava', gen: 'Ostravy', name: 'Ostrava', color: '#6a4a3c', intro: ['terc', 'balonky'],
+      fact: 'V Dolních Vítkovicích v Ostravě stojí bývalé vysoké pece a doly. Dnes slouží jako kulturní a vzdělávací centrum.' }
   ];
 
   SM.places = {
