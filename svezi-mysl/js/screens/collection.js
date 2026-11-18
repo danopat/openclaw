@@ -13,7 +13,7 @@
     const unit = E.UNITS[u];
     return h('figure', { class: 'postcard' + (big ? ' is-big' : ''), style: { '--unit': unit.color } },
       h('div', { class: 'postcard-img', html: SM.places.scene(unit.id) }),
-      h('figcaption', null, h('span', { class: 'postcard-greet' }, 'Pozdrav z'), h('strong', null, unit.gen)));
+      h('figcaption', null, h('span', { class: 'postcard-greet' }, /^[sszšžSZŠŽ]/.test(unit.gen) ? 'Pozdrav ze' : 'Pozdrav z'), h('strong', null, unit.gen)));
   };
 
   SM.screens.postcardModal = function (u) {

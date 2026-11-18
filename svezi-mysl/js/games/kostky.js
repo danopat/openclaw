@@ -28,7 +28,80 @@
       });
       return '<svg viewBox="0 0 ' + W.toFixed(0) + ' ' + H.toFixed(0) + '" width="' + W.toFixed(0) + '" height="' + H.toFixed(0) + '" aria-hidden="true">' + out + '</svg>';
     },
-    count(heights) { return heights.reduce((a, row) => a + row.reduce((b, v) => b + v, 0), 0); }
+    count(heights) { return heights.reduce((a, row) => a + row.reduce((b, v) => b + v, 0), 0); },
+
+    /* ---- Obecné kreslení libovolné sady kostek [x, y, z]: x doprava, y dopředu, z nahoru. ----
+       Promítá se podél úhlopříčky (1, 1, 1): vidět je vrchní stěna, levá (přední, +y) a pravá (boční, +x). */
+    /** Výšková mapa heights[y][x] → seznam kostek. */
+    fromHeights(H) {
+      const out = [];
+      H.forEach((row, y) => row.forEach((v, x) => { for (let z = 0; z < v; z++) out.push([x, y, z]); }));
+      return out;
+    },
+    /** Tvoří obsazená políčka výškové mapy jeden celek (sousedí stranou)? */
+    connected(H) {
+      const n = H.length, m = H[0].length;
+      const cells = [];
+      for (let y = 0; y < n; y++) for (let x = 0; x < m; x++) if (H[y][x] > 0) cells.push([x, y]);
+      if (!cells.length) return false;
+      const seen = {};
+      const stack = [cells[0]];
+      seen[cells[0].join()] = true;
+      let cnt = 0;
+      while (stack.length) {
+        const c = stack.pop();
+        cnt++;
+        [[1, 0], [-1, 0], [0, 1], [0, -1]].forEach((d) => {
+          const x = c[0] + d[0], y = c[1] + d[1];
+          if (x >= 0 && y >= 0 && x < m && y < n && H[y][x] > 0 && !seen[x + ',' + y]) { seen[x + ',' + y] = true; stack.push([x, y]); }
+        });
+      }
+      return cnt === cells.length;
+    },
+    /** Kolik ze šesti trojúhelníčků obrysu zůstane každé kostce vidět (0 = kostka je úplně schovaná za jinými). */
+    shown(vox) {
+      const owner = {};
+      vox.map((v, i) => i).sort((i, j) => (vox[i][0] + vox[i][1] + vox[i][2]) - (vox[j][0] + vox[j][1] + vox[j][2])).forEach((i) => {
+        const a = vox[i][0] - vox[i][2], b = vox[i][1] - vox[i][2];
+        [[a - 1, b - 1, 0], [a - 1, b - 1, 1], [a, b - 1, 1], [a, b, 0], [a, b, 1], [a - 1, b, 0]].forEach((t) => { owner[t.join()] = i; });
+      });
+      const cnt = vox.map(() => 0);
+      Object.keys(owner).forEach((k) => { cnt[owner[k]]++; });
+      return cnt;
+    },
+    /** Kresba kostek → { inner, x0, y0, w, h }. opts.s = velikost kostky, opts.extra(P, s) → { svg, pts: [[X, Y, okraj]] } pro šipky apod. */
+    layout(vox, opts) {
+      opts = opts || {};
+      const s = opts.s || 20;
+      const P = (x, y, z) => [(x - y) * s, (x + y) * s / 2 - z * s];
+      const f = (pts) => pts.map((p) => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
+      let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+      const grow = (p, r) => {
+        x0 = Math.min(x0, p[0] - r); x1 = Math.max(x1, p[0] + r);
+        y0 = Math.min(y0, p[1] - r); y1 = Math.max(y1, p[1] + r);
+      };
+      let inner = '';
+      vox.slice().sort((a, b) => (a[0] + a[1] + a[2]) - (b[0] + b[1] + b[2])).forEach((q) => {
+        const x = q[0], y = q[1], z = q[2];
+        const top = [P(x, y, z + 1), P(x + 1, y, z + 1), P(x + 1, y + 1, z + 1), P(x, y + 1, z + 1)];
+        const left = [P(x, y + 1, z + 1), P(x + 1, y + 1, z + 1), P(x + 1, y + 1, z), P(x, y + 1, z)];
+        const right = [P(x + 1, y, z + 1), P(x + 1, y + 1, z + 1), P(x + 1, y + 1, z), P(x + 1, y, z)];
+        top.concat(left, right).forEach((p) => grow(p, 1.5));
+        inner += '<polygon class="cb-t" points="' + f(top) + '"/><polygon class="cb-l" points="' + f(left) + '"/><polygon class="cb-r" points="' + f(right) + '"/>';
+      });
+      if (opts.extra) {
+        const e = opts.extra(P, s);
+        inner += e.svg;
+        e.pts.forEach((p) => grow(p, p[2] || 0));
+      }
+      return { inner: inner, x0: x0, y0: y0, w: x1 - x0, h: y1 - y0 };
+    },
+    /** SVG z kresby; box = { w, h } dá více kresbám stejné měřítko (kresba se do něj vycentruje). */
+    toSvg(lay, box) {
+      const w = box ? box.w : lay.w, hh = box ? box.h : lay.h;
+      const vb = [lay.x0 - (w - lay.w) / 2, lay.y0 - (hh - lay.h) / 2, w, hh].map((v) => v.toFixed(1)).join(' ');
+      return '<svg viewBox="' + vb + '" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">' + lay.inner + '</svg>';
+    }
   };
 
   /* n = velikost podstavy, maxH = nejvyšší sloupec, hidden = smí být schované kostky, compare = porovnat dvě stavby. */

@@ -1,6 +1,6 @@
 # Databáze miniher: plán
 
-Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co k čemu patří, Kde je kulička?, Vyšší, nebo nižší?, Osmisměrka s tajenkou, Příbuzenstvo, Řetězové počty, Sudoku, Výhodný nákup), z druhé vlny je hotových všech 19 her (Smajlíci, Oslí můstek, Vynesené karty, Podnos, Součty z paměti, Paměťové kolíky, Hledání čísel, Chybějící dílek, Přelévání, Popletené štítky, Písmenková polévka, Slovní žebřík, Terč, Balonky, Slovní úlohy, Stavba z kostek, Cesta podle šipek, Sčítací pyramida, Najdi pravidlo) a 4 rozšíření (Co se změnilo: víc změn, Co se změnilo: co přibylo, Jména a tváře: portréty a vybavení později, Otočené tvary: najdi vetřelce), ostatní je zatím plán. Zdrojem nápadů jsou jen vybrané nafocené strany knihy: str. 56–72 a 77 z kapitoly *Myšlenkové schopnosti* a str. 84–87 a 92–101 z kapitoly *Zkoušejte nové věci*, celkem 92 cvičení a tipů z 32 stran. Stejná data jsou i v tabulce [`minihry-databaze.csv`](minihry-databaze.csv) pro Excel, Numbers nebo Google Tabulky.
+Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co k čemu patří, Kde je kulička?, Vyšší, nebo nižší?, Osmisměrka s tajenkou, Příbuzenstvo, Řetězové počty, Sudoku, Výhodný nákup), z druhé vlny je hotových všech 19 her (Smajlíci, Oslí můstek, Vynesené karty, Podnos, Součty z paměti, Paměťové kolíky, Hledání čísel, Chybějící dílek, Přelévání, Popletené štítky, Písmenková polévka, Slovní žebřík, Terč, Balonky, Slovní úlohy, Stavba z kostek, Cesta podle šipek, Sčítací pyramida, Najdi pravidlo) a 4 rozšíření (Co se změnilo: víc změn, Co se změnilo: co přibylo, Jména a tváře: portréty a vybavení později, Otočené tvary: najdi vetřelce), z třetí vlny jsou hotové 2 hry (Pohled z boku, Otočené stavby), ostatní je zatím plán. Zdrojem nápadů jsou jen vybrané nafocené strany knihy: str. 56–72 a 77 z kapitoly *Myšlenkové schopnosti* a str. 84–87 a 92–101 z kapitoly *Zkoušejte nové věci*, celkem 92 cvičení a tipů z 32 stran. Stejná data jsou i v tabulce [`minihry-databaze.csv`](minihry-databaze.csv) pro Excel, Numbers nebo Google Tabulky.
 
 ## Shrnutí
 
@@ -75,8 +75,8 @@ Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co 
 | PL-08 | Číselná síť | Počty a logika | Nová minihra | P3 | M | Nová | 62/2 |
 | PL-09 | Křížové počty | Počty a logika | Nová minihra | P3 | L | Nová | 64/10 |
 | PL-10 | Dělení tvaru | Počty a logika | Nová minihra | P3 | L | Nová | 69/16, 100/V1 |
-| PL-11 | Pohled z boku | Počty a logika | Nová minihra | P3 | M | Nová (sdílí kreslení kostek s PL-07) | 77/5 |
-| PL-12 | Otočené stavby | Počty a logika | Nová minihra | P3 | L | Nová (Otočené tvary ve 3D) | 77/6 |
+| PL-11 | Pohled z boku (hotovo) | Počty a logika | Nová minihra | P3 | M | Nová (sdílí kreslení kostek s PL-07) | 77/5 |
+| PL-12 | Otočené stavby (hotovo) | Počty a logika | Nová minihra | P3 | L | Nová (Otočené tvary ve 3D) | 77/6 |
 | PL-15 | Součtové čtverce | Počty a logika | Nová minihra | P3 | L | Nová (příbuzná Sudoku a Křížovým počtům) | 93/V2, 93/R |
 | PL-16 | Skládání krychle | Počty a logika | Nová minihra | P3 | M | Nová | 96/V1 |
 | PL-18 | Hadí cesta | Počty a logika | Nová minihra | P3 | M | Nová | 101/V2 |
@@ -690,30 +690,31 @@ Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co 
 
 ### PL-11 Pohled z boku
 
-*Počty a logika · Nová minihra · priorita P3 · pracnost M · Nová (sdílí kreslení kostek s PL-07)*
+*Počty a logika · Nová minihra · priorita P3 · pracnost M · Nová (sdílí kreslení kostek s PL-07)* · **hotovo v aplikaci**
 
 - **Inspirace:** str. 77, č. 5 Pohled na krychle
 - **Trénuje:** Prostorovou představivost: představit si těleso z jiné strany.
 - **Jak se hraje:**
-  1. Stavba z kostek ve 3D a velká šipka, odkud se na ni díváme.
-  2. Hráč vybere ze 3–4 obrysů ten, který by z toho místa viděl. Místo kreslení do mřížky jako v knize je tu výběr.
+  1. Stavba z kostek ve 3D a oko s velkou šipkou, odkud se na ni díváme.
+  2. Hráč vybere ze 3–4 obrysů ten, který oko uvidí. Místo kreslení do mřížky jako v knize je tu výběr.
+  3. Po odpovědi tlačítko „Co oko vidí?“ ukáže pohled z místa oka (bližší kostky jsou světlejší), takže si odpověď jde ověřit.
 - **Obsah a data:** Generátor výškové mapy (stejný jako PL-07). Obrys se spočítá z mapy, špatné možnosti vzniknou zrcadlením nebo pohledem z jiné strany.
-- **Úrovně:** 1) 2×2, pohled zepředu. 2) 3×3. 3) Pohled zboku. 4) 4×4. 5) Pohled shora a otázka, z které strany se díváme.
+- **Úrovně:** 1) 2×2, pohled zepředu. 2) 3×3. 3) Pohled zepředu nebo zprava. 4) 4×4. 5) Tři očka (zepředu, zprava, shora) a otázka, které z nich vidí ukázaný pohled.
 - **Hodnocení:** Správnost.
 - **Krátká verze do lekce:** 3 stavby.
-- **Pozor u seniorů:** Výrazné stínování stěn a velká šipka. Po odpovědi jde stavbu pootočit tlačítkem a odpověď si ověřit.
+- **Pozor u seniorů:** Výrazné stínování stěn, velké oko se šipkou a vrchní kostka každého sloupce vždy dobře vidět. Po odpovědi jde ukázat, co oko opravdu vidí.
 
 ### PL-12 Otočené stavby
 
-*Počty a logika · Nová minihra · priorita P3 · pracnost L · Nová (Otočené tvary ve 3D)*
+*Počty a logika · Nová minihra · priorita P3 · pracnost L · Nová (Otočené tvary ve 3D)* · **hotovo v aplikaci**
 
 - **Inspirace:** str. 77, č. 6 Rotující krychle
 - **Trénuje:** Otáčení těles v představě (prostorová rotace).
 - **Jak se hraje:**
   1. Čtyři stavby z kostek, každá viděná z jiného úhlu. Tři jsou stejné, jedna je jiná (zrcadlová, nebo má kostku jinde).
-  2. Hráč klepne na tu jinou. Po odpovědi animace, jak se stavby otáčejí do stejné polohy.
+  2. Hráč klepne na tu jinou. Po odpovědi se stavby krok za krokem otočí do stejné polohy; zrcadlová skončí jako zrcadlový obraz ostatních.
 - **Obsah a data:** Kreslení libovolně otočené stavby (sdílet s PL-07 a PL-11). Generátor tvarů z 5–9 kostek s kontrolou, že se jiná stavba nedá otočením převést na ostatní.
-- **Úrovně:** 1) Otočení jen kolem svislé osy. 2) Jiná má kostku navíc. 3) Jiná je zrcadlová. 4) Otočení kolem dvou os.
+- **Úrovně:** 1) Otáčení jen kolem svislé osy, jiná stavba má o kostku víc nebo míň. 2) Jiná má jednu kostku jinde. 3) Jiná je zrcadlová. 4) Lomený tvar z kostek otáčený kolem dvou os, jiný je zrcadlový.
 - **Hodnocení:** Správnost a čas.
 - **Krátká verze do lekce:** 3 úlohy.
 - **Pozor u seniorů:** Pro mnoho lidí těžké v každém věku. Začínat snadno a po každé úloze ukázat animaci otočení.
@@ -915,7 +916,7 @@ Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co 
 
 1. **První vlna:** 9 her P1 a Hádanka dne se 30 hádankami. Zastávky 8–12 (Telč, Třeboň, Brno, Litomyšl, České Švýcarsko) dnes žádné nové hry nepřinášejí, takže každá dostane 2 hry z první vlny.
 2. **Druhá vlna:** 19 her P2, rozšíření EX-01 až EX-03 a EX-07 a Škola paměti. Hotové jsou: Podnos, Součty z paměti a Sčítací pyramida (Šumava a České Švýcarsko), Cesta podle šipek s Hledáním čísel (Kroměříž), Oslí můstek s Paměťovými kolíky (Pálava), Popletené štítky s Písmenkovou polévkou (Ještěd), Terč s Balonky (Ostrava), Smajlíci s Přeléváním (Karlštejn), Vynesené karty s Chybějícím dílkem (Hluboká), Najdi pravidlo se Slovními úlohami (Třebíč) a Stavba z kostek se Slovním žebříkem (Plzeň), tedy všech 19 nových her druhé vlny. Hotová jsou i rozšíření EX-01 a EX-02 (Co se změnilo: víc změn v tabulce tvarů a co přibylo), EX-03 (Jména a tváře: kreslené portréty, otázka na konci hry a volba s trikem) a EX-07 (najdi vetřelce v Otočených tvarech) a Škola paměti. Druhá vlna je tím celá hotová.
-3. **Třetí vlna:** P3 podle toho, co se osvědčí při zkoušení se seniory. Pohled z boku a Otočené stavby (PL-11, PL-12) postavit na kreslení kostek ze Stavby z kostek (PL-07) z druhé vlny.
+3. **Třetí vlna:** P3 podle toho, co se osvědčí při zkoušení se seniory. Hotové jsou Pohled z boku a Otočené stavby (PL-11, PL-12, zastávka Žďár nad Sázavou), postavené na kreslení kostek ze Stavby z kostek (PL-07).
 
 ## Obsah, který bude potřeba vytvořit
 

@@ -1056,6 +1056,37 @@ players.kostky = async function (page) {
     await next(page, () => !document.querySelector('.choices:not(.is-locked)'));
   }
 };
+players.pohled = async function (page) {
+  let k = 0;
+  for (let g = 0; g < 30; g++) {
+    const st = await next(page, () => (document.querySelector('.pohled') ? (document.querySelector('.choices:not(.is-locked)') ? 'pick' : document.querySelector('.play-foot .btn-primary:not([disabled])') ? 'next' : false) : false));
+    if (!st) return;
+    if (st === 'next') {
+      // ověření: přepnout na to, co oko vidí, a zpátky, pak další stavba
+      await page.locator('.pv-toggle').click();
+      await page.locator('.pv-toggle').click();
+      await page.locator('.play-foot .btn-primary:not([disabled])').first().click();
+      await page.waitForTimeout(60);
+      continue;
+    }
+    const a = +(await page.getAttribute('.pohled', 'data-a'));
+    const choices = page.locator('.choices:not(.is-locked) .choice');
+    const n = await choices.count();
+    await choices.nth(k++ === 1 ? (a + 1) % n : a).click();
+    await next(page, () => !document.querySelector('.choices:not(.is-locked)'));
+  }
+};
+players.stavby = async function (page) {
+  let k = 0;
+  for (let g = 0; g < 30; g++) {
+    const st = await next(page, () => (document.querySelector('.stavby') ? (document.querySelector('.stavby:not(.is-done) .st-card:not([disabled])') ? 'pick' : document.querySelector('.play-foot .btn-primary:not([disabled])') ? 'next' : false) : false));
+    if (!st) return;
+    if (st === 'next') { await page.locator('.play-foot .btn-primary:not([disabled])').first().click(); await page.waitForTimeout(60); continue; }
+    const a = +(await page.getAttribute('.stavby', 'data-a'));
+    await page.locator('.st-card').nth(k++ === 1 ? (a + 1) % 4 : a).click();
+    await next(page, () => !!document.querySelector('.stavby.is-done'));
+  }
+};
 players.zebrik = async function (page) {
   let k = 0;
   for (let g = 0; g < 40; g++) {
@@ -1098,7 +1129,7 @@ players.koliky = async function (page) {
     await next(page, () => !document.querySelector('.choices:not(.is-locked)'));
   }
 };
-const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina', 'kulicka', 'dvojice', 'byt', 'osmismerka', 'sudoku', 'podnos', 'sumy', 'pyramida', 'trasa', 'cisla', 'mustek', 'koliky', 'stitky', 'polevka', 'terc', 'balonky', 'smajlici', 'prelevani', 'karty', 'dilek', 'pravidlo', 'ulohy', 'kostky', 'zebrik', 'tvary', 'zmena', 'jmena'];
+const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina', 'kulicka', 'dvojice', 'byt', 'osmismerka', 'sudoku', 'podnos', 'sumy', 'pyramida', 'trasa', 'cisla', 'mustek', 'koliky', 'stitky', 'polevka', 'terc', 'balonky', 'smajlici', 'prelevani', 'karty', 'dilek', 'pravidlo', 'ulohy', 'kostky', 'zebrik', 'tvary', 'zmena', 'jmena', 'pohled', 'stavby'];
 
 async function mcq(page, answerFn) {
   for (let r = 0; r < 16; r++) {

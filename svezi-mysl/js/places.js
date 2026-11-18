@@ -310,6 +310,33 @@
         '<rect x="128" y="34" width="22" height="144" fill="#d2c6ae"/><path d="M124 36h30l-15-30z" fill="#3f4a52"/>' +
         '<rect x="134" y="52" width="10" height="20" rx="5" fill="#7a8794"/><circle cx="139" cy="88" r="6" fill="#f2efe6" stroke="#7a8794" stroke-width="2"/>' +
         houses;
+    },
+    zdar(id) {
+      // Zelená hora: poutní kostel ve tvaru hvězdy uprostřed ambitu na zeleném kopci.
+      let gates = '';
+      [[86, 166], [160, 175], [234, 166]].forEach((p) => {
+        gates += '<rect x="' + (p[0] - 8) + '" y="' + (p[1] - 14) + '" width="16" height="16" fill="#f3eee3"/><path d="M' + (p[0] - 10) + ' ' + (p[1] - 13) + 'l10-11 10 11z" fill="#a4553f"/>';
+      });
+      const star = (x, y, r) => {
+        let d = '';
+        for (let i = 0; i < 10; i++) {
+          const a = -Math.PI / 2 + i * Math.PI / 5, q = i % 2 ? r * 0.45 : r;
+          d += (i ? 'L' : 'M') + (x + q * Math.cos(a)).toFixed(1) + ' ' + (y + q * Math.sin(a)).toFixed(1);
+        }
+        return '<path d="' + d + 'Z" fill="#e8c35a"/>';
+      };
+      return sky(id, '#a9d3f0', '#f4f8fb') +
+        '<path d="M0 132C60 118 120 124 170 120S270 112 320 124V200H0Z" fill="#9cc48f"/>' +
+        '<path d="M0 176C50 150 110 132 160 130S270 150 320 172V200H0Z" fill="#6fa25f"/>' +
+        '<ellipse cx="160" cy="150" rx="120" ry="28" fill="#a4553f"/><ellipse cx="160" cy="154" rx="117" ry="25" fill="#efe8da"/>' +
+        '<ellipse cx="160" cy="150" rx="101" ry="17" fill="#80b26d"/>' +
+        '<path d="M112 152l9-34 11 34zM188 152l11-34 9 34z" fill="#ebe4d6"/>' +
+        '<path d="M128 152V104l10-12 10 12 12-14 12 14 10-12 10 12v48z" fill="#f6f3ec" stroke="#cbc3b2" stroke-width="1.5"/>' +
+        '<path d="M136 92Q160 50 184 92z" fill="#4f7468"/>' +
+        '<rect x="155" y="58" width="10" height="15" fill="#f6f3ec"/><path d="M153 59Q160 48 167 59z" fill="#4f7468"/>' + star(160, 43, 7) +
+        '<rect x="139" y="112" width="6" height="16" rx="3" fill="#7d8a93"/><rect x="157" y="108" width="6" height="18" rx="3" fill="#7d8a93"/><rect x="175" y="112" width="6" height="16" rx="3" fill="#7d8a93"/>' +
+        '<path d="M40 150A120 28 0 0 0 280 150L261 150A101 17 0 0 1 59 150Z" fill="#efe8da"/><path d="M59 150A101 17 0 0 0 261 150" fill="none" stroke="#a4553f" stroke-width="4"/>' +
+        gates + roundTrees([[18, 186, 13], [44, 190, 10], [296, 186, 13], [272, 192, 10]], '#4f8a4a');
     }
   };
 
@@ -355,7 +382,9 @@
     { id: 'trebic', gen: 'Třebíče', name: 'Třebíč', color: '#5d5a2e', intro: ['pravidlo', 'ulohy'],
       fact: 'Židovská čtvrť a bazilika svatého Prokopa v Třebíči jsou od roku 2003 na seznamu UNESCO.' },
     { id: 'plzen', gen: 'Plzně', name: 'Plzeň', color: '#3d5470', intro: ['kostky', 'zebrik'],
-      fact: 'Věž katedrály svatého Bartoloměje v Plzni měří přes 100 metrů. Je to nejvyšší kostelní věž v Česku.' }
+      fact: 'Věž katedrály svatého Bartoloměje v Plzni měří přes 100 metrů. Je to nejvyšší kostelní věž v Česku.' },
+    { id: 'zdar', gen: 'Žďáru nad Sázavou', name: 'Žďár nad Sázavou', color: '#2f6b55', intro: ['pohled', 'stavby'],
+      fact: 'Poutní kostel svatého Jana Nepomuckého na Zelené hoře u Žďáru nad Sázavou má půdorys pěticípé hvězdy. Postavil ho Jan Blažej Santini-Aichel a od roku 1994 je na seznamu UNESCO.' }
   ];
 
   SM.places = {
