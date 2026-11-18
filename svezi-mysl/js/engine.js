@@ -57,15 +57,33 @@
   E.unlockEarly = (id) => { P().early_unlock[id] = true; store.save(); };
   E.unlockedGames = () => Object.keys(SM.games).filter(E.isUnlocked);
 
+  /* ---------- Oblíbenost her (palec nahoru / dolů po hře) ----------
+     like: −3 … +3, každý palec ji posune o jedna. Oblíbené hry se v lekcích a procvičování nabízejí častěji,
+     neoblíbené méně a při −3 vůbec (ve volném hraní zůstávají a v kartě Hry jdou vrátit). */
+  E.LIKE_HIDE = -3;
+  E.like = (id) => store.game(id).like || 0;
+  E.isHidden = (id) => E.like(id) <= E.LIKE_HIDE;
+  E.setLike = (id, v) => {
+    const st = store.game(id);
+    st.like = U.clamp(Math.round(v), -3, 3);
+    store.save();
+    return st.like;
+  };
+
   /* ---------- Sestavení lekcí ---------- */
   const weight = (id) => {
     const st = store.game(id);
-    return (st.plays || 0) * 2 + (st.last ? Math.min(6, (Date.now() - st.last) / -86400000 + 6) : 0);
+    // Méně hraná a dávno hraná hra má přednost; oblíbenost posune hru dopředu nebo dozadu.
+    return (st.plays || 0) * 2 + (st.last ? Math.min(6, (Date.now() - st.last) / -86400000 + 6) : 0) - (st.like || 0) * 2.5;
   };
   function fill(picks, pool, size, rnd) {
     const used = {};
     picks.forEach((id) => { used[SM.games[id].domain] = true; });
-    const cand = U.shuffle(pool.filter((id) => picks.indexOf(id) === -1), rnd).sort((a, b) => weight(a) - weight(b));
+    const free = pool.filter((id) => picks.indexOf(id) === -1);
+    // Hry, které hráč třemi palci dolů odmítl, se nenabízejí (jen kdyby jinak nezbyla žádná hra).
+    let open = free.filter((id) => !E.isHidden(id));
+    if (!open.length && !picks.length) open = free;
+    const cand = U.shuffle(open, rnd).sort((a, b) => weight(a) - weight(b));
     while (picks.length < size && cand.length) {
       let i = cand.findIndex((id) => !used[SM.games[id].domain]);
       if (i < 0) i = 0;
@@ -81,7 +99,7 @@
     const type = NODE_TYPES[n];
     const rnd = U.rng(1 + u * 1009 + n * 101 + (attempt || 0) * 7919);
     const size = type === 'postcard' ? 4 : 3;
-    const fresh = unit.intro.filter((id) => SM.games[id]);
+    const fresh = unit.intro.filter((id) => SM.games[id] && !E.isHidden(id));
     const pool = Object.keys(SM.games).filter((id) => E.introUnit(id) <= u || P().early_unlock[id]);
     const k = lessonIndex(n);
     let picks = [];

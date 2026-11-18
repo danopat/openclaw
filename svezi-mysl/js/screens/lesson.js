@@ -52,7 +52,8 @@
           h('p', { class: 'gate-chips' },
             h('span', { class: 'xp-chip' }, SM.ui.icon('star'), '+' + prev.xp + ' bodů'),
             prev.isBest ? h('span', { class: 'xp-chip is-record' }, 'Nový rekord') : null,
-            prev.newLevel > prev.level ? h('span', { class: 'xp-chip is-up' }, 'Příště úroveň ' + prev.newLevel) : null)));
+            prev.newLevel > prev.level ? h('span', { class: 'xp-chip is-up' }, 'Příště úroveň ' + prev.newLevel) : null),
+          SM.screens.rateBox(prev.id)));
       }
 
       const intro = h('section', { class: 'gate-next' },
@@ -118,6 +119,7 @@
         ui.tile(r.id),
         h('span', { class: 'sg-txt' }, h('strong', null, SM.games[r.id].name), h('span', null, r.res.big + ' ' + r.res.bigLabel)),
         h('span', { class: 'sg-xp' }, '+' + r.xp)))));
+      if (results.length) page.appendChild(SM.screens.rateBox(results[results.length - 1].id, { named: true }));
       page.appendChild(h('div', { class: 'intro-actions' },
         h('button', { class: 'btn btn-primary btn-lg btn-block', type: 'button', onclick: () => SM.screens.celebrate(sum.events, () => ui.go(spec.back || '')) }, 'Pokračovat')));
       ui.setScreen(page);

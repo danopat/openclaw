@@ -1236,13 +1236,21 @@ async function continueAll(page) {
             if (await page.$('.summary')) break;
             const name = await page.textContent('.gate-game h1');
             const id = await page.evaluate((nm) => Object.keys(SM.games).find((k) => SM.games[k].name === nm), name);
-            if (n === 0 && g === 1) await shot(page, label + '-gate');
+            if (n === 0 && g === 1) {
+              await shot(page, label + '-gate');
+              // Palec nahoru u předchozí hry přímo mezi hrami lekce
+              const prevId = await page.evaluate(() => { const nm = document.querySelector('.gate-prev .gate-eyebrow').textContent.replace('Hotovo: ', ''); return Object.keys(SM.games).find((k) => SM.games[k].name === nm); });
+              await page.locator('.gate-prev .rate-btn[data-v="1"]').click();
+              const lk = await page.evaluate((i) => SM.store.game(i).like, prevId);
+              if (lk !== 1) throw new Error('palec nahoru mezi hrami se neuložil (' + lk + ')');
+            }
             await prepare(page);
             await page.getByRole('button', { name: 'Začít hru' }).click();
             await page.waitForSelector('.play-stage > *');
             await players[id](page);
           }
           await page.waitForSelector('.summary');
+          if (n === 0 && !(await page.$('.summary .rate'))) throw new Error('v souhrnu lekce chybí hodnocení poslední hry');
           if (n === 0 || n === 5) await shot(page, label + '-summary-' + n);
           for (let c = 0; c < 12 && !(await page.$('.nodes')); c++) {
             if (n === 5 && (await page.$('.celebrate.is-postcard'))) await shot(page, label + '-postcard');
@@ -1274,6 +1282,62 @@ async function continueAll(page) {
         failures++;
         console.log('[' + label + '] ' + id + ' FAILED: ' + e.message.split('\n')[0] + ' | ' + (await page.evaluate(() => (document.querySelector('.play-status') || {}).textContent || '')));
         await shot(page, label + '-' + id + '-FAIL');
+      }
+    }
+
+    // 3a) palec nahoru / dolů po hře a skrytí neoblíbené hry z lekcí
+    if (label === 'iphone' && (!ONLY || ONLY.indexOf('pexeso') !== -1)) {
+      try {
+        await page.goto(base + '?ts=0.1#hry');
+        await page.waitForSelector('.game-row');
+        await page.evaluate(() => { SM.engine.setLike('pexeso', 0); });
+        await playFree(page, base, 'pexeso', label + '-rate');
+        const like = () => page.evaluate(() => SM.store.game('pexeso').like);
+        await page.locator('.result .rate-btn[data-v="1"]').click();
+        if ((await page.getAttribute('.result .rate-btn[data-v="1"]', 'aria-pressed')) !== 'true') throw new Error('palec nahoru není označený');
+        await page.waitForTimeout(250); // tlačítka mění barvu s krátkým přechodem
+        await shot(page, label + '-hodnoceni');
+        const a = await like();
+        await page.locator('.result .rate-btn[data-v="-1"]').click();
+        const b = await like();
+        await page.locator('.result .rate-btn[data-v="-1"]').click();
+        const c = await like();
+        if (a !== 1 || b !== -1 || c !== 0) throw new Error('hlasy se neukládají správně: ' + [a, b, c].join(', '));
+        // Tři palce dolů: hra se v lekcích ani procvičování nenabízí, v kartě Hry jde vrátit.
+        const plans = await page.evaluate(() => {
+          SM.engine.setLike('pexeso', -3);
+          let seen = 0;
+          for (let i = 0; i < 40; i++) {
+            if (SM.engine.practicePlan().indexOf('pexeso') !== -1) seen++;
+            for (let n = 0; n < 6; n++) if (SM.engine.lessonPlan(0, n, i).indexOf('pexeso') !== -1) seen++;
+          }
+          return seen;
+        });
+        if (plans) throw new Error('skrytá hra se v plánu lekcí objevila ' + plans + '×');
+        await page.goto(base + '?ts=0.1#hry');
+        await page.waitForSelector('.game-row');
+        await page.goto(base + '?ts=0.1#hra-pexeso');
+        await page.waitForSelector('.rate-hidden');
+        await shot(page, label + '-skryta');
+        await page.getByRole('button', { name: 'Zase ji nabízet' }).click();
+        if ((await like()) !== 0) throw new Error('vrácení hry se neuložilo');
+        // Oblíbená hra má v procvičování přednost před stejně hranou neoblíbenou.
+        const fav = await page.evaluate(() => {
+          const ids = SM.engine.unlockedGames();
+          ids.forEach((id) => { const st = SM.store.game(id); st.plays = 5; st.last = Date.now(); st.like = -2; });
+          SM.store.game('pexeso').like = 3;
+          SM.store.save();
+          const hit = SM.engine.practicePlan().indexOf('pexeso') !== -1;
+          ids.forEach((id) => { SM.store.game(id).like = 0; });
+          SM.store.save();
+          return hit;
+        });
+        if (!fav) throw new Error('oblíbená hra nemá v procvičování přednost');
+        console.log('[' + label + '] hodnocení    OK  → palec nahoru i dolů, skrytí a vrácení hry, přednost oblíbené');
+      } catch (e) {
+        failures++;
+        console.log('[' + label + '] hodnocení FAILED: ' + e.message.split('\n')[0]);
+        await shot(page, label + '-hodnoceni-FAIL');
       }
     }
 

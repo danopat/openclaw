@@ -21,7 +21,7 @@
     page.appendChild(h('section', { class: 'practice' },
       h('div', null,
         h('h2', null, 'Procvičování'),
-        h('p', null, 'Tři hry, které jste hráli nejméně. Asi 6 minut.')),
+        h('p', null, 'Tři hry, které jste dlouho nehráli nebo vás baví. Asi 6 minut.')),
       h('button', { class: 'btn btn-primary btn-block', type: 'button', onclick: () => {
         SM.screens.lesson({ games: E.practicePlan(), kind: 'practice', title: 'Procvičování', back: 'hry' });
       } }, ui.icon('bolt'), 'Procvičit')));
@@ -41,7 +41,8 @@
           h('span', { class: 'txt' },
             h('span', { class: 'name' }, g.name),
             h('span', { class: 'sub' }, g.short),
-            h('span', { class: 'sub' }, locked ? 'Odemkne se na zastávce ' + unit.name : st.plays ? 'Úroveň ' + st.level + ' z ' + g.maxLevel + ' · hráno ' + st.plays + '×' : 'Zatím nehráno')),
+            h('span', { class: 'sub' }, locked ? 'Odemkne se na zastávce ' + unit.name : st.plays ? 'Úroveň ' + st.level + ' z ' + g.maxLevel + ' · hráno ' + st.plays + '×' : 'Zatím nehráno'),
+            !locked && E.isHidden(id) ? h('span', { class: 'sub rate-tag' }, '👎 V lekcích se nenabízí') : !locked && E.like(id) >= 2 ? h('span', { class: 'sub rate-tag' }, '👍 Oblíbená') : null),
           !locked && !st.plays ? h('span', { class: 'tag-new' }, 'Nová') : ui.icon('chevron', 'chev'))));
       });
       page.appendChild(ul);
@@ -49,6 +50,36 @@
     ui.setScreen(page, { tab: 'hry' });
   }
   ui.views.hry = viewGames;
+
+  /* ---------- Palec nahoru / dolů po hře ----------
+     Oblíbené hry se v lekcích nabízejí častěji, neoblíbené méně a po třech palcích dolů vůbec.
+     conf.named = otázka se jménem hry (souhrn lekce). Hlas jde na téže obrazovce změnit nebo zrušit. */
+  SM.screens.rateBox = function (id, conf) {
+    conf = conf || {};
+    const base = E.like(id);
+    let vote = 0;
+    const note = h('p', { class: 'rate-note', 'aria-live': 'polite' });
+    const btns = [];
+    const btn = (v, emo, label) => {
+      const b = h('button', { class: 'btn rate-btn', type: 'button', 'aria-pressed': 'false', 'data-v': String(v) },
+        h('span', { class: 'emo', 'aria-hidden': 'true' }, emo), label);
+      b.addEventListener('click', () => {
+        vote = vote === v ? 0 : v;
+        const now = E.setLike(id, base + vote);
+        btns.forEach((x) => x.setAttribute('aria-pressed', String(+x.dataset.v === vote)));
+        note.textContent = vote === 0 ? '' : vote > 0 ? 'Díky! Tuhle hru budete potkávat častěji.'
+          : now <= E.LIKE_HIDE ? 'Díky. Tuhle hru už vám v lekcích nabízet nebudeme. Vrátit ji můžete v kartě Hry.'
+            : 'Díky. Tuhle hru budete potkávat méně často.';
+        if (SM.sound.tap) SM.sound.tap();
+      });
+      btns.push(b);
+      return b;
+    };
+    return h('section', { class: 'rate', 'aria-label': 'Hodnocení hry' },
+      h('p', { class: 'rate-q' }, conf.named ? 'Bavila vás hra ' + SM.games[id].name + '?' : 'Bavila vás tahle hra?'),
+      h('div', { class: 'rate-btns' }, btn(1, '👍', 'Ano'), btn(-1, '👎', 'Ne')),
+      note);
+  };
 
   /* ---------- Úvod ke hře (volné hraní) ---------- */
   SM.screens.gameIntro = function (id) {
@@ -65,6 +96,15 @@
       h('span', { class: 'pill dom-' + g.domain }, h('span', { class: 'dom-dot' }), ui.domain(g.domain).name),
       h('span', { class: 'pill' }, 'Úroveň ' + level + ' z ' + g.maxLevel),
       h('span', { class: 'pill' }, g.duration || 'asi 2 minuty')));
+    // Hra, kterou hráč palci dolů vyřadil z lekcí: upozornění hned nahoře a možnost ji vrátit.
+    if (!locked && E.isHidden(id)) {
+      const back = h('div', { class: 'notice rate-hidden' },
+        h('span', { class: 'emo', 'aria-hidden': 'true' }, '👎'),
+        h('div', null,
+          h('p', null, 'Tuhle hru vám v lekcích a procvičování nenabízíme, protože vás nebavila. Zahrát si ji tady můžete kdykoli.'),
+          h('button', { class: 'btn btn-secondary', type: 'button', onclick: () => { E.setLike(id, 0); back.remove(); ui.announce('Hra se bude zase nabízet.'); } }, 'Zase ji nabízet')));
+      page.appendChild(back);
+    }
     page.appendChild(h('h2', null, 'Jak se hraje'));
     const list = h('ol', { class: 'howto' }, steps.map((s) => h('li', null, h('span', null, s))));
     page.appendChild(list);
@@ -147,6 +187,7 @@
         chips),
       h('p', { class: 'goal-line' }, SM.screens.ring(sum.xpToday / sum.goal), 'Dnes ' + sum.xpToday + ' z ' + sum.goal + ' bodů'),
       h('p', { class: 'level-note' + (meta.newLevel > meta.level ? ' is-up' : '') }, levelText));
+    box.appendChild(SM.screens.rateBox(id));
     const after = (fn) => () => (big.length ? SM.screens.celebrate(big, fn) : fn());
     box.appendChild(h('div', { class: 'result-actions' },
       h('button', { class: 'btn btn-primary btn-lg btn-block', type: 'button', onclick: after(() => play(id)) }, ui.icon('replay'), 'Hrát znovu'),

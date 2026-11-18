@@ -19,7 +19,8 @@ Navrženo pro starší uživatele:
 - **Série dní** s **ohníčkem** a **záchranným dnem**: za každých 7 dní v řadě přibude záchranný den (nejvýš 2), který podrží sérii, když jeden den vynecháte. Žádné „životy“ ani tresty za chyby.
 - **Sbírka**: za každou zastávku sběratelská **pohlednice** („Pozdrav z Prahy“) s ilustrací a zajímavostí o místě, za vytrvalost a pokroky **odznaky** v několika stupních (Vytrvalost, Splněný cíl, Píle, Cestovatel, Bez chyby, Všestrannost, Ranní ptáče, Rekordy, Luštitel, Mistr paměti).
 - **Oslavy**: konfety a samostatné obrazovky pro prodlouženou sérii, splněný cíl, novou pohlednici, nové hry a nový odznak. Při zapnutém „omezit pohyb“ se animace vypnou.
-- **Procvičování**: v kartě Hry jedno tlačítko sestaví lekci ze tří her, které hráč hrál nejméně.
+- **Procvičování**: v kartě Hry jedno tlačítko sestaví lekci ze tří her, které hráč dlouho nehrál nebo ho baví.
+- **Co vás baví**: po každé hře (ve volném hraní, mezi hrami lekce i v souhrnu lekce) se aplikace zeptá „Bavila vás tahle hra?“ a stačí klepnout na 👍 nebo 👎. Oblíbené hry se v lekcích a procvičování objevují častěji, neoblíbené méně a po třech palcích dolů vůbec. Ve volném hraní zůstávají; v seznamu her mají štítek „V lekcích se nenabízí“ a na úvodní obrazovce hry je tlačítkem „Zase ji nabízet“ jde vrátit. Hlas jde na stejné obrazovce změnit nebo zrušit.
 - **Hádanka dne**: jedna klidná hádanka denně bez časového limitu (32 vlastních hádanek: chytáky, logika, čísla, prostor) s vysvětlením řešení a jednoduchým obrázkem. Najdete ji na Cestě a pod žárovkou v horní liště, tečka u ní znamená, že dnešní hádanka ještě čeká. Za správnou odpověď 10 bodů, za pokus 5, odznak Luštitel.
 - **Škola paměti**: šest krátkých lekcí o paměťových tricích (jména a obrazy, pomocné slovo, pomocná věta, paměťové kolíky, skupiny, čísla po skupinách). Každá má čtyři kroky: vysvětlení, ukázku na vlastním příkladu, procvičení a úkol do běžného života s odkazem na navazující hru. Triky se odemykají postupně, karta je na Cestě. Za lekci 10 bodů, odznak Mistr paměti. Trik Jména a obrazy se dá procvičovat i ve hře Jména a tváře: na úvodní obrazovce hry stačí zapnout „S trikem ze Školy paměti“.
 
@@ -157,7 +158,7 @@ js/riddles.js         hádanky pro Hádanku dne
 js/school.js          lekce Školy paměti (triky, příklady, otázky)
 js/kit.js             společné prvky miniher (výběr odpovědi, číselná klávesnice)
 js/fx.js              konfety a napočítávání čísel
-js/engine.js          motivace: body, denní cíl, série, záchranné dny, odznaky, sestavení lekcí
+js/engine.js          motivace: body, denní cíl, série, záchranné dny, odznaky, sestavení lekcí (i podle oblíbenosti her)
 js/app.js             kostra: navigace, spodní lišta, dialogy, běh hry
 js/screens/*.js       cesta, lekce a oslavy, karta Hry, sbírka, pokrok, nastavení a první spuštění
 js/games/*.js         jednotlivé minihry (52)
