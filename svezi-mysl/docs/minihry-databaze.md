@@ -1,6 +1,6 @@
 # Databáze miniher: plán
 
-Stav k 17. 11. 2026: hotové jsou 4 hry z první vlny (Vyšší, nebo nižší?, Příbuzenstvo, Řetězové počty, Výhodný nákup), ostatní je zatím plán. Zdrojem nápadů jsou jen vybrané nafocené strany knihy: str. 56–72 a 77 z kapitoly *Myšlenkové schopnosti* a str. 84–87 a 92–101 z kapitoly *Zkoušejte nové věci*, celkem 92 cvičení a tipů z 32 stran. Stejná data jsou i v tabulce [`minihry-databaze.csv`](minihry-databaze.csv) pro Excel, Numbers nebo Google Tabulky.
+Stav k 18. 11. 2026: hotových je 7 her z první vlny (Kde co leží, Co k čemu patří, Kde je kulička?, Vyšší, nebo nižší?, Příbuzenstvo, Řetězové počty, Výhodný nákup), ostatní je zatím plán. Zdrojem nápadů jsou jen vybrané nafocené strany knihy: str. 56–72 a 77 z kapitoly *Myšlenkové schopnosti* a str. 84–87 a 92–101 z kapitoly *Zkoušejte nové věci*, celkem 92 cvičení a tipů z 32 stran. Stejná data jsou i v tabulce [`minihry-databaze.csv`](minihry-databaze.csv) pro Excel, Numbers nebo Google Tabulky.
 
 ## Shrnutí
 
@@ -36,9 +36,9 @@ Stav k 17. 11. 2026: hotové jsou 4 hry z první vlny (Vyšší, nebo nižší?,
 
 | ID | Minihra | Oblast | Typ | Priorita | Pracnost | Vztah k aplikaci | Inspirace (str./č.) |
 |---|---|---|---|---|---|---|---|
-| PA-01 | Kde co leží | Paměť | Nová minihra | P1 | M | Nová | 57/6 |
-| PA-02 | Co k čemu patří | Paměť | Nová minihra | P1 | M | Nová | 56/3, 58/9, 58/10 |
-| PO-01 | Kde je kulička? | Postřeh | Nová minihra | P1 | M | Nová | 71/5 |
+| PA-01 | Kde co leží (hotovo) | Paměť | Nová minihra | P1 | M | Nová | 57/6 |
+| PA-02 | Co k čemu patří (hotovo) | Paměť | Nová minihra | P1 | M | Nová | 56/3, 58/9, 58/10 |
+| PO-01 | Kde je kulička? (hotovo) | Postřeh | Nová minihra | P1 | M | Nová | 71/5 |
 | RO-01 | Vyšší, nebo nižší? (hotovo) | Rozhodování | Nová minihra | P1 | S | Nová | 68/14 |
 | SL-01 | Osmisměrka s tajenkou | Slova | Nová minihra | P1 | M | Nová | 61/4, 95/V2 |
 | SL-04 | Příbuzenstvo (hotovo) | Slova | Nová minihra | P1 | S | Nová | 64/9 |
@@ -94,7 +94,7 @@ Stav k 17. 11. 2026: hotové jsou 4 hry z první vlny (Vyšší, nebo nižší?,
 
 ### PA-01 Kde co leží
 
-*Paměť · Nová minihra · priorita P1 · pracnost M*
+*Paměť · Nová minihra · priorita P1 · pracnost M* · **hotovo v aplikaci**
 
 - **Inspirace:** str. 57, č. 6 Umístění předmětu
 - **Trénuje:** Paměť na umístění věcí (epizodická a prostorová). Přímo souvisí s častou starostí „kde mám zase brýle?“.
@@ -110,7 +110,7 @@ Stav k 17. 11. 2026: hotové jsou 4 hry z první vlny (Vyšší, nebo nižší?,
 
 ### PA-02 Co k čemu patří
 
-*Paměť · Nová minihra · priorita P1 · pracnost M*
+*Paměť · Nová minihra · priorita P1 · pracnost M* · **hotovo v aplikaci**
 
 - **Inspirace:** str. 56, č. 3 Mimo náš svět; str. 58, č. 9 Problémy s hesly; str. 58, č. 10 Množství ingrediencí v receptu
 - **Trénuje:** Spojování dvou údajů (asociativní paměť): věc a cena, jméno a datum, ingredience a množství.
@@ -237,7 +237,7 @@ Stav k 17. 11. 2026: hotové jsou 4 hry z první vlny (Vyšší, nebo nižší?,
 
 ### PO-01 Kde je kulička?
 
-*Postřeh · Nová minihra · priorita P1 · pracnost M*
+*Postřeh · Nová minihra · priorita P1 · pracnost M* · **hotovo v aplikaci**
 
 - **Inspirace:** str. 71, č. 5 Diamantové rozhodnutí (tři šálky)
 - **Trénuje:** Sledování pohybu a vytrvalou pozornost.

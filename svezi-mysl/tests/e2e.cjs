@@ -10,6 +10,9 @@ const path = require('path');
 const ROOT = path.resolve(__dirname, '..');
 const shotsArg = process.argv.indexOf('--shots');
 const SHOTS = shotsArg > -1 ? path.resolve(process.argv[shotsArg + 1]) : null;
+// Rychlá kontrola vybraných her:  node tests/e2e.cjs --only kulicka,byt  (jen iPhone, bez cesty a přehledů)
+const onlyArg = process.argv.indexOf('--only');
+const ONLY = onlyArg > -1 ? process.argv[onlyArg + 1].split(',') : null;
 if (SHOTS) fs.mkdirSync(SHOTS, { recursive: true });
 
 const TYPES = {
@@ -40,6 +43,7 @@ async function next(page, fn, arg) {
 }
 const progress = () => (document.querySelector('.play-progress') || {}).textContent || '';
 const freshChoices = () => !!document.querySelector('.choices:not(.is-locked)');
+const esc = (t) => String(t).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 /* Hráči: každá hra se dohraje podle toho, co je vidět na obrazovce, dokud nezmizí herní obrazovka. */
 const players = {
@@ -358,9 +362,83 @@ const players = {
       const cousins = all.filter((e) => e.m !== x.m).map((e) => e.k);
       return cousins.find((c) => c.g === (m[2] === 'bratranec' ? 'm' : 'f')).n;
     });
+  },
+  async kulicka(page) {
+    for (let r = 0; r < 12; r++) {
+      if (!(await next(page, () => { const c = document.querySelector('.cups'); return !!c && c.dataset.state === 'pick'; }))) return;
+      const info = await page.$$eval('.cup', (els) => ({ n: els.length, balls: els.map((e, i) => (e.querySelector('.cup-ball') ? i : -1)).filter((i) => i >= 0) }));
+      let pick = info.balls;
+      if (r === 1) {
+        const wrong = Array.from({ length: info.n }, (_, i) => i).find((i) => info.balls.indexOf(i) === -1);
+        pick = [wrong].concat(info.balls.slice(1));
+      }
+      for (const i of pick) await page.locator('.cup').nth(i).click();
+      await next(page, () => { const c = document.querySelector('.cups'); return !c || c.dataset.state !== 'pick'; });
+    }
+  },
+  async dvojice(page) {
+    const map = {};
+    let asked = 0;
+    for (let k = 0; k < 40; k++) {
+      const st = await next(page, () => (document.querySelector('.pairs-card') && document.querySelector('.play-foot .btn:not([disabled])') ? 'study'
+        : document.querySelector('.choices:not(.is-locked)') ? 'ask' : false));
+      if (!st) return;
+      if (st === 'study') {
+        const rows = await page.$$eval('.pair-row', (els) => els.map((e) => [e.querySelector('.pair-item').textContent, e.querySelector('.pair-value').textContent]));
+        rows.forEach((r) => { map[r[0]] = r[1]; map[r[1]] = r[0]; });
+        await page.getByRole('button', { name: 'Mám zapamatováno' }).click();
+        await next(page, () => !document.querySelector('.pairs-card'));
+      } else {
+        const ans = map[await page.textContent('.pair-q-text')];
+        const opts = page.locator('.choices:not(.is-locked) .choice');
+        const re = new RegExp('^' + esc(ans) + '$');
+        if (asked === 1) await opts.filter({ hasNotText: re }).first().click();
+        else await opts.filter({ hasText: re }).first().click();
+        asked++;
+        await next(page, () => !document.querySelector('.choices:not(.is-locked)'));
+      }
+    }
+  },
+  async byt(page) {
+    let where = {};
+    let asked = 0;
+    for (let k = 0; k < 40; k++) {
+      const st = await next(page, () => {
+        const b = document.querySelector('.byt');
+        if (!b) return false;
+        const a = b.dataset.ask;
+        if (a === 'study') return document.querySelector('.play-foot .btn:not([disabled])') ? 'study' : false;
+        if (a === 'where') return document.querySelector('.room.is-correct') ? false : 'where';
+        if (a === 'what') return document.querySelector('.pick-grid.is-locked') ? false : 'what';
+        return document.querySelector('.choices:not(.is-locked)') ? 'count' : false;
+      });
+      if (!st) return;
+      if (st === 'study') {
+        where = await page.$$eval('.room', (els) => { const m = {}; els.forEach((r) => r.querySelectorAll('.ri').forEach((i) => { m[i.dataset.item] = r.dataset.room; })); return m; });
+        await page.getByRole('button', { name: 'Mám zapamatováno' }).click();
+        await next(page, () => !document.querySelector('.byt[data-ask="study"]'));
+      } else if (st === 'where') {
+        const item = await page.getAttribute('.byt', 'data-item');
+        let room = where[item];
+        if (asked === 1) room = await page.$$eval('.room', (els, r) => els.map((e) => e.dataset.room).find((x) => x !== r), room);
+        asked++;
+        await page.locator('.room[data-room="' + room + '"]').click();
+        await next(page, () => !!document.querySelector('.room.is-correct'));
+      } else if (st === 'what') {
+        const room = await page.getAttribute('.byt', 'data-room');
+        for (const it of Object.keys(where).filter((i) => where[i] === room)) await page.locator('.pick[data-item="' + it + '"]').click();
+        await page.getByRole('button', { name: 'Hotovo' }).click();
+        await next(page, () => !!document.querySelector('.pick-grid.is-locked'));
+      } else {
+        const room = await page.getAttribute('.byt', 'data-room');
+        const n = Object.keys(where).filter((i) => where[i] === room).length;
+        await page.locator('.choices:not(.is-locked) .choice', { hasText: new RegExp('^' + n + '$') }).click();
+        await next(page, () => !document.querySelector('.choices:not(.is-locked)'));
+      }
+    }
   }
 };
-const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina'];
+const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina', 'kulicka', 'dvojice', 'byt'];
 
 async function mcq(page, answerFn) {
   for (let r = 0; r < 16; r++) {
@@ -428,7 +506,8 @@ async function continueAll(page) {
   const browser = await chromium.launch();
   let failures = 0;
 
-  for (const [label, device] of [['iphone', devices['iPhone 13']], ['ipad', devices['iPad (gen 7)']]]) {
+  const DEVICES = [['iphone', devices['iPhone 13']], ['ipad', devices['iPad (gen 7)']]].slice(0, ONLY ? 1 : 2);
+  for (const [label, device] of DEVICES) {
     const context = await browser.newContext(Object.assign({}, device, { deviceScaleFactor: 1, locale: 'cs-CZ' }));
     const page = await context.newPage();
     const errors = [];
@@ -445,7 +524,7 @@ async function continueAll(page) {
     await shot(page, label + '-path');
 
     // 2) celá první zastávka cesty
-    if (label === 'iphone') {
+    if (label === 'iphone' && !ONLY) {
       try {
         for (let n = 0; n < 6; n++) {
           await page.click('.node.is-current');
@@ -495,7 +574,7 @@ async function continueAll(page) {
 
     // 3) všechny hry ve volném hraní
     await page.evaluate(() => Object.keys(SM.games).forEach((id) => SM.engine.unlockEarly(id)));
-    const ids = await page.evaluate(() => Object.keys(SM.games));
+    const ids = ONLY || await page.evaluate(() => Object.keys(SM.games));
     for (const id of ids) {
       try {
         const res = await playFree(page, base, id, label);
@@ -509,7 +588,7 @@ async function continueAll(page) {
 
     // 3b) nové hry na všech úrovních obtížnosti
     if (label === 'iphone') {
-      for (const id of NEW_GAMES) {
+      for (const id of NEW_GAMES.filter((g) => !ONLY || ONLY.indexOf(g) !== -1)) {
         const max = await page.evaluate((g) => SM.games[g].maxLevel, id);
         for (let lv = 1; lv <= max; lv++) {
           // Jiná kotva než #hra-…, jinak by se stejná adresa znovu nenačetla.
@@ -526,6 +605,12 @@ async function continueAll(page) {
           }
         }
       }
+    }
+
+    if (ONLY) {
+      if (errors.length) { failures += errors.length; console.log('[' + label + '] chyby v konzoli:\n  ' + errors.join('\n  ')); }
+      await context.close();
+      continue;
     }
 
     // 3c) úspěšnost a rychlost se ukládají a stránka „Vývoj v čase“ se vykreslí

@@ -78,6 +78,8 @@
   --note100: #a7d6c6;
   --note200: #f1be92;
   --note-ink: #1f2b27;
+  --cup: #c26b3f;
+  --cup-rim: #8a4423;
 
   /* Písmo */
   --font-text: "Atkinson Hyperlegible Next", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
@@ -1270,6 +1272,52 @@ body.has-tabs .page { padding-bottom: calc(7rem + env(safe-area-inset-bottom, 0p
 .ftree-sub { color: var(--ink-2); }
 .ftree-kid { color: var(--ink); font-weight: 700; }
 
+/* ========== První vlna plánu: krok 2 ========== */
+/* Kde je kulička? */
+.cups { position: relative; width: 100%; max-width: 34rem; height: min(14rem, 38vh); }
+.cups-table { position: absolute; left: 2%; right: 2%; bottom: 0.7rem; height: 0.55rem; border-radius: 99px; background: var(--wood); opacity: 0.55; }
+.cup { position: absolute; left: 0; bottom: 1rem; width: calc(100% / var(--n)); height: 58%; margin: 0; padding: 0 4%; border: 0; border-radius: 14px; background: none; color: inherit; cursor: pointer; touch-action: manipulation; }
+.cup[disabled] { cursor: default; }
+.cup-body { position: relative; z-index: 2; display: block; width: 100%; height: 100%; transition: transform 0.35s ease; }
+.cup-body svg { display: block; width: 100%; height: 100%; }
+.cup.is-up .cup-body { transform: translateY(-62%); }
+.cup-shape { fill: var(--cup); }
+.cup-handle { fill: none; stroke: var(--cup-rim); stroke-width: 7; stroke-linecap: round; }
+.cup-shine { fill: none; stroke: rgba(255, 255, 255, 0.28); stroke-width: 5; stroke-linecap: round; }
+.cup-rim { fill: var(--cup-rim); }
+.cup-ball { position: absolute; z-index: 1; left: 50%; bottom: 3%; width: min(34%, 3.2rem); aspect-ratio: 1; transform: translateX(-50%); border-radius: 50%; background: radial-gradient(circle at 35% 30%, #ffffff 0 9%, #e3443a 11% 100%); box-shadow: 0 3px 0 rgba(0, 0, 0, 0.25); }
+.cup.is-picked::after { content: ""; position: absolute; left: 2%; right: 2%; top: -0.5rem; bottom: -0.6rem; border-radius: 14px; box-shadow: inset 0 0 0 4px var(--ink); pointer-events: none; }
+.cup.is-swapping .cup-body { outline: 4px dashed var(--ink-2); outline-offset: 3px; border-radius: 10px; }
+.cups[data-state="pick"] .cup:not([disabled]):hover .cup-body { transform: translateY(-4%); }
+
+/* Co k čemu patří */
+.pairs-card { width: 100%; max-width: 30rem; padding: 0.8rem 1.1rem 0.9rem; border-radius: 16px; background: var(--paper); color: var(--paper-ink); box-shadow: var(--shadow), inset 0 0 0 1px var(--line); }
+.pairs-title { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.3rem; font-size: var(--fs-l); font-weight: 800; }
+.pairs-title .emo { font-size: 1.6rem; }
+.pair-row { display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0; border-top: 1px solid var(--paper-line); font-size: var(--fs-l); line-height: 1.25; }
+.pair-row .emo { flex: none; width: 2rem; font-size: 1.5rem; text-align: center; }
+.pair-item { flex: 1; min-width: 0; font-weight: 700; overflow-wrap: anywhere; }
+.pair-value { flex: none; font-family: var(--font-num); font-weight: 700; white-space: nowrap; }
+.pairs-note { margin-top: 0.5rem; font-size: var(--fs-s); opacity: 0.85; }
+.pair-q { display: grid; justify-items: center; gap: 0.3rem; min-width: min(16rem, 100%); padding: 1.1rem 1.4rem; border-radius: 20px; background: var(--surface); box-shadow: var(--shadow); text-align: center; }
+.pair-q .emo { font-size: 3rem; }
+.pair-q-text { font-size: var(--fs-xl); font-weight: 800; overflow-wrap: anywhere; }
+.pair-q.is-value .pair-q-text { font-family: var(--font-num); }
+
+/* Kde co leží */
+.byt { width: 100%; max-width: 34rem; }
+.byt-q { display: flex; align-items: center; justify-content: center; gap: 0.4rem; font-size: var(--fs-xl); font-weight: 800; }
+.byt-q .emo { font-size: 2.2rem; }
+.plan { display: grid; grid-auto-rows: minmax(6.2rem, auto); gap: 6px; width: 100%; padding: 6px; border-radius: 14px; background: var(--ink-2); }
+.room { display: flex; flex-direction: column; align-items: flex-start; gap: 0.15rem; min-width: 0; margin: 0; padding: 0.4rem 0.55rem; border: 0; border-radius: 8px; background: var(--surface); color: var(--ink); font: inherit; text-align: left; }
+button.room { cursor: pointer; touch-action: manipulation; }
+.room-name { font-size: var(--fs-s); font-weight: 800; color: var(--ink-2); }
+.ri { display: flex; align-items: center; gap: 0.3rem; max-width: 100%; font-size: var(--fs-s); font-weight: 700; line-height: 1.2; }
+.ri > span:last-child { min-width: 0; overflow-wrap: break-word; }
+.ri .emo { flex: none; font-size: 1.25rem; }
+.room.is-correct { background: var(--ok-soft); box-shadow: inset 0 0 0 4px var(--ok); }
+.room.is-wrong { background: var(--bad-soft); box-shadow: inset 0 0 0 4px var(--bad); }
+
 /* ========== Pokrok: úspěšnost, rychlost a vývoj v čase ========== */
 .gp-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); gap: 0.5rem; }
 .gp-stat { display: grid; align-content: start; gap: 0.1rem; padding: 0.55rem 0.75rem; border-radius: 12px; background: var(--surface-2); }
@@ -1316,7 +1364,7 @@ body.has-tabs .page { padding-bottom: calc(7rem + env(safe-area-inset-bottom, 0p
 /* ---------- Omezený pohyb ---------- */
 @media (prefers-reduced-motion: reduce) {
   .node-bubble, .node.is-current::after, .modal.is-sheet, .celebrate .postcard { animation: none; }
-  .catch-item.is-in, .catch-item.is-taken, .node, .nline-range { transition: none; }
+  .catch-item.is-in, .catch-item.is-taken, .node, .nline-range, .cup-body { transition: none; }
   .btn, .game-row, .pex-inner, .win, .switch i, .switch i::after { transition: none; }
   .btn:active, .game-row:active { transform: none; }
   .fb.is-ok, .fb.is-bad { animation-name: fb-fade; }

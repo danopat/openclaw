@@ -196,9 +196,9 @@
       fact: 'Náměstí v Telči lemují renesanční a barokní domy s podloubím. Od roku 1992 je památkou UNESCO.' },
     { id: 'trebon', gen: 'Třeboně', name: 'Třeboň', color: '#2a6370', intro: ['rodina', 'vyhodne'],
       fact: 'U Třeboně leží Rožmberk, největší rybník v Česku. V 16. století ho založil rybníkář Jakub Krčín.' },
-    { id: 'brno', gen: 'Brna', name: 'Brno', color: '#7c3f50', intro: [],
+    { id: 'brno', gen: 'Brna', name: 'Brno', color: '#7c3f50', intro: ['kulicka', 'byt'],
       fact: 'Nad Brnem se tyčí hrad Špilberk a katedrála na Petrově. Její zvony odbíjejí poledne už v 11 hodin.' },
-    { id: 'litomysl', gen: 'Litomyšle', name: 'Litomyšl', color: '#5c4d80', intro: [],
+    { id: 'litomysl', gen: 'Litomyšle', name: 'Litomyšl', color: '#5c4d80', intro: ['dvojice'],
       fact: 'V Litomyšli se v roce 1824 narodil skladatel Bedřich Smetana. Zdejší zámek zdobí tisíce sgrafit.' },
     { id: 'svycarsko', gen: 'Českého Švýcarska', name: 'České Švýcarsko', color: '#86501f', intro: [],
       fact: 'Pravčická brána je největší přírodní pískovcová brána v Evropě.' }

@@ -109,6 +109,41 @@
     ctx.foot.appendChild(b);
   });
 
+  /**
+   * Prohlížení před zakrytím: tlačítko „Mám zapamatováno“ dole, volitelně s časovým limitem
+   * (conf.limit v ms; ubývající proužek se vloží do conf.container) → Promise po klepnutí nebo vypršení.
+   */
+  K.study = (ctx, conf) => new Promise((resolve) => {
+    conf = conf || {};
+    let done = false;
+    const btn = h('button', { class: 'btn btn-primary btn-lg', type: 'button' }, conf.label || 'Mám zapamatováno');
+    const end = () => {
+      if (done || !ctx.alive) return;
+      done = true;
+      btn.disabled = true;
+      resolve();
+    };
+    U.tap(btn, () => { ctx.sound.tap(); end(); });
+    ctx.foot.textContent = '';
+    ctx.foot.appendChild(btn);
+    if (conf.limit && conf.container) {
+      const bar = h('i');
+      conf.container.appendChild(h('div', { class: 'timebar', 'aria-hidden': 'true' }, bar));
+      const limit = conf.limit * SM.timeScale;
+      const start = performance.now();
+      const tick = () => {
+        if (done) return;
+        const left = Math.max(0, 1 - (performance.now() - start) / limit);
+        bar.style.transform = 'scaleX(' + left.toFixed(3) + ')';
+        if (left <= 0) end(); else ctx.after(100 / SM.timeScale, tick);
+      };
+      tick();
+    }
+  });
+
+  /** Uživatel si v systému zapnul omezení pohybu. */
+  K.reducedMotion = () => !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
   /** Obvyklé pravidlo pro změnu úrovně podle úspěšnosti. */
   K.levelByAcc = (acc, up, down) => (acc >= (up || 0.9) ? 1 : acc < (down || 0.6) ? -1 : 0);
 })();
