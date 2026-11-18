@@ -337,6 +337,19 @@
         '<rect x="139" y="112" width="6" height="16" rx="3" fill="#7d8a93"/><rect x="157" y="108" width="6" height="18" rx="3" fill="#7d8a93"/><rect x="175" y="112" width="6" height="16" rx="3" fill="#7d8a93"/>' +
         '<path d="M40 150A120 28 0 0 0 280 150L261 150A101 17 0 0 1 59 150Z" fill="#efe8da"/><path d="M59 150A101 17 0 0 0 261 150" fill="none" stroke="#a4553f" stroke-width="4"/>' +
         gates + roundTrees([[18, 186, 13], [44, 190, 10], [296, 186, 13], [272, 192, 10]], '#4f8a4a');
+    },
+    kras(id) {
+      // Moravský kras: propast Macocha s lávkou nahoře a lodičkou na podzemní říčce dole.
+      const g = id + '-hloubka';
+      return sky(id, '#a7cdea', '#eef5f9') +
+        '<defs><linearGradient id="' + g + '" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5f6d64"/><stop offset="1" stop-color="#26302c"/></linearGradient></defs>' +
+        '<path d="M0 66C60 56 110 62 160 58S270 54 320 62V90H0Z" fill="#86a874"/>' +
+        '<path d="M126 70L204 66 180 200H146Z" fill="url(#' + g + ')"/>' +
+        '<path d="M0 74C50 70 100 72 128 70L150 200H0Z" fill="#cdbfa7"/><path d="M320 70C280 68 230 66 202 66L178 200H320Z" fill="#bfb098"/>' +
+        '<path d="M20 104l60 4M10 140l80 6M40 172l70 4M232 100l70-4M226 138l84-6M214 170l70 2" stroke="#a89a82" stroke-width="3" stroke-linecap="round"/>' +
+        '<ellipse cx="163" cy="188" rx="22" ry="6" fill="#4f8c8a"/><path d="M152 184h20l-3 4h-14z" fill="#7a5a3a"/><rect x="160" y="178" width="3" height="6" fill="#d9c6a0"/>' +
+        pines([[16, 76, 0.9], [40, 74], [64, 73, 0.85], [92, 72], [116, 72, 0.8], [226, 68, 0.8], [252, 69], [278, 70, 0.9], [304, 72]], '#3f6b45') +
+        '<path d="M196 72l34-6" stroke="#5a4632" stroke-width="3.5" stroke-linecap="round"/><path d="M200 71v-8M210 69v-8M220 67v-8M200 63l24-4" stroke="#5a4632" stroke-width="2" stroke-linecap="round"/>';
     }
   };
 
@@ -384,7 +397,9 @@
     { id: 'plzen', gen: 'Plzně', name: 'Plzeň', color: '#3d5470', intro: ['kostky', 'zebrik'],
       fact: 'Věž katedrály svatého Bartoloměje v Plzni měří přes 100 metrů. Je to nejvyšší kostelní věž v Česku.' },
     { id: 'zdar', gen: 'Žďáru nad Sázavou', name: 'Žďár nad Sázavou', color: '#2f6b55', intro: ['pohled', 'stavby'],
-      fact: 'Poutní kostel svatého Jana Nepomuckého na Zelené hoře u Žďáru nad Sázavou má půdorys pěticípé hvězdy. Postavil ho Jan Blažej Santini-Aichel a od roku 1994 je na seznamu UNESCO.' }
+      fact: 'Poutní kostel svatého Jana Nepomuckého na Zelené hoře u Žďáru nad Sázavou má půdorys pěticípé hvězdy. Postavil ho Jan Blažej Santini-Aichel a od roku 1994 je na seznamu UNESCO.' },
+    { id: 'kras', gen: 'Moravského krasu', name: 'Moravský kras', color: '#3d6170', intro: ['krychle', 'hrnky'],
+      fact: 'Propast Macocha v Moravském krasu je hluboká přes 138 metrů. Na její dno se dá doplout lodičkou po podzemní říčce Punkvě.' }
   ];
 
   SM.places = {

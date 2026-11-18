@@ -1,6 +1,6 @@
 # Databáze miniher: plán
 
-Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co k čemu patří, Kde je kulička?, Vyšší, nebo nižší?, Osmisměrka s tajenkou, Příbuzenstvo, Řetězové počty, Sudoku, Výhodný nákup), z druhé vlny je hotových všech 19 her (Smajlíci, Oslí můstek, Vynesené karty, Podnos, Součty z paměti, Paměťové kolíky, Hledání čísel, Chybějící dílek, Přelévání, Popletené štítky, Písmenková polévka, Slovní žebřík, Terč, Balonky, Slovní úlohy, Stavba z kostek, Cesta podle šipek, Sčítací pyramida, Najdi pravidlo) a 4 rozšíření (Co se změnilo: víc změn, Co se změnilo: co přibylo, Jména a tváře: portréty a vybavení později, Otočené tvary: najdi vetřelce), z třetí vlny jsou hotové 2 hry (Pohled z boku, Otočené stavby), ostatní je zatím plán. Zdrojem nápadů jsou jen vybrané nafocené strany knihy: str. 56–72 a 77 z kapitoly *Myšlenkové schopnosti* a str. 84–87 a 92–101 z kapitoly *Zkoušejte nové věci*, celkem 92 cvičení a tipů z 32 stran. Stejná data jsou i v tabulce [`minihry-databaze.csv`](minihry-databaze.csv) pro Excel, Numbers nebo Google Tabulky.
+Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co k čemu patří, Kde je kulička?, Vyšší, nebo nižší?, Osmisměrka s tajenkou, Příbuzenstvo, Řetězové počty, Sudoku, Výhodný nákup), z druhé vlny je hotových všech 19 her (Smajlíci, Oslí můstek, Vynesené karty, Podnos, Součty z paměti, Paměťové kolíky, Hledání čísel, Chybějící dílek, Přelévání, Popletené štítky, Písmenková polévka, Slovní žebřík, Terč, Balonky, Slovní úlohy, Stavba z kostek, Cesta podle šipek, Sčítací pyramida, Najdi pravidlo) a 4 rozšíření (Co se změnilo: víc změn, Co se změnilo: co přibylo, Jména a tváře: portréty a vybavení později, Otočené tvary: najdi vetřelce), z třetí vlny jsou hotové 4 hry (Tři hrnky: měnit, nebo ne?, Pohled z boku, Otočené stavby, Skládání krychle), ostatní je zatím plán. Zdrojem nápadů jsou jen vybrané nafocené strany knihy: str. 56–72 a 77 z kapitoly *Myšlenkové schopnosti* a str. 84–87 a 92–101 z kapitoly *Zkoušejte nové věci*, celkem 92 cvičení a tipů z 32 stran. Stejná data jsou i v tabulce [`minihry-databaze.csv`](minihry-databaze.csv) pro Excel, Numbers nebo Google Tabulky.
 
 ## Shrnutí
 
@@ -65,7 +65,7 @@ Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co 
 | PL-14 | Sčítací pyramida (hotovo) | Počty a logika | Nová minihra | P2 | S | Nová | 92/V1 |
 | PL-17 | Najdi pravidlo (hotovo) | Počty a logika | Nová minihra | P2 | M | Nová (příbuzná hře Co bude dál) | 97/V2 |
 | PA-06 | Mapa Česka | Paměť | Nová minihra | P3 | L | Nová | 59/12 |
-| RO-04 | Tři hrnky: měnit, nebo ne? | Rozhodování | Nová minihra | P3 | S | Nová (pokus, ne adaptivní hra) | 71/5 |
+| RO-04 | Tři hrnky: měnit, nebo ne? (hotovo) | Rozhodování | Nová minihra | P3 | S | Nová (pokus, ne adaptivní hra) | 71/5 |
 | RO-05 | Přesýpací hodiny | Rozhodování | Nová minihra | P3 | M | Nová | 69/19 |
 | SL-05 | Slovní kruh | Slova | Nová minihra | P3 | L | Nová | 61/6 |
 | SL-06 | Slovní cikcak | Slova | Nová minihra | P3 | M | Nová | 60/1 |
@@ -78,7 +78,7 @@ Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co 
 | PL-11 | Pohled z boku (hotovo) | Počty a logika | Nová minihra | P3 | M | Nová (sdílí kreslení kostek s PL-07) | 77/5 |
 | PL-12 | Otočené stavby (hotovo) | Počty a logika | Nová minihra | P3 | L | Nová (Otočené tvary ve 3D) | 77/6 |
 | PL-15 | Součtové čtverce | Počty a logika | Nová minihra | P3 | L | Nová (příbuzná Sudoku a Křížovým počtům) | 93/V2, 93/R |
-| PL-16 | Skládání krychle | Počty a logika | Nová minihra | P3 | M | Nová | 96/V1 |
+| PL-16 | Skládání krychle (hotovo) | Počty a logika | Nová minihra | P3 | M | Nová | 96/V1 |
 | PL-18 | Hadí cesta | Počty a logika | Nová minihra | P3 | M | Nová | 101/V2 |
 | EX-01 | Co se změnilo: víc změn (hotovo) | Paměť | Rozšíření | P2 | S | Rozšíření hry Co se změnilo | 56/4 |
 | EX-02 | Co se změnilo: co přibylo (hotovo) | Paměť | Rozšíření | P2 | S | Rozšíření hry Co se změnilo | 58/11 |
@@ -331,7 +331,7 @@ Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co 
 
 ### RO-04 Tři hrnky: měnit, nebo ne?
 
-*Rozhodování · Nová minihra · priorita P3 · pracnost S · Nová (pokus, ne adaptivní hra)*
+*Rozhodování · Nová minihra · priorita P3 · pracnost S · Nová (pokus, ne adaptivní hra)* · **hotovo v aplikaci**
 
 - **Inspirace:** str. 71, č. 5 Diamantové rozhodnutí
 - **Trénuje:** Úvahy o pravděpodobnosti.
@@ -340,8 +340,8 @@ Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co 
   2. Na konci statistika výher „změnil / nezměnil“ a srozumitelné vysvětlení.
 - **Obsah a data:** Žádná data.
 - **Úrovně:** Bez úrovní.
-- **Hodnocení:** Bez bodování výkonu, body za dokončení.
-- **Krátká verze do lekce:** —
+- **Hodnocení:** Bez bodování výkonu, body za dokončení. Úspěšnost v přehledu pokroku = jak často hráč zvolil výhodnější výměnu.
+- **Krátká verze do lekce:** 5 kol.
 - **Pozor u seniorů:** Vysvětlení obrázkem, ne vzorcem.
 
 ### RO-05 Přesýpací hodiny
@@ -737,15 +737,15 @@ Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co 
 
 ### PL-16 Skládání krychle
 
-*Počty a logika · Nová minihra · priorita P3 · pracnost M*
+*Počty a logika · Nová minihra · priorita P3 · pracnost M* · **hotovo v aplikaci**
 
 - **Inspirace:** str. 96, výzva 1 Správná krychle
 - **Trénuje:** Prostorovou představivost: v duchu složit krychli z rozložené sítě.
 - **Jak se hraje:**
   1. Rozložená krychle (síť) se značkami na stěnách.
-  2. Hráč vybere ze 3–4 krychlí tu, která jde ze sítě složit. Po odpovědi se síť animovaně složí.
+  2. Hráč vybere ze 3–4 krychlí tu, která jde ze sítě složit. Po odpovědi se síť na obrazovce složí (CSS 3D) a otočí do polohy správné krychle.
 - **Obsah a data:** Sítě krychle (je jich 11) a sada značek odlišných tvarem (tečky jako na hrací kostce, šipka, kruh, kříž). Generátor možností: správná krychle a špatné s prohozenými nebo pootočenými stěnami.
-- **Úrovně:** 1) Síť ve tvaru kříže, značky bez směru (kruh, čtverec). 2) Další sítě. 3) Značky se směrem (šipka, trojúhelník), záleží na otočení. 4) Podobné značky.
+- **Úrovně:** 1) Síť ve tvaru kříže, značky bez směru (kruh, čtverec, kříž). 2) Všech 11 sítí. 3) Značky se směrem (šipka, trojúhelník, vlajka), záleží na otočení. 4) Tečky jako na hrací kostce (dvojka, trojka a šestka mají směr).
 - **Hodnocení:** Správnost.
 - **Krátká verze do lekce:** 3 úlohy.
 - **Pozor u seniorů:** Značky velké a odlišné tvarem, ne jen barvou. Animace složení po každé odpovědi.
@@ -916,7 +916,7 @@ Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co 
 
 1. **První vlna:** 9 her P1 a Hádanka dne se 30 hádankami. Zastávky 8–12 (Telč, Třeboň, Brno, Litomyšl, České Švýcarsko) dnes žádné nové hry nepřinášejí, takže každá dostane 2 hry z první vlny.
 2. **Druhá vlna:** 19 her P2, rozšíření EX-01 až EX-03 a EX-07 a Škola paměti. Hotové jsou: Podnos, Součty z paměti a Sčítací pyramida (Šumava a České Švýcarsko), Cesta podle šipek s Hledáním čísel (Kroměříž), Oslí můstek s Paměťovými kolíky (Pálava), Popletené štítky s Písmenkovou polévkou (Ještěd), Terč s Balonky (Ostrava), Smajlíci s Přeléváním (Karlštejn), Vynesené karty s Chybějícím dílkem (Hluboká), Najdi pravidlo se Slovními úlohami (Třebíč) a Stavba z kostek se Slovním žebříkem (Plzeň), tedy všech 19 nových her druhé vlny. Hotová jsou i rozšíření EX-01 a EX-02 (Co se změnilo: víc změn v tabulce tvarů a co přibylo), EX-03 (Jména a tváře: kreslené portréty, otázka na konci hry a volba s trikem) a EX-07 (najdi vetřelce v Otočených tvarech) a Škola paměti. Druhá vlna je tím celá hotová.
-3. **Třetí vlna:** P3 podle toho, co se osvědčí při zkoušení se seniory. Hotové jsou Pohled z boku a Otočené stavby (PL-11, PL-12, zastávka Žďár nad Sázavou), postavené na kreslení kostek ze Stavby z kostek (PL-07).
+3. **Třetí vlna:** P3 podle toho, co se osvědčí při zkoušení se seniory. Hotové jsou Pohled z boku a Otočené stavby (PL-11, PL-12, zastávka Žďár nad Sázavou), postavené na kreslení kostek ze Stavby z kostek (PL-07), a Skládání krychle s Třemi hrnky (PL-16, RO-04, zastávka Moravský kras).
 
 ## Obsah, který bude potřeba vytvořit
 

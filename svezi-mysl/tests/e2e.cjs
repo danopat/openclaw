@@ -1087,6 +1087,41 @@ players.stavby = async function (page) {
     await next(page, () => !!document.querySelector('.stavby.is-done'));
   }
 };
+players.krychle = async function (page) {
+  let k = 0;
+  for (let g = 0; g < 30; g++) {
+    const st = await next(page, () => (document.querySelector('.krychle') ? (document.querySelector('.choices:not(.is-locked)') ? 'pick' : document.querySelector('.play-foot .btn-primary:not([disabled])') ? 'next' : false) : false));
+    if (!st) return;
+    if (st === 'next') { await page.locator('.play-foot .btn-primary:not([disabled])').first().click(); await page.waitForTimeout(60); continue; }
+    const a = +(await page.getAttribute('.krychle', 'data-a'));
+    const choices = page.locator('.choices:not(.is-locked) .choice');
+    const n = await choices.count();
+    await choices.nth(k++ === 1 ? (a + 1) % n : a).click();
+    await next(page, () => !document.querySelector('.choices:not(.is-locked)'));
+  }
+};
+players.hrnky = async function (page) {
+  let k = 0;
+  for (let g = 0; g < 40; g++) {
+    const st = await next(page, () => {
+      if (document.querySelector('.hr-explain')) return 'end';
+      const t = document.querySelector('.hrnky .hr-table:not(.is-done)');
+      if (!t) return false;
+      if (t.dataset.ask && document.querySelector('.hr-decide')) return 'decide';
+      return !t.dataset.pick && document.querySelector('.hr-slot:not([disabled])') ? 'pick' : false;
+    });
+    if (!st) return;
+    if (st === 'end') {
+      // na malém displeji je vysvětlení na druhé stránce
+      if (await page.$('.play-foot .btn-primary >> text=Proč to tak je?')) await page.getByRole('button', { name: 'Proč to tak je?' }).click();
+      await page.getByRole('button', { name: 'Hotovo' }).click();
+      return;
+    }
+    if (st === 'pick') { await page.locator('.hr-slot').nth(k % 3).click(); await next(page, () => !!document.querySelector('.hr-table[data-pick]')); continue; }
+    await page.locator('.hr-decide').nth(k++ % 2).click();
+    await next(page, () => !document.querySelector('.hr-decide'));
+  }
+};
 players.zebrik = async function (page) {
   let k = 0;
   for (let g = 0; g < 40; g++) {
@@ -1129,7 +1164,7 @@ players.koliky = async function (page) {
     await next(page, () => !document.querySelector('.choices:not(.is-locked)'));
   }
 };
-const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina', 'kulicka', 'dvojice', 'byt', 'osmismerka', 'sudoku', 'podnos', 'sumy', 'pyramida', 'trasa', 'cisla', 'mustek', 'koliky', 'stitky', 'polevka', 'terc', 'balonky', 'smajlici', 'prelevani', 'karty', 'dilek', 'pravidlo', 'ulohy', 'kostky', 'zebrik', 'tvary', 'zmena', 'jmena', 'pohled', 'stavby'];
+const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina', 'kulicka', 'dvojice', 'byt', 'osmismerka', 'sudoku', 'podnos', 'sumy', 'pyramida', 'trasa', 'cisla', 'mustek', 'koliky', 'stitky', 'polevka', 'terc', 'balonky', 'smajlici', 'prelevani', 'karty', 'dilek', 'pravidlo', 'ulohy', 'kostky', 'zebrik', 'tvary', 'zmena', 'jmena', 'pohled', 'stavby', 'krychle', 'hrnky'];
 
 async function mcq(page, answerFn) {
   for (let r = 0; r < 16; r++) {

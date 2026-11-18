@@ -1,5 +1,5 @@
 /* Svěží mysl — offline režim. Při změně souborů zvyšte číslo verze. */
-const VERSION = 'svezi-mysl-v21';
+const VERSION = 'svezi-mysl-v22';
 const ASSETS = [
   './',
   'index.html',
@@ -73,6 +73,8 @@ const ASSETS = [
   'js/games/zebrik.js',
   'js/games/pohled.js',
   'js/games/stavby.js',
+  'js/games/krychle.js',
+  'js/games/hrnky.js',
   'js/engine.js',
   'js/app.js',
   'js/screens/path.js',
