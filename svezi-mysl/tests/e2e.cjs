@@ -1163,6 +1163,63 @@ players.cikcak = async function (page) {
     await next(page, () => !document.querySelector('.choices:not(.is-locked)'));
   }
 };
+players.sit = async function (page) {
+  let k = 0;
+  for (let g = 0; g < 10; g++) {
+    const st = await next(page, () => (document.querySelector('.sit:not(.is-done)') && document.querySelector('.nt-key') ? 'play' : false));
+    if (!st) return;
+    const sol = (await page.getAttribute('.sit', 'data-sol')).split(',').map(Number);
+    const cells = page.locator('.nt-cell');
+    if (k === 0) await page.locator('.nt-hint').click(); // jednou nápověda
+    const open = [];
+    for (let i = 0; i < sol.length; i++) if (!(await cells.nth(i).isDisabled())) open.push(i);
+    const plan = sol.slice();
+    const swap = k++ === 1 && open.length >= 2;
+    if (swap) { const a = open[0], b = open[1]; [plan[a], plan[b]] = [plan[b], plan[a]]; } // schválně prohozená dvojice
+    for (const i of open) {
+      if ((await cells.nth(i).textContent()).trim() === String(plan[i])) continue;
+      await cells.nth(i).click();
+      await page.locator('.nt-key[data-v="' + plan[i] + '"]').click();
+    }
+    if (swap) {
+      await page.waitForSelector('.nt-cell.is-wrong');
+      await cells.nth(open[0]).click();
+      await page.locator('.nt-key[data-v="' + sol[open[0]] + '"]').click();
+      await cells.nth(open[1]).click();
+      await page.locator('.nt-key[data-v="' + sol[open[1]] + '"]').click();
+    }
+    await next(page, () => !!document.querySelector('.sit.is-done'));
+    await next(page, () => !document.querySelector('.sit.is-done'));
+  }
+};
+players.had = async function (page) {
+  let k = 0;
+  for (let g = 0; g < 10; g++) {
+    const st = await next(page, () => {
+      if (document.querySelector('.had.is-example')) return 'example';
+      return document.querySelector('.had:not(.is-done) .hd-cell') && document.querySelector('.play-foot .btn-primary:not([disabled])') ? 'play' : false;
+    });
+    if (!st) return;
+    if (st === 'example') { await page.getByRole('button', { name: 'Rozumím, zkusím to' }).click(); await next(page, () => !document.querySelector('.had.is-example')); continue; }
+    const sol = (await page.getAttribute('.had', 'data-sol')).split(';');
+    for (const p of sol) {
+      const [r, c] = p.split(',');
+      const cell = page.locator('.hd-cell[data-r="' + r + '"][data-c="' + c + '"]');
+      if (await cell.isDisabled()) continue;
+      await cell.click();
+    }
+    if (k++ === 0) {
+      // políčko navíc → chybná kontrola, pak ho opravit na křížek
+      await page.locator('.hd-cell:not(.is-snake):not([disabled])').first().click();
+      await page.getByRole('button', { name: 'Zkontrolovat' }).click();
+      await page.waitForSelector('.hd-cell.is-wrong');
+      await page.locator('.hd-cell.is-wrong').first().click();
+    }
+    await page.getByRole('button', { name: 'Zkontrolovat' }).click();
+    await next(page, () => !!document.querySelector('.had.is-done'));
+    await next(page, () => !document.querySelector('.had.is-done'));
+  }
+};
 players.zebrik = async function (page) {
   let k = 0;
   for (let g = 0; g < 40; g++) {
@@ -1205,7 +1262,7 @@ players.koliky = async function (page) {
     await next(page, () => !document.querySelector('.choices:not(.is-locked)'));
   }
 };
-const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina', 'kulicka', 'dvojice', 'byt', 'osmismerka', 'sudoku', 'podnos', 'sumy', 'pyramida', 'trasa', 'cisla', 'mustek', 'koliky', 'stitky', 'polevka', 'terc', 'balonky', 'smajlici', 'prelevani', 'karty', 'dilek', 'pravidlo', 'ulohy', 'kostky', 'zebrik', 'tvary', 'zmena', 'jmena', 'pohled', 'stavby', 'krychle', 'hrnky', 'sifra', 'cikcak'];
+const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina', 'kulicka', 'dvojice', 'byt', 'osmismerka', 'sudoku', 'podnos', 'sumy', 'pyramida', 'trasa', 'cisla', 'mustek', 'koliky', 'stitky', 'polevka', 'terc', 'balonky', 'smajlici', 'prelevani', 'karty', 'dilek', 'pravidlo', 'ulohy', 'kostky', 'zebrik', 'tvary', 'zmena', 'jmena', 'pohled', 'stavby', 'krychle', 'hrnky', 'sifra', 'cikcak', 'sit', 'had'];
 
 async function mcq(page, answerFn) {
   for (let r = 0; r < 16; r++) {

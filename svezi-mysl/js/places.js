@@ -363,6 +363,23 @@
         '<rect x="168" y="52" width="6" height="10" rx="3" fill="#7d8790"/><rect x="146" y="102" width="6" height="8" rx="3" fill="#7d8790"/><rect x="190" y="102" width="6" height="8" rx="3" fill="#7d8790"/>' +
         pines([[18, 150], [44, 156, 0.9], [72, 152], [96, 160, 0.85], [232, 156, 0.9], [258, 150], [286, 158], [310, 152, 0.85]], '#3f6b45') +
         poklicka(60, 196, 1.2) + poklicka(262, 198, 1.4) + roundTrees([[100, 196, 10], [222, 196, 11]], '#4f8a4a');
+    },
+    roznov(id) {
+      // Rožnov pod Radhoštěm: dřevěné roubenky Valašského muzea v přírodě pod beskydskými kopci.
+      const house = (x, y, w, hh) => {
+        let logs = '';
+        for (let k = y + 6; k < y + hh; k += 6) logs += '<path d="M' + x + ' ' + k + 'h' + w + '" stroke="#5c3a20" stroke-width="1.5"/>';
+        return '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + hh + '" fill="#8a5a33"/>' + logs +
+          '<path d="M' + (x - 6) + ' ' + y + 'l' + (w / 2 + 6) + ' ' + (-hh * 0.9) + 'l' + (w / 2 + 6) + ' ' + (hh * 0.9) + 'z" fill="#5d5650"/>' +
+          '<rect x="' + (x + w * 0.38) + '" y="' + (y + hh * 0.3) + '" width="' + (w * 0.24) + '" height="' + (hh * 0.32) + '" fill="#f3ead8" stroke="#3f2a18" stroke-width="2"/>';
+      };
+      return sky(id, '#a8d0ee', '#f2f6f9') +
+        '<path d="M0 100C40 76 80 70 120 86S200 62 240 74 300 84 320 80V200H0Z" fill="#8fa9a6"/>' +
+        '<path d="M0 128C60 108 120 118 170 112S270 104 320 118V200H0Z" fill="#79a368"/>' +
+        '<rect x="226" y="70" width="16" height="78" fill="#7a4e2d"/><path d="M222 72l12-30 12 30z" fill="#5d5650"/><rect x="230" y="84" width="8" height="10" fill="#2f2418"/>' +
+        house(40, 128, 70, 40) + house(150, 136, 58, 34) + house(254, 132, 50, 36) +
+        '<path d="M0 182C80 172 160 176 240 178S300 182 320 180V200H0Z" fill="#6c9a5a"/>' +
+        roundTrees([[20, 186, 11], [128, 190, 10], [214, 192, 9], [310, 188, 11]], '#4f8a4a');
     }
   };
 
@@ -414,7 +431,9 @@
     { id: 'kras', gen: 'Moravského krasu', name: 'Moravský kras', color: '#3d6170', intro: ['krychle', 'hrnky'],
       fact: 'Propast Macocha v Moravském krasu je hluboká přes 138 metrů. Na její dno se dá doplout lodičkou po podzemní říčce Punkvě.' },
     { id: 'kokorin', gen: 'Kokořína', name: 'Kokořín', color: '#6a5a3a', intro: ['sifra', 'cikcak'],
-      fact: 'Hrad Kokořín stojí na pískovcové skále nad hlubokým údolím. V okolních lesích jsou skalní „pokličky“, kameny ve tvaru hřibů.' }
+      fact: 'Hrad Kokořín stojí na pískovcové skále nad hlubokým údolím. V okolních lesích jsou skalní „pokličky“, kameny ve tvaru hřibů.' },
+    { id: 'roznov', gen: 'Rožnova pod Radhoštěm', name: 'Rožnov pod Radhoštěm', color: '#6b4a2f', intro: ['sit', 'had'],
+      fact: 'Valašské muzeum v přírodě v Rožnově pod Radhoštěm založili v roce 1925. Patří k nejstarším muzeím v přírodě ve střední Evropě.' }
   ];
 
   SM.places = {
