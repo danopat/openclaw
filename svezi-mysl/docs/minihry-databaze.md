@@ -1,6 +1,6 @@
 # Databáze miniher: plán
 
-Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co k čemu patří, Kde je kulička?, Vyšší, nebo nižší?, Osmisměrka s tajenkou, Příbuzenstvo, Řetězové počty, Sudoku, Výhodný nákup), z druhé vlny je hotových všech 19 her (Smajlíci, Oslí můstek, Vynesené karty, Podnos, Součty z paměti, Paměťové kolíky, Hledání čísel, Chybějící dílek, Přelévání, Popletené štítky, Písmenková polévka, Slovní žebřík, Terč, Balonky, Slovní úlohy, Stavba z kostek, Cesta podle šipek, Sčítací pyramida, Najdi pravidlo) a 4 rozšíření (Co se změnilo: víc změn, Co se změnilo: co přibylo, Jména a tváře: portréty a vybavení později, Otočené tvary: najdi vetřelce), z třetí vlny je hotových 8 her (Tři hrnky: měnit, nebo ne?, Slovní cikcak, Tajná šifra, Číselná síť, Pohled z boku, Otočené stavby, Skládání krychle, Hadí cesta), ostatní je zatím plán. Zdrojem nápadů jsou jen vybrané nafocené strany knihy: str. 56–72 a 77 z kapitoly *Myšlenkové schopnosti* a str. 84–87 a 92–101 z kapitoly *Zkoušejte nové věci*, celkem 92 cvičení a tipů z 32 stran. Stejná data jsou i v tabulce [`minihry-databaze.csv`](minihry-databaze.csv) pro Excel, Numbers nebo Google Tabulky.
+Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co k čemu patří, Kde je kulička?, Vyšší, nebo nižší?, Osmisměrka s tajenkou, Příbuzenstvo, Řetězové počty, Sudoku, Výhodný nákup), z druhé vlny je hotových všech 19 her (Smajlíci, Oslí můstek, Vynesené karty, Podnos, Součty z paměti, Paměťové kolíky, Hledání čísel, Chybějící dílek, Přelévání, Popletené štítky, Písmenková polévka, Slovní žebřík, Terč, Balonky, Slovní úlohy, Stavba z kostek, Cesta podle šipek, Sčítací pyramida, Najdi pravidlo) a 4 rozšíření (Co se změnilo: víc změn, Co se změnilo: co přibylo, Jména a tváře: portréty a vybavení později, Otočené tvary: najdi vetřelce), z třetí vlny je hotových 10 her (Tři hrnky: měnit, nebo ne?, Přesýpací hodiny, Slovní cikcak, Tajná šifra, Číselná síť, Dělení tvaru, Pohled z boku, Otočené stavby, Skládání krychle, Hadí cesta), ostatní je zatím plán. Zdrojem nápadů jsou jen vybrané nafocené strany knihy: str. 56–72 a 77 z kapitoly *Myšlenkové schopnosti* a str. 84–87 a 92–101 z kapitoly *Zkoušejte nové věci*, celkem 92 cvičení a tipů z 32 stran. Stejná data jsou i v tabulce [`minihry-databaze.csv`](minihry-databaze.csv) pro Excel, Numbers nebo Google Tabulky.
 
 ## Shrnutí
 
@@ -66,7 +66,7 @@ Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co 
 | PL-17 | Najdi pravidlo (hotovo) | Počty a logika | Nová minihra | P2 | M | Nová (příbuzná hře Co bude dál) | 97/V2 |
 | PA-06 | Mapa Česka | Paměť | Nová minihra | P3 | L | Nová | 59/12 |
 | RO-04 | Tři hrnky: měnit, nebo ne? (hotovo) | Rozhodování | Nová minihra | P3 | S | Nová (pokus, ne adaptivní hra) | 71/5 |
-| RO-05 | Přesýpací hodiny | Rozhodování | Nová minihra | P3 | M | Nová | 69/19 |
+| RO-05 | Přesýpací hodiny (hotovo) | Rozhodování | Nová minihra | P3 | M | Nová | 69/19 |
 | SL-05 | Slovní kruh | Slova | Nová minihra | P3 | L | Nová | 61/6 |
 | SL-06 | Slovní cikcak (hotovo) | Slova | Nová minihra | P3 | M | Nová | 60/1 |
 | SL-07 | Tajná šifra (hotovo) | Slova | Nová minihra | P3 | S | Nová | 60/3 |
@@ -74,7 +74,7 @@ Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co 
 | SL-09 | Křížovka s tajenkou | Slova | Nová minihra | P3 | L | Nová | 95/R |
 | PL-08 | Číselná síť (hotovo) | Počty a logika | Nová minihra | P3 | M | Nová | 62/2 |
 | PL-09 | Křížové počty | Počty a logika | Nová minihra | P3 | L | Nová | 64/10 |
-| PL-10 | Dělení tvaru | Počty a logika | Nová minihra | P3 | L | Nová | 69/16, 100/V1 |
+| PL-10 | Dělení tvaru (hotovo) | Počty a logika | Nová minihra | P3 | L | Nová | 69/16, 100/V1 |
 | PL-11 | Pohled z boku (hotovo) | Počty a logika | Nová minihra | P3 | M | Nová (sdílí kreslení kostek s PL-07) | 77/5 |
 | PL-12 | Otočené stavby (hotovo) | Počty a logika | Nová minihra | P3 | L | Nová (Otočené tvary ve 3D) | 77/6 |
 | PL-15 | Součtové čtverce | Počty a logika | Nová minihra | P3 | L | Nová (příbuzná Sudoku a Křížovým počtům) | 93/V2, 93/R |
@@ -346,16 +346,16 @@ Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co 
 
 ### RO-05 Přesýpací hodiny
 
-*Rozhodování · Nová minihra · priorita P3 · pracnost M*
+*Rozhodování · Nová minihra · priorita P3 · pracnost M* · **hotovo v aplikaci**
 
 - **Inspirace:** str. 69, č. 19 Dilema s přesýpacími hodinami
 - **Trénuje:** Plánování a práci s časem.
 - **Jak se hraje:**
   1. Dvoje přesýpací hodiny, tlačítka „otočit“ a zrychlený čas.
   2. Cíl: odměřit zadanou dobu.
-- **Obsah a data:** Generátor úloh s řešičem.
-- **Úrovně:** Podle počtu potřebných otočení.
-- **Hodnocení:** Vyřešeno a počet kroků.
+- **Obsah a data:** Generátor úloh s řešičem (nejméně otočení, plán i pro nápovědu). Otáčet se smí, když některé hodiny doběhnou.
+- **Úrovně:** 1) 1 otočení. 2) 2 otočení. 3) 3 otočení. 4) 3 až 5 otočení.
+- **Hodnocení:** Vyřešeno; nový začátek a nápověda snižují hodnocení.
 - **Krátká verze do lekce:** 1 úloha.
 - **Pozor u seniorů:** Zobrazovat zbývající minuty i číslem.
 
@@ -675,17 +675,17 @@ Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co 
 
 ### PL-10 Dělení tvaru
 
-*Počty a logika · Nová minihra · priorita P3 · pracnost L*
+*Počty a logika · Nová minihra · priorita P3 · pracnost L* · **hotovo v aplikaci**
 
 - **Inspirace:** str. 69, č. 16 Problém s pizzou; str. 100, výzva 1 Řez skládačkou
 - **Trénuje:** Prostorovou představivost a ochotu zkoušet různá řešení.
 - **Jak se hraje:**
   1. Tvar ve čtverečkové síti rozdělit na zadaný počet stejných dílů. Díly smí být pootočené, ale ne zrcadlené.
   2. Hráč klepáním obarvuje políčka barvou a číslem dílu. Tlačítka Zpět a Začít znovu, protože se počítá se zkoušením.
-- **Obsah a data:** Generátor: tvar se složí z pootočených kopií náhodného dílku a řešič ověří, že řešení je jen jedno. Jinak ručně vybraná sada úloh.
-- **Úrovně:** 2 díly → 3 → 4 díly → větší tvary.
-- **Hodnocení:** Vyřešeno a počet pokusů.
-- **Krátká verze do lekce:** —
+- **Obsah a data:** Generátor: tvar se složí z pootočených kopií náhodného dílku (bez děr uvnitř). Kontrola uzná každé správné rozdělení, takže jediné řešení není potřeba.
+- **Úrovně:** 1) 2 díly po 3–4 políčkách. 2) 3 díly. 3) 4 díly. 4) 3 větší díly po 5–6 políčkách.
+- **Hodnocení:** Vyřešeno; nepovedené pokusy a nápověda snižují hodnocení.
+- **Krátká verze do lekce:** 1 tvar.
 - **Pozor u seniorů:** Barvy dílů doplnit číslem dílu. Bez časového limitu.
 
 ### PL-11 Pohled z boku
@@ -916,7 +916,7 @@ Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co 
 
 1. **První vlna:** 9 her P1 a Hádanka dne se 30 hádankami. Zastávky 8–12 (Telč, Třeboň, Brno, Litomyšl, České Švýcarsko) dnes žádné nové hry nepřinášejí, takže každá dostane 2 hry z první vlny.
 2. **Druhá vlna:** 19 her P2, rozšíření EX-01 až EX-03 a EX-07 a Škola paměti. Hotové jsou: Podnos, Součty z paměti a Sčítací pyramida (Šumava a České Švýcarsko), Cesta podle šipek s Hledáním čísel (Kroměříž), Oslí můstek s Paměťovými kolíky (Pálava), Popletené štítky s Písmenkovou polévkou (Ještěd), Terč s Balonky (Ostrava), Smajlíci s Přeléváním (Karlštejn), Vynesené karty s Chybějícím dílkem (Hluboká), Najdi pravidlo se Slovními úlohami (Třebíč) a Stavba z kostek se Slovním žebříkem (Plzeň), tedy všech 19 nových her druhé vlny. Hotová jsou i rozšíření EX-01 a EX-02 (Co se změnilo: víc změn v tabulce tvarů a co přibylo), EX-03 (Jména a tváře: kreslené portréty, otázka na konci hry a volba s trikem) a EX-07 (najdi vetřelce v Otočených tvarech) a Škola paměti. Druhá vlna je tím celá hotová.
-3. **Třetí vlna:** P3 podle toho, co se osvědčí při zkoušení se seniory. Hotové jsou Pohled z boku a Otočené stavby (PL-11, PL-12, zastávka Žďár nad Sázavou), postavené na kreslení kostek ze Stavby z kostek (PL-07), Skládání krychle s Třemi hrnky (PL-16, RO-04, zastávka Moravský kras) Tajná šifra se Slovním cikcakem (SL-07, SL-06, zastávka Kokořín) a Číselná síť s Hadí cestou (PL-08, PL-18, zastávka Rožnov pod Radhoštěm).
+3. **Třetí vlna:** P3 podle toho, co se osvědčí při zkoušení se seniory. Hotové jsou Pohled z boku a Otočené stavby (PL-11, PL-12, zastávka Žďár nad Sázavou), postavené na kreslení kostek ze Stavby z kostek (PL-07), Skládání krychle s Třemi hrnky (PL-16, RO-04, zastávka Moravský kras) Tajná šifra se Slovním cikcakem (SL-07, SL-06, zastávka Kokořín) Číselná síť s Hadí cestou (PL-08, PL-18, zastávka Rožnov pod Radhoštěm) a Přesýpací hodiny s Dělením tvaru (RO-05, PL-10, zastávka Kuks).
 
 ## Obsah, který bude potřeba vytvořit
 

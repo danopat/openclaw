@@ -899,10 +899,14 @@ players.balonky = async function (page) {
     };
     rec(0, info.k, 0, []);
     if (!pick) throw new Error('cíl nejde složit');
-    if (round++ === 0) {
-      const wrong = info.bal.map((b) => b[0]).find((i) => pick.indexOf(i) === -1);
+    // schválně špatný balonek: takový, který s ostatními vybranými cíl nesloží (jinak by hra úlohu uznala)
+    const val = (i) => info.bal.find((b) => b[0] === i)[1];
+    const partial = pick.slice(0, -1).reduce((a, i) => a + val(i), 0);
+    const wrong = info.bal.map((b) => b[0]).find((i) => pick.indexOf(i) === -1 && partial + val(i) !== info.goal);
+    if (round++ === 0 && wrong != null) {
       for (let j = 0; j < pick.length - 1; j++) await page.locator('.bal[data-i="' + pick[j] + '"]').click();
       await page.locator('.bal[data-i="' + wrong + '"]').click();
+      await next(page, () => /Zrušte|Součet/.test(document.querySelector('.play-status').textContent)); // hra chybu zpracovala
       await page.locator('.bal[data-i="' + wrong + '"]').click();
       await page.locator('.bal[data-i="' + pick[pick.length - 1] + '"]').click();
     } else {
@@ -1220,6 +1224,49 @@ players.had = async function (page) {
     await next(page, () => !document.querySelector('.had.is-done'));
   }
 };
+players.presyp = async function (page) {
+  let k = 0;
+  for (let g = 0; g < 60; g++) {
+    const st = await next(page, () => {
+      const b = document.querySelector('.presyp:not(.is-done)');
+      if (!b || b.dataset.busy) return false;
+      if (document.querySelector('.ps-again:not([hidden])')) return 'again';
+      return document.querySelector('.ps-go:not([hidden]):not([disabled])') ? 'step' : false;
+    });
+    if (!st) return;
+    if (st === 'again') { await page.locator('.ps-again').click(); await page.waitForTimeout(40); continue; } // (tlačítka Otočit mají v textu i velikost hodin)
+    const plan = (await page.getAttribute('.presyp', 'data-plan')).split('|');
+    const step = +(await page.getAttribute('.presyp', 'data-step'));
+    if (k++ === 0) await page.locator('.ps-hint').click(); // jednou nápověda
+    const want = plan[step] || '';
+    for (const gl of ['A', 'B']) {
+      const btn = page.locator('.ps-flip[data-g="' + gl + '"]');
+      const on = (await btn.getAttribute('aria-pressed')) === 'true';
+      if (on !== want.includes(gl)) await btn.click();
+    }
+    await page.locator('.ps-go').click();
+    await next(page, (s) => { const b = document.querySelector('.presyp'); return !b || b.classList.contains('is-done') || (+b.dataset.step > s && !b.dataset.busy); }, step);
+  }
+};
+players.deleni = async function (page) {
+  let k = 0;
+  for (let g = 0; g < 10; g++) {
+    const st = await next(page, () => (document.querySelector('.deleni:not(.is-done) .dl-cell:not([disabled])') ? 'play' : false));
+    if (!st) return;
+    const sol = (await page.getAttribute('.deleni', 'data-sol')).split(';').map((x) => x.split(':'));
+    if (k++ === 0) {
+      // schválně špatně: všechno jedním dílem, pak Začít znovu
+      for (const [cell] of sol) await page.locator('.dl-cell[data-k="' + cell + '"]').click();
+      await page.getByRole('button', { name: 'Začít znovu' }).click();
+    }
+    for (const [cell, v] of sol) {
+      if ((await page.getAttribute('.deleni', 'data-cur')) !== v) await page.locator('.dl-pick[data-v="' + v + '"]').click();
+      await page.locator('.dl-cell[data-k="' + cell + '"]').click();
+    }
+    await next(page, () => !!document.querySelector('.deleni.is-done'));
+    await next(page, () => !document.querySelector('.deleni.is-done'));
+  }
+};
 players.zebrik = async function (page) {
   let k = 0;
   for (let g = 0; g < 40; g++) {
@@ -1262,7 +1309,7 @@ players.koliky = async function (page) {
     await next(page, () => !document.querySelector('.choices:not(.is-locked)'));
   }
 };
-const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina', 'kulicka', 'dvojice', 'byt', 'osmismerka', 'sudoku', 'podnos', 'sumy', 'pyramida', 'trasa', 'cisla', 'mustek', 'koliky', 'stitky', 'polevka', 'terc', 'balonky', 'smajlici', 'prelevani', 'karty', 'dilek', 'pravidlo', 'ulohy', 'kostky', 'zebrik', 'tvary', 'zmena', 'jmena', 'pohled', 'stavby', 'krychle', 'hrnky', 'sifra', 'cikcak', 'sit', 'had'];
+const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina', 'kulicka', 'dvojice', 'byt', 'osmismerka', 'sudoku', 'podnos', 'sumy', 'pyramida', 'trasa', 'cisla', 'mustek', 'koliky', 'stitky', 'polevka', 'terc', 'balonky', 'smajlici', 'prelevani', 'karty', 'dilek', 'pravidlo', 'ulohy', 'kostky', 'zebrik', 'tvary', 'zmena', 'jmena', 'pohled', 'stavby', 'krychle', 'hrnky', 'sifra', 'cikcak', 'sit', 'had', 'presyp', 'deleni'];
 
 async function mcq(page, answerFn) {
   for (let r = 0; r < 16; r++) {

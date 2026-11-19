@@ -380,6 +380,20 @@
         house(40, 128, 70, 40) + house(150, 136, 58, 34) + house(254, 132, 50, 36) +
         '<path d="M0 182C80 172 160 176 240 178S300 182 320 180V200H0Z" fill="#6c9a5a"/>' +
         roundTrees([[20, 186, 11], [128, 190, 10], [214, 192, 9], [310, 188, 11]], '#4f8a4a');
+    },
+    kuks(id) {
+      // Kuks: barokní hospital s kostelem nad Labem a řada soch na terase.
+      const statue = (x, y) => '<rect x="' + (x - 5) + '" y="' + (y - 6) + '" width="10" height="6" fill="#bdb3a3"/><path d="M' + (x - 3.5) + ' ' + (y - 6) + 'v-13c0-5 7-5 7 0v13z" fill="#d9d1c2"/><circle cx="' + x + '" cy="' + (y - 22) + '" r="3.6" fill="#d9d1c2"/>';
+      let statues = '', wins = '';
+      for (let x = 36; x <= 284; x += 31) statues += statue(x, 156);
+      [74, 96, 118, 202, 224, 246].forEach((x) => { wins += '<rect x="' + x + '" y="96" width="8" height="14" rx="4" fill="#7d8790"/>'; });
+      return sky(id, '#a6cfee', '#f2f6f9') +
+        '<path d="M0 114C70 100 140 106 200 102S290 96 320 104V200H0Z" fill="#8ab274"/>' +
+        '<rect x="60" y="82" width="200" height="50" fill="#efe6d4"/><path d="M54 84h212l-10-14H64z" fill="#a4553f"/>' + wins +
+        '<rect x="142" y="52" width="36" height="80" fill="#f4ecdc"/><path d="M146 54q14-26 28 0z" fill="#5c7a6a"/><rect x="157" y="30" width="6" height="12" fill="#5c7a6a"/><path d="M160 22v10M156 26h8" stroke="#c9a54a" stroke-width="2"/>' +
+        '<rect x="152" y="96" width="16" height="36" rx="8" fill="#7d6a55"/>' +
+        '<rect x="18" y="134" width="284" height="24" fill="#d8ccb6"/>' + statues +
+        '<path d="M0 176C80 168 160 172 240 174S300 176 320 174V200H0Z" fill="#6ea3c4"/>';
     }
   };
 
@@ -433,7 +447,9 @@
     { id: 'kokorin', gen: 'Kokořína', name: 'Kokořín', color: '#6a5a3a', intro: ['sifra', 'cikcak'],
       fact: 'Hrad Kokořín stojí na pískovcové skále nad hlubokým údolím. V okolních lesích jsou skalní „pokličky“, kameny ve tvaru hřibů.' },
     { id: 'roznov', gen: 'Rožnova pod Radhoštěm', name: 'Rožnov pod Radhoštěm', color: '#6b4a2f', intro: ['sit', 'had'],
-      fact: 'Valašské muzeum v přírodě v Rožnově pod Radhoštěm založili v roce 1925. Patří k nejstarším muzeím v přírodě ve střední Evropě.' }
+      fact: 'Valašské muzeum v přírodě v Rožnově pod Radhoštěm založili v roce 1925. Patří k nejstarším muzeím v přírodě ve střední Evropě.' },
+    { id: 'kuks', gen: 'Kuksu', name: 'Kuks', color: '#7a5a3a', intro: ['presyp', 'deleni'],
+      fact: 'Barokní hospital v Kuksu nad Labem zdobí sochy Ctností a Neřestí od sochaře Matyáše Bernarda Brauna.' }
   ];
 
   SM.places = {

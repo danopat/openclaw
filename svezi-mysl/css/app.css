@@ -2083,6 +2083,44 @@ button.room { cursor: pointer; touch-action: manipulation; }
 .hd-cell.is-end::before { content: ""; position: absolute; inset: 22%; border-radius: 50%; background: #f2d27a; box-shadow: inset 0 0 0 3px #2b2417; }
 .hd-cell:disabled { cursor: default; opacity: 1; }
 .hd-cell.is-wrong { background: var(--bad-soft); box-shadow: inset 0 0 0 4px var(--bad); }
+/* Přesýpací hodiny */
+.ps-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.4rem 0.8rem; }
+.ps-goal { margin: 0; font-size: var(--fs-l); font-weight: 800; }
+.presyp.is-tight { gap: 0.5rem; }
+.presyp.is-tight .ps-cap { display: none; }
+.presyp.is-tight .ps-glasswrap { gap: 0.15rem; padding: 0.35rem; }
+.ps-clock { padding: 0.3rem 0.9rem; border-radius: 99px; background: var(--surface-2); font-family: var(--font-num); font-size: var(--fs-l); font-weight: 700; }
+.ps-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; width: 100%; max-width: 26rem; }
+.ps-glasswrap { display: grid; justify-items: center; gap: 0.3rem; padding: 0.5rem; border-radius: 16px; background: var(--surface); box-shadow: inset 0 0 0 2px var(--line); }
+.ps-glasswrap.is-flip { box-shadow: inset 0 0 0 4px #2c69d6; }
+.ps-cap { font-size: var(--fs-l); }
+.ps-pic { width: min(5.5rem, 21vw); aspect-ratio: 60 / 100; }
+.ps-pic svg { display: block; width: auto; height: 100%; margin: 0 auto; }
+.ps-pic[style*="height"] { aspect-ratio: auto; }
+.ps-left { color: var(--ink-2); font-size: min(var(--fs-m), 4.4vw); font-weight: 700; text-align: center; }
+.ps-flip { width: 100%; min-height: 2.8rem; padding-inline: 0.3rem; }
+.ps-flip[aria-pressed="true"] { background: #2c69d6; color: #fff; box-shadow: none; }
+.ps-wood { fill: #8a5a33; }
+.ps-glass { fill: rgba(200, 225, 240, 0.35); stroke: #6b7c85; stroke-width: 2; }
+.ps-sand { fill: #e2b45c; }
+.ps-stream { stroke: #e2b45c; stroke-width: 2; }
+.ps-actions { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.6rem; width: 100%; max-width: 30rem; }
+.play-foot > .ps-actions { flex: 1 1 100%; }
+.ps-actions .btn { max-width: none; padding-inline: 0.8rem; font-size: min(1.5rem, 5vw); }
+.ps-actions [hidden] { display: none !important; }
+/* Dělení tvaru */
+.dl-grid { display: grid; gap: 3px; justify-content: center; }
+.dl-cell { padding: 0; border: 0; border-radius: 6px; background: var(--surface); box-shadow: inset 0 0 0 2px var(--ink-2); color: #fff; font-family: var(--font-num); font-size: min(var(--fs-l), 5.5vw); font-weight: 800; cursor: pointer; }
+.dl-cell.is-on { background: var(--dl); box-shadow: none; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45); }
+.dl-cell:disabled { cursor: default; opacity: 1; }
+.dl-gap { visibility: hidden; }
+.dl-bar { display: grid; gap: 0.5rem; width: 100%; max-width: 30rem; }
+.play-foot > .dl-bar { flex: 1 1 100%; }
+.dl-pal { display: grid; gap: 0.5rem; }
+.dl-pick { min-height: 3rem; background: var(--dl); color: #fff; box-shadow: none; font-family: var(--font-num); font-size: var(--fs-xl); text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45); }
+.dl-pick[aria-pressed="true"] { box-shadow: 0 0 0 4px var(--surface), 0 0 0 7px var(--ink); }
+.dl-tools { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.4rem; }
+.dl-tool { min-height: 2.8rem; padding-inline: 0.3rem; font-size: min(var(--fs-s), 3.8vw); }
 
 /* ---------- Slovní žebřík ---------- */
 .rungs { display: grid; justify-items: center; gap: 0.55rem; padding: 0.4rem 1.2rem; border-left: 5px solid var(--ink-2); border-right: 5px solid var(--ink-2); border-radius: 6px; }

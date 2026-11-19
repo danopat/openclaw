@@ -135,7 +135,7 @@
       function board(P, state, fixed) {
         const n = P.n;
         // políčka i s mezerami (3 px) a okrajem, ať je vidět celá mřížka
-        const size = Math.floor(U.clamp(Math.min((ctx.size().w - 16 - 3 * n) / (n + 1), (ctx.stage.clientHeight - 44 - 3 * n) / (n + 1)), 22, 64));
+        const size = Math.floor(U.clamp(Math.min((ctx.size().w - 16 - 3 * n) / (n + 1), (ctx.stage.clientHeight - 28 - 3 * n) / (n + 1)), 22, 64));
         const grid = h('div', { class: 'hd-grid', style: { gridTemplateColumns: 'repeat(' + (n + 1) + ', ' + size + 'px)', gridAutoRows: size + 'px', '--hd': size + 'px' } });
         const colTags = [], rowTags = [];
         grid.appendChild(h('span', { class: 'hd-corner' }));
@@ -206,10 +206,10 @@
         const check = h('button', { class: 'btn btn-primary btn-lg', type: 'button' }, 'Zkontrolovat');
         const hintBtn = h('button', { class: 'btn btn-secondary btn-lg hd-hint', type: 'button' }, 'Nápověda');
         ctx.foot.appendChild(h('div', { class: 'hd-actions' }, hintBtn, check));
+        ctx.status('Klepnutím označte políčka hada. Křížek = tady had není.'); // dřív než měření místa
         const b = board(P, state, fixed);
         box.appendChild(b.grid);
         b.paint();
-        ctx.status('Klepnutím označte políčka hada. Křížek = tady had není.');
         const t0 = performance.now();
         let mistakesHere = 0, hintsHere = 0;
         return new Promise((resolve) => {

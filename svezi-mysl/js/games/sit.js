@@ -164,6 +164,7 @@
         const keys = Array.from({ length: n }, (_, k) => h('button', { class: 'btn nt-key', type: 'button', 'data-v': k + 1 }, String(k + 1)));
         const del = h('button', { class: 'btn btn-secondary nt-key nt-del', type: 'button' }, 'Smazat');
         ctx.foot.appendChild(h('div', { class: 'nt-keys' }, keys, del));
+        ctx.status('Doplňte čísla do kroužků.'); // pokyn dřív než měření místa (víc řádků textu zmenší plochu)
         fit(board, box);
 
         const paint = () => {

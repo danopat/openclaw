@@ -1,5 +1,5 @@
 /* Svěží mysl — offline režim. Při změně souborů zvyšte číslo verze. */
-const VERSION = 'svezi-mysl-v24';
+const VERSION = 'svezi-mysl-v25';
 const ASSETS = [
   './',
   'index.html',
@@ -79,6 +79,8 @@ const ASSETS = [
   'js/games/cikcak.js',
   'js/games/sit.js',
   'js/games/had.js',
+  'js/games/presyp.js',
+  'js/games/deleni.js',
   'js/engine.js',
   'js/app.js',
   'js/screens/path.js',
