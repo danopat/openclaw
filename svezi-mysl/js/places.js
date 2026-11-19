@@ -394,6 +394,21 @@
         '<rect x="152" y="96" width="16" height="36" rx="8" fill="#7d6a55"/>' +
         '<rect x="18" y="134" width="284" height="24" fill="#d8ccb6"/>' + statues +
         '<path d="M0 176C80 168 160 172 240 174S300 176 320 174V200H0Z" fill="#6ea3c4"/>';
+    },
+    hradec(id) {
+      // Hradec Králové: Bílá věž a dvouvěžová katedrála na Velkém náměstí, kolem první republika v cihlách.
+      let houses = '';
+      [[14, 128, '#c9744b'], [48, 134, '#d4895f'], [232, 132, '#c9744b'], [270, 126, '#b8653f']].forEach((p) => {
+        houses += '<rect x="' + p[0] + '" y="' + p[1] + '" width="32" height="' + (176 - p[1]) + '" fill="' + p[2] + '"/>';
+        for (let y = p[1] + 8; y < 168; y += 12) houses += '<rect x="' + (p[0] + 6) + '" y="' + y + '" width="20" height="6" fill="#f1e6d6"/>';
+      });
+      return sky(id, '#a9d0ee', '#f3f7fa') +
+        '<rect y="150" width="320" height="50" fill="#c8bba6"/>' + houses +
+        '<rect x="96" y="96" width="70" height="80" fill="#c46d4a"/><path d="M92 98h78l-39-26z" fill="#7a3f2e"/>' +
+        '<rect x="98" y="58" width="16" height="118" fill="#c46d4a"/><path d="M96 60h20l-10-22z" fill="#4f5a5f"/><rect x="148" y="58" width="16" height="118" fill="#c46d4a"/><path d="M146 60h20l-10-22z" fill="#4f5a5f"/>' +
+        '<rect x="122" y="118" width="18" height="30" rx="9" fill="#7d8790"/>' +
+        '<rect x="186" y="44" width="26" height="132" fill="#f2efe6"/><path d="M182 46h34l-6-12h-22z" fill="#5c6670"/><path d="M190 34l9-16 9 16z" fill="#5c6670"/>' +
+        '<rect x="194" y="62" width="10" height="14" rx="5" fill="#7d8790"/><circle cx="199" cy="96" r="6" fill="#ffffff" stroke="#7d8790" stroke-width="2"/>';
     }
   };
 
@@ -449,7 +464,9 @@
     { id: 'roznov', gen: 'Rožnova pod Radhoštěm', name: 'Rožnov pod Radhoštěm', color: '#6b4a2f', intro: ['sit', 'had'],
       fact: 'Valašské muzeum v přírodě v Rožnově pod Radhoštěm založili v roce 1925. Patří k nejstarším muzeím v přírodě ve střední Evropě.' },
     { id: 'kuks', gen: 'Kuksu', name: 'Kuks', color: '#7a5a3a', intro: ['presyp', 'deleni'],
-      fact: 'Barokní hospital v Kuksu nad Labem zdobí sochy Ctností a Neřestí od sochaře Matyáše Bernarda Brauna.' }
+      fact: 'Barokní hospital v Kuksu nad Labem zdobí sochy Ctností a Neřestí od sochaře Matyáše Bernarda Brauna.' },
+    { id: 'hradec', gen: 'Hradce Králové', name: 'Hradec Králové', color: '#8a4a32', intro: ['pocty', 'soucty'],
+      fact: 'Hradci Králové se pro jeho moderní stavby z doby první republiky říká „salon republiky“.' }
   ];
 
   SM.places = {

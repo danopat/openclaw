@@ -1287,6 +1287,52 @@ players.deleni = async function (page) {
     await next(page, () => !document.querySelector('.deleni.is-done'));
   }
 };
+players.pocty = async function (page) {
+  let k = 0;
+  for (let g = 0; g < 10; g++) {
+    const st = await next(page, () => (document.querySelector('.pocty:not(.is-done)') && document.querySelector('.nt-key') ? 'play' : false));
+    if (!st) return;
+    const sol = (await page.getAttribute('.pocty', 'data-sol')).split(',').map(Number);
+    if (k++ === 0) await page.locator('.nt-hint').click(); // jednou nápověda
+    for (let i = 0; i < sol.length; i++) {
+      const cell = page.locator('.kq-cell[data-i="' + i + '"]');
+      if (await cell.isDisabled() || (await cell.textContent()).trim() === String(sol[i])) continue;
+      await cell.click();
+      await page.locator('.nt-key[data-v="' + sol[i] + '"]').click();
+    }
+    await next(page, () => !!document.querySelector('.pocty.is-done'));
+    await next(page, () => !document.querySelector('.pocty.is-done'));
+  }
+};
+players.soucty = async function (page) {
+  let k = 0;
+  for (let g = 0; g < 10; g++) {
+    const st = await next(page, () => (document.querySelector('.soucty:not(.is-done)') && document.querySelector('.nt-key') ? 'play' : false));
+    if (!st) return;
+    const sol = (await page.getAttribute('.soucty', 'data-sol')).split('/');
+    const n = sol.length;
+    const empties = [];
+    for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) {
+      const cell = page.locator('.sq-cell[data-r="' + r + '"][data-c="' + c + '"]');
+      if (!(await cell.isDisabled())) empties.push([r, c]);
+    }
+    // schválně: první prázdné políčko nejdřív špatně (stejné číslo jako soused v řádku), pak opravit
+    if (k++ === 0 && empties.length > 1) {
+      const [r, c] = empties[0];
+      const wrong = sol[r][(c + 1) % n];
+      await page.locator('.sq-cell[data-r="' + r + '"][data-c="' + c + '"]').click();
+      await page.locator('.nt-key[data-v="' + wrong + '"]').click();
+    }
+    for (const [r, c] of empties) {
+      const cell = page.locator('.sq-cell[data-r="' + r + '"][data-c="' + c + '"]');
+      if ((await cell.textContent()).trim() === sol[r][c]) continue;
+      await cell.click();
+      await page.locator('.nt-key[data-v="' + sol[r][c] + '"]').click();
+    }
+    await next(page, () => !!document.querySelector('.soucty.is-done'));
+    await next(page, () => !document.querySelector('.soucty.is-done'));
+  }
+};
 players.zebrik = async function (page) {
   let k = 0;
   for (let g = 0; g < 40; g++) {
@@ -1329,7 +1375,7 @@ players.koliky = async function (page) {
     await next(page, () => !document.querySelector('.choices:not(.is-locked)'));
   }
 };
-const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina', 'kulicka', 'dvojice', 'byt', 'osmismerka', 'sudoku', 'podnos', 'sumy', 'pyramida', 'trasa', 'cisla', 'mustek', 'koliky', 'stitky', 'polevka', 'terc', 'balonky', 'smajlici', 'prelevani', 'karty', 'dilek', 'pravidlo', 'ulohy', 'kostky', 'zebrik', 'tvary', 'zmena', 'jmena', 'pohled', 'stavby', 'krychle', 'hrnky', 'sifra', 'cikcak', 'sit', 'had', 'presyp', 'deleni', 'telefon', 'nakup', 'mozaika'];
+const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina', 'kulicka', 'dvojice', 'byt', 'osmismerka', 'sudoku', 'podnos', 'sumy', 'pyramida', 'trasa', 'cisla', 'mustek', 'koliky', 'stitky', 'polevka', 'terc', 'balonky', 'smajlici', 'prelevani', 'karty', 'dilek', 'pravidlo', 'ulohy', 'kostky', 'zebrik', 'tvary', 'zmena', 'jmena', 'pohled', 'stavby', 'krychle', 'hrnky', 'sifra', 'cikcak', 'sit', 'had', 'presyp', 'deleni', 'telefon', 'nakup', 'mozaika', 'pocty', 'soucty'];
 
 async function mcq(page, answerFn) {
   for (let r = 0; r < 16; r++) {
