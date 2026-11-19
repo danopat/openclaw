@@ -24,14 +24,14 @@
     trains: 'krátkodobou paměť na čísla',
     short: 'Zapamatujte si číslo a napište ho.',
     duration: 'asi 1 až 2 minuty',
-    maxLevel: 7,
+    maxLevel: 9,
     howTo(level) {
       return [
         'Na chvíli uvidíte telefonní číslo (na začátku ' + (level + 2) + ' číslic).',
         'Pomůže, když si ho v duchu řeknete po skupinách, třeba „šest set pět, dvanáct…“.',
         'Číslo zmizí. Napište ho na klávesnici a klepněte na „Hotovo“.',
         'Když se to povede, další číslo bude o číslici delší.'
-      ];
+      ].concat(level >= 8 ? ['Na nejvyšších úrovních má číslo 10 až 12 číslic a na zapamatování je 30 sekund. Pamatujte si ho po trojicích.'] : []);
     },
     async run(ctx) {
       const start = ctx.level + 2;
@@ -41,11 +41,18 @@
         ctx.progress((i + 1) + ' / ' + N);
         const num = digits(len);
         ctx.status('Zapamatujte si číslo.');
-        K.show(ctx, h('div', { class: 'phone-card' }, h('span', { class: 'phone-label' }, 'Telefon'), h('span', { class: 'phone-num' }, group(num))));
-        await ctx.sleep(Math.max(2600, len * 900));
+        const box = K.show(ctx, h('div', { class: 'phone-card' + (len >= 10 ? ' is-long' : '') }, h('span', { class: 'phone-label' }, 'Telefon'), h('span', { class: 'phone-num' }, group(num))));
+        if (ctx.level >= 8) {
+          // dlouhé číslo: 30 sekund (dá se skončit dřív) a tip na skupiny po třech
+          box.appendChild(h('p', { class: 'phone-tip' }, 'Tip: pamatujte si ho po trojicích.'));
+          await K.study(ctx, { limit: 30000, container: box });
+          ctx.foot.textContent = '';
+        } else await ctx.sleep(Math.max(2600, len * 900));
         ctx.status('Napište číslo, které jste viděli.');
         ctx.stage.textContent = '';
-        const typed = await K.keypad(ctx, { length: len });
+        const kp = K.keypad(ctx, { length: len });
+        if (len >= 10) { const d = ctx.stage.querySelector('.kp-display'); if (d) d.classList.add('is-long'); }
+        const typed = await kp;
         const good = typed === num;
         ctx.feedback(good);
         ctx.stage.textContent = '';

@@ -16,6 +16,20 @@
     ['🥜', 'arašídy'], ['🍦', 'zmrzlina'], ['🎂', 'dort'], ['🧼', 'mýdlo'], ['💐', 'květiny']
   ];
 
+  /* Skupiny zboží (rozšíření: vybavování po kategoriích). */
+  const GROUPS = [
+    ['Pečivo', ['chléb', 'loupáky', 'veka', 'dort']],
+    ['Mléčné a vejce', ['mléko', 'sýr', 'máslo', 'vejce', 'zmrzlina']],
+    ['Ovoce', ['jablka', 'banány', 'hrušky', 'hrozny', 'jahody', 'třešně', 'citrony', 'pomeranče', 'broskve', 'ananas', 'meloun', 'kiwi']],
+    ['Zelenina', ['mrkev', 'brambory', 'rajčata', 'okurka', 'cibule', 'česnek', 'brokolice', 'salát', 'kukuřice', 'houby', 'paprika']],
+    ['Maso a ryby', ['ryba', 'kuře', 'párky', 'slanina']],
+    ['Trvanlivé', ['rýže', 'těstoviny', 'med', 'sůl', 'arašídy']],
+    ['Sladkosti', ['sušenky', 'čokoláda']],
+    ['Nápoje', ['káva', 'čaj', 'pivo', 'víno', 'džus']],
+    ['Drogerie a jiné', ['mýdlo', 'květiny']]
+  ];
+  const groupOf = (name) => (GROUPS.find((g) => g[1].indexOf(name) !== -1) || ['Jiné'])[0];
+
   SM.registerGame({
     id: 'nakup',
     name: 'Nákupní seznam',
@@ -31,6 +45,7 @@
         'Až budete připraveni, klepněte na „Mám zapamatováno“. Lístek zmizí.'
       ];
       if (level >= 3) steps.push('Než půjdete „nakupovat“, spočítáte jeden jednoduchý příklad.');
+      if (level >= 5) steps.push('Nejdřív odhadnete, kolik položek si vybavíte, a označíte, ze kterých skupin zboží byly (pečivo, ovoce…).');
       steps.push('Pak vyberte z nabídky všechno, co bylo na lístku, a klepněte na „Hotovo“.');
       return steps;
     },
@@ -40,13 +55,19 @@
       const ROUNDS = ctx.short ? 1 : 2;
       let hits = 0, fa = 0;
       const accs = [];
+      const groupsInfo = [];
+      let guessInfo = null;
 
       for (let r = 0; r < ROUNDS; r++) {
         ctx.progress('Lístek ' + (r + 1) + ' z ' + ROUNDS);
         const targets = U.sample(ITEMS, n);
         await memorize(targets);
         if (ctx.level >= 3) await interlude();
+        // Rozšíření od 5. úrovně: odhad a vybavení podle skupin zboží (bez nabídky položek), počítá se zvlášť.
+        let guess = null;
+        if (ctx.level >= 5 && !ctx.short) { guess = await estimate(targets.length); groupsInfo.push(await groups(targets)); }
         const res = await recall(targets, r === ROUNDS - 1);
+        if (guess != null) guessInfo = { guess: guess, got: res.hits };
         hits += res.hits;
         fa += res.fa;
         accs.push(Math.max(0, res.hits - res.fa) / n);
@@ -59,8 +80,10 @@
         levelDelta: acc >= 0.9 ? 1 : acc < 0.6 ? -1 : 0,
         big: hits + ' z ' + total,
         bigLabel: U.plural(total, 'položky', 'položek', 'položek') + ' jste si správně zapamatovali',
-        details: [ROUNDS + ' ' + U.plural(ROUNDS, 'lístek', 'lístky', 'lístků') + ' po ' + n + ' položkách', fa ? 'Vybráno navíc: ' + fa : 'Nic navíc'],
-        metric: { hits: hits, fa: fa, n: n }
+        details: [ROUNDS + ' ' + U.plural(ROUNDS, 'lístek', 'lístky', 'lístků') + ' po ' + n + ' položkách', fa ? 'Vybráno navíc: ' + fa : 'Nic navíc']
+          .concat(groupsInfo.length ? ['Skupiny zboží: ' + groupsInfo.reduce((a, g) => a + g.hit, 0) + ' z ' + groupsInfo.reduce((a, g) => a + g.of, 0) + (groupsInfo.some((g) => g.extra) ? ' (navíc ' + groupsInfo.reduce((a, g) => a + g.extra, 0) + ')' : '')] : [])
+          .concat(guessInfo ? ['Odhad u posledního lístku: ' + guessInfo.guess + ', poznali jste ' + guessInfo.got] : []),
+        metric: { hits: hits, fa: fa, n: n, groups: groupsInfo.length ? groupsInfo.reduce((a, g) => a + g.hit, 0) : null }
       });
 
       function memorize(targets) {
@@ -92,6 +115,64 @@
             if (left <= 0) end(); else ctx.after(100 / SM.timeScale, tick);
           };
           tick();
+        });
+      }
+
+      /* Kolik položek si vybavíte? (odhad, jen pro zajímavost) */
+      function estimate(n) {
+        return new Promise((resolve) => {
+          ctx.clear();
+          ctx.status('Kolik položek z lístku si vybavíte?');
+          const wrap = h('div', { class: 'quiz' }, h('p', { class: 'nk-note' }, 'Jen odhad, do výsledku se nepočítá.'));
+          const row = h('div', { class: 'quiz-opts nk-guess' });
+          for (let v = 0; v <= n; v++) {
+            const b = h('button', { class: 'btn btn-secondary', type: 'button', 'data-v': v }, String(v));
+            U.tap(b, () => { ctx.sound.tap(); resolve(v); });
+            row.appendChild(b);
+          }
+          wrap.appendChild(row);
+          ctx.stage.appendChild(h('div', { class: 'stack' }, wrap));
+        });
+      }
+      /* Ze kterých skupin zboží jste nakupovali? → { hit, of, extra } */
+      function groups(targets) {
+        return new Promise((resolve) => {
+          ctx.clear();
+          ctx.status('Ze kterých skupin zboží byly položky na lístku?');
+          const real = {};
+          targets.forEach((t) => { real[groupOf(t[1])] = true; });
+          const chosen = {};
+          const chips = GROUPS.map((g) => {
+            const b = h('button', { class: 'btn nk-group', type: 'button', 'aria-pressed': 'false', 'data-g': g[0] }, g[0]);
+            U.tap(b, () => {
+              if (b.disabled) return;
+              chosen[g[0]] = !chosen[g[0]];
+              b.setAttribute('aria-pressed', chosen[g[0]] ? 'true' : 'false');
+              ctx.sound.tap();
+            });
+            return b;
+          });
+          const box = h('div', { class: 'stack nk-groups', 'data-real': Object.keys(real).join('|') }, h('div', { class: 'nk-chips' }, chips));
+          ctx.stage.appendChild(box);
+          const done = h('button', { class: 'btn btn-primary btn-lg', type: 'button' }, 'Hotovo');
+          ctx.foot.appendChild(done);
+          if (box.scrollHeight > ctx.stage.clientHeight) box.style.maxHeight = ctx.stage.clientHeight + 'px'; // velké písmo: dá se posunout
+          U.tap(done, async () => {
+            if (done.disabled) return;
+            done.disabled = true;
+            let hit = 0, extra = 0;
+            chips.forEach((b) => {
+              const g = b.dataset.g;
+              b.disabled = true;
+              if (chosen[g] && real[g]) { hit++; b.classList.add('is-correct'); }
+              else if (chosen[g]) { extra++; b.classList.add('is-wrong'); }
+              else if (real[g]) b.classList.add('is-miss');
+            });
+            const of = Object.keys(real).length;
+            ctx.status('Skupiny: ' + hit + ' z ' + of + (extra ? ', navíc ' + extra : '') + '. Teď vyberte položky.');
+            await ctx.sleep(1800);
+            resolve({ hit: hit, of: of, extra: extra });
+          });
         });
       }
 

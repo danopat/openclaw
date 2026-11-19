@@ -31,12 +31,12 @@ Navrženo pro starší uživatele:
 | Oblast | Hra | Co trénuje | Výzkumný vzor |
 |---|---|---|---|
 | Paměť | Pexeso | zrakovou a prostorovou paměť | hra Concentration |
-| Paměť | Nákupní seznam | paměť na slova | učení a rozpoznání seznamu slov |
+| Paměť | Nákupní seznam | paměť na slova | učení a rozpoznání seznamu slov; od 5. úrovně nejdřív odhad a vybavení podle skupin zboží |
 | Paměť | Svítící okna | pracovní paměť, pořadí | Corsiho kostky |
 | Paměť | Jména a tváře | spojení jména s obličejem | asociativní paměť (kreslené portréty, od 3. úrovně otázka na konci hry, volitelně s trikem ze Školy paměti) |
-| Paměť | Telefonní číslo | krátkodobou paměť na čísla | rozsah paměti na číslice (digit span) |
+| Paměť | Telefonní číslo | krátkodobou paměť na čísla | rozsah paměti na číslice (digit span); od 8. úrovně 10–12 číslic na 30 sekund |
 | Paměť | Co se změnilo | zrakovou paměť, detaily | detekce změny (change detection); od 2. úrovně i „co přibylo“, od 4. úrovně víc změn v tabulce tvarů |
-| Paměť | Mozaika | prostorovou paměť | zapamatování vzoru v mřížce |
+| Paměť | Mozaika | prostorovou paměť | zapamatování vzoru v mřížce; od 7. úrovně dva až tři vzory za sebou, na nejvyšší 5 sekund na vzor |
 | Paměť | Co k čemu patří | paměť na dvojice údajů (cena, čas, datum) | asociativní paměť (párové učení) |
 | Paměť | Kde co leží | paměť na umístění věcí v bytě | prostorová a epizodická paměť (objekt a místo) |
 | Paměť | Podnos | zrakovou paměť a pozornost (věci, počty, barvy) | Kimova hra |
@@ -219,7 +219,7 @@ SM.registerGame({
 
 ## Možné další kroky
 
-Z první vlny je hotových všech 9 her: Řetězové počty, Výhodný nákup, Vyšší, nebo nižší?, Příbuzenstvo, Kde je kulička?, Co k čemu patří, Kde co leží, Osmisměrka a Sudoku. Hotová je i Hádanka dne. Z druhé vlny jsou hotové Podnos, Součty z paměti, Sčítací pyramida, Cesta podle šipek, Hledání čísel, Oslí můstek, Paměťové kolíky, Popletené štítky, Písmenková polévka, Terč, Balonky, Smajlíci, Přelévání, Vynesené karty, Chybějící dílek, Najdi pravidlo, Slovní úlohy, Stavba z kostek a Slovní žebřík, tedy všech 19 nových her druhé vlny. Hotová jsou i rozšíření druhé vlny (Co se změnilo: co přibylo a víc změn najednou; Jména a tváře: kreslené portréty, otázka na konci hry a volba s trikem; Otočené tvary: najdi vetřelce) a Škola paměti, takže druhá vlna je celá hotová. Ze třetí vlny jsou hotové Pohled z boku a Otočené stavby (zastávka Žďár nad Sázavou; kreslí stavby stejným kódem jako Stavba z kostek) Skládání krychle s Třemi hrnky (Moravský kras) Tajná šifra se Slovním cikcakem (Kokořín) Číselná síť s Hadí cestou (Rožnov pod Radhoštěm) a Přesýpací hodiny s Dělením tvaru (Kuks). Podrobný plán dalších miniher (44 nových her, 7 rozšíření, Hádanka dne a Škola paměti) je v [`docs/minihry-databaze.md`](docs/minihry-databaze.md), tabulka v [`docs/minihry-databaze.csv`](docs/minihry-databaze.csv).
+Z první vlny je hotových všech 9 her: Řetězové počty, Výhodný nákup, Vyšší, nebo nižší?, Příbuzenstvo, Kde je kulička?, Co k čemu patří, Kde co leží, Osmisměrka a Sudoku. Hotová je i Hádanka dne. Z druhé vlny jsou hotové Podnos, Součty z paměti, Sčítací pyramida, Cesta podle šipek, Hledání čísel, Oslí můstek, Paměťové kolíky, Popletené štítky, Písmenková polévka, Terč, Balonky, Smajlíci, Přelévání, Vynesené karty, Chybějící dílek, Najdi pravidlo, Slovní úlohy, Stavba z kostek a Slovní žebřík, tedy všech 19 nových her druhé vlny. Hotová jsou i rozšíření druhé vlny (Co se změnilo: co přibylo a víc změn najednou; Jména a tváře: kreslené portréty, otázka na konci hry a volba s trikem; Otočené tvary: najdi vetřelce) a Škola paměti, takže druhá vlna je celá hotová. Ze třetí vlny jsou hotové Pohled z boku a Otočené stavby (zastávka Žďár nad Sázavou; kreslí stavby stejným kódem jako Stavba z kostek) Skládání krychle s Třemi hrnky (Moravský kras) Tajná šifra se Slovním cikcakem (Kokořín) Číselná síť s Hadí cestou (Rožnov pod Radhoštěm) a Přesýpací hodiny s Dělením tvaru (Kuks). Hotová jsou i rozšíření Telefonního čísla, Nákupního seznamu a Mozaiky (EX-04 až EX-06). Podrobný plán dalších miniher (44 nových her, 7 rozšíření, Hádanka dne a Škola paměti) je v [`docs/minihry-databaze.md`](docs/minihry-databaze.md), tabulka v [`docs/minihry-databaze.csv`](docs/minihry-databaze.csv).
 
 1. **Vyzkoušet s 5 až 8 seniory** různého věku. Sledovat, jestli rozumí pokynům, jak zvládají dotyk a co je frustruje. Doladit úroveň 1 všech her.
 2. **Denní připomínka**: v Capacitoru jako lokální notifikace, na webu jako Web Push (iOS 16.4+, jen pro aplikaci na ploše).

@@ -63,7 +63,21 @@ const players = {
       if (!(await next(page, () => !!document.querySelector('.note-item')))) return;
       const items = await page.$$eval('.note-item span:not(.emo)', (els) => els.map((e) => e.textContent));
       await page.getByRole('button', { name: 'Mám zapamatováno' }).click();
-      await next(page, () => !!document.querySelector('.quiz, .pick-grid'));
+      await next(page, () => !!document.querySelector('.quiz, .pick-grid, .nk-groups'));
+      if (await page.$('.quiz:not(:has(.nk-guess))')) {
+        const nums = (await page.textContent('.quiz-q')).match(/\d+/g).map(Number);
+        await page.locator('.quiz-opts .btn', { hasText: new RegExp('^' + (nums[0] + nums[1]) + '$') }).click();
+        await next(page, () => !!document.querySelector('.pick-grid, .nk-guess'));
+      }
+      if (await page.$('.nk-guess')) {
+        // rozšíření: odhad a skupiny zboží
+        await page.locator('.nk-guess .btn').nth(Math.min(items.length, 3)).click();
+        await next(page, () => !!document.querySelector('.nk-groups'));
+        const real = (await page.getAttribute('.nk-groups', 'data-real')).split('|');
+        for (const g of real) await page.locator('.nk-group[data-g="' + g + '"]').click();
+        await page.getByRole('button', { name: 'Hotovo' }).click();
+        await next(page, () => !!document.querySelector('.pick-grid'));
+      }
       if (await page.$('.quiz')) {
         const nums = (await page.textContent('.quiz-q')).match(/\d+/g).map(Number);
         await page.locator('.quiz-opts .btn', { hasText: new RegExp('^' + (nums[0] + nums[1]) + '$') }).click();
@@ -212,6 +226,7 @@ const players = {
     for (let r = 0; r < 8; r++) {
       const num = await next(page, () => { const n = document.querySelector('.phone-card:not(.is-check) .phone-num'); return n ? n.textContent.replace(/\s/g, '') : false; });
       if (!num) return;
+      if (await page.$('.phone-tip')) await page.getByRole('button', { name: 'Mám zapamatováno' }).click(); // dlouhá čísla: 30 s nebo dřív
       if (!(await next(page, () => !!document.querySelector('.kp')))) return;
       for (const d of num) await page.locator('.kp-key', { hasText: new RegExp('^' + d + '$') }).click();
       await page.locator('.kp-ok').click();
@@ -269,10 +284,15 @@ const players = {
     }
   },
   async mozaika(page) {
-    for (let r = 0; r < 8; r++) {
-      const ok = await next(page, () => /Vybarvěte/.test(document.querySelector('.play-status').textContent) && !document.querySelector('.mosaic-cell.is-hit, .mosaic-cell.is-miss'));
+    for (let r = 0; r < 16; r++) {
+      const ok = await next(page, () => {
+        if (document.querySelector('.play-foot .btn') && /Další vzor|Mám zapamatováno/.test(document.querySelector('.play-foot .btn').textContent)) return 'study';
+        return /Vybarvěte/.test(document.querySelector('.play-status').textContent) && !document.querySelector('.mosaic-cell.is-hit, .mosaic-cell.is-miss') ? 'paint' : false;
+      });
       if (!ok) return;
-      const cells = await page.evaluate(() => window.__mosaic);
+      if (ok === 'study') { await page.locator('.play-foot .btn').first().click(); await page.waitForTimeout(80); continue; }
+      const tg = await page.getAttribute('.mosaic', 'data-target');
+      const cells = tg ? tg.split(',').map(Number) : await page.evaluate(() => window.__mosaic);
       for (const i of cells) await page.locator('.mosaic-cell').nth(i).click();
       await page.getByRole('button', { name: 'Hotovo' }).click();
       await next(page, () => !!document.querySelector('.mosaic-cell.is-hit, .mosaic-cell.is-miss, .mosaic-cell.is-extra'));
@@ -1309,7 +1329,7 @@ players.koliky = async function (page) {
     await next(page, () => !document.querySelector('.choices:not(.is-locked)'));
   }
 };
-const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina', 'kulicka', 'dvojice', 'byt', 'osmismerka', 'sudoku', 'podnos', 'sumy', 'pyramida', 'trasa', 'cisla', 'mustek', 'koliky', 'stitky', 'polevka', 'terc', 'balonky', 'smajlici', 'prelevani', 'karty', 'dilek', 'pravidlo', 'ulohy', 'kostky', 'zebrik', 'tvary', 'zmena', 'jmena', 'pohled', 'stavby', 'krychle', 'hrnky', 'sifra', 'cikcak', 'sit', 'had', 'presyp', 'deleni'];
+const NEW_GAMES = ['retez', 'vyhodne', 'hadani', 'rodina', 'kulicka', 'dvojice', 'byt', 'osmismerka', 'sudoku', 'podnos', 'sumy', 'pyramida', 'trasa', 'cisla', 'mustek', 'koliky', 'stitky', 'polevka', 'terc', 'balonky', 'smajlici', 'prelevani', 'karty', 'dilek', 'pravidlo', 'ulohy', 'kostky', 'zebrik', 'tvary', 'zmena', 'jmena', 'pohled', 'stavby', 'krychle', 'hrnky', 'sifra', 'cikcak', 'sit', 'had', 'presyp', 'deleni', 'telefon', 'nakup', 'mozaika'];
 
 async function mcq(page, answerFn) {
   for (let r = 0; r < 16; r++) {
@@ -1571,7 +1591,7 @@ async function continueAll(page) {
 
     // 3c) úspěšnost a rychlost se ukládají a stránka „Vývoj v čase“ se vykreslí
     const saved = await page.evaluate(() => {
-      const last = SM.store.history().slice(-25);
+      const last = SM.store.history().slice(-150); // paměťové hry rychlost neukládají, proto delší okno
       return { acc: last.every((e) => e.a != null && e.a >= 0 && e.a <= 100), rt: last.filter((e) => e.r != null).length };
     });
     if (!saved.acc || !saved.rt) { failures++; console.log('[' + label + '] úspěšnost/rychlost se neukládá', saved); }

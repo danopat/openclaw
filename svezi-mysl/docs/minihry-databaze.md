@@ -1,6 +1,6 @@
 # Databáze miniher: plán
 
-Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co k čemu patří, Kde je kulička?, Vyšší, nebo nižší?, Osmisměrka s tajenkou, Příbuzenstvo, Řetězové počty, Sudoku, Výhodný nákup), z druhé vlny je hotových všech 19 her (Smajlíci, Oslí můstek, Vynesené karty, Podnos, Součty z paměti, Paměťové kolíky, Hledání čísel, Chybějící dílek, Přelévání, Popletené štítky, Písmenková polévka, Slovní žebřík, Terč, Balonky, Slovní úlohy, Stavba z kostek, Cesta podle šipek, Sčítací pyramida, Najdi pravidlo) a 4 rozšíření (Co se změnilo: víc změn, Co se změnilo: co přibylo, Jména a tváře: portréty a vybavení později, Otočené tvary: najdi vetřelce), z třetí vlny je hotových 10 her (Tři hrnky: měnit, nebo ne?, Přesýpací hodiny, Slovní cikcak, Tajná šifra, Číselná síť, Dělení tvaru, Pohled z boku, Otočené stavby, Skládání krychle, Hadí cesta), ostatní je zatím plán. Zdrojem nápadů jsou jen vybrané nafocené strany knihy: str. 56–72 a 77 z kapitoly *Myšlenkové schopnosti* a str. 84–87 a 92–101 z kapitoly *Zkoušejte nové věci*, celkem 92 cvičení a tipů z 32 stran. Stejná data jsou i v tabulce [`minihry-databaze.csv`](minihry-databaze.csv) pro Excel, Numbers nebo Google Tabulky.
+Stav k 19. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co k čemu patří, Kde je kulička?, Vyšší, nebo nižší?, Osmisměrka s tajenkou, Příbuzenstvo, Řetězové počty, Sudoku, Výhodný nákup), z druhé vlny je hotových všech 19 her (Smajlíci, Oslí můstek, Vynesené karty, Podnos, Součty z paměti, Paměťové kolíky, Hledání čísel, Chybějící dílek, Přelévání, Popletené štítky, Písmenková polévka, Slovní žebřík, Terč, Balonky, Slovní úlohy, Stavba z kostek, Cesta podle šipek, Sčítací pyramida, Najdi pravidlo) a 4 rozšíření (Co se změnilo: víc změn, Co se změnilo: co přibylo, Jména a tváře: portréty a vybavení později, Otočené tvary: najdi vetřelce), z třetí vlny je hotových 10 her (Tři hrnky: měnit, nebo ne?, Přesýpací hodiny, Slovní cikcak, Tajná šifra, Číselná síť, Dělení tvaru, Pohled z boku, Otočené stavby, Skládání krychle, Hadí cesta) a 3 rozšíření (Telefonní číslo: dlouhá čísla, Nákupní seznam: vybavení s kategoriemi, Mozaika: víc vzorů za sebou), ostatní je zatím plán. Zdrojem nápadů jsou jen vybrané nafocené strany knihy: str. 56–72 a 77 z kapitoly *Myšlenkové schopnosti* a str. 84–87 a 92–101 z kapitoly *Zkoušejte nové věci*, celkem 92 cvičení a tipů z 32 stran. Stejná data jsou i v tabulce [`minihry-databaze.csv`](minihry-databaze.csv) pro Excel, Numbers nebo Google Tabulky.
 
 ## Shrnutí
 
@@ -83,9 +83,9 @@ Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co 
 | EX-01 | Co se změnilo: víc změn (hotovo) | Paměť | Rozšíření | P2 | S | Rozšíření hry Co se změnilo | 56/4 |
 | EX-02 | Co se změnilo: co přibylo (hotovo) | Paměť | Rozšíření | P2 | S | Rozšíření hry Co se změnilo | 58/11 |
 | EX-03 | Jména a tváře: portréty a vybavení později (hotovo) | Paměť | Rozšíření | P2 | M | Rozšíření hry Jména a tváře | 57/5, 86/1–2 |
-| EX-04 | Telefonní číslo: dlouhá čísla | Paměť | Rozšíření | P3 | S | Rozšíření hry Telefonní číslo | 56/2 |
-| EX-05 | Nákupní seznam: vybavení s kategoriemi | Paměť | Rozšíření | P3 | S | Rozšíření hry Nákupní seznam | 57/7 |
-| EX-06 | Mozaika: víc vzorů za sebou | Paměť | Rozšíření | P3 | S | Rozšíření hry Mozaika | 59/13, 85/V2 |
+| EX-04 | Telefonní číslo: dlouhá čísla (hotovo) | Paměť | Rozšíření | P3 | S | Rozšíření hry Telefonní číslo | 56/2 |
+| EX-05 | Nákupní seznam: vybavení s kategoriemi (hotovo) | Paměť | Rozšíření | P3 | S | Rozšíření hry Nákupní seznam | 57/7 |
+| EX-06 | Mozaika: víc vzorů za sebou (hotovo) | Paměť | Rozšíření | P3 | S | Rozšíření hry Mozaika | 59/13, 85/V2 |
 | EX-07 | Otočené tvary: najdi vetřelce (hotovo) | Počty a logika | Rozšíření | P2 | S | Rozšíření hry Otočené tvary | 72/3 |
 
 ## Podrobné karty
@@ -812,41 +812,41 @@ Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co 
 
 ### EX-04 Telefonní číslo: dlouhá čísla
 
-*Paměť · Rozšíření · priorita P3 · pracnost S · Rozšíření hry Telefonní číslo*
+*Paměť · Rozšíření · priorita P3 · pracnost S · Rozšíření hry Telefonní číslo* · **hotovo v aplikaci**
 
 - **Inspirace:** str. 56, č. 2 Číslicová výzva
 - **Trénuje:** Krátkodobou paměť a techniku seskupování.
 - **Jak se hraje:** 10–12 číslic s pevným časem na zapamatování (30 s) a tipem „pamatujte si je po trojicích“.
 - **Obsah a data:** Žádná nová data.
-- **Úrovně:** Nejvyšší úrovně hry.
+- **Úrovně:** Nové úrovně 8 a 9 (začátek na 10 a 11 číslicích, nejvýš 12). Na zapamatování 30 sekund, dá se skončit dřív.
 - **Hodnocení:** Jako dosud.
 - **Krátká verze do lekce:** Beze změny.
 - **Pozor u seniorů:** —
 
 ### EX-05 Nákupní seznam: vybavení s kategoriemi
 
-*Paměť · Rozšíření · priorita P3 · pracnost S · Rozšíření hry Nákupní seznam*
+*Paměť · Rozšíření · priorita P3 · pracnost S · Rozšíření hry Nákupní seznam* · **hotovo v aplikaci**
 
 - **Inspirace:** str. 57, č. 7 Nákupní seznam
 - **Trénuje:** Vybavování bez nápovědy a třídění do skupin.
 - **Jak se hraje:** Po zakrytí nejdřív otázka „Kolik položek si vybavíte?“ a výběr po kategoriích (pečivo, zelenina, drogerie), teprve potom nabídka.
-- **Obsah a data:** Doplnit kategorie k položkám v content.js.
-- **Úrovně:** Od úrovně 5.
-- **Hodnocení:** Zvlášť volné vybavení a rozpoznání.
-- **Krátká verze do lekce:** Beze změny.
+- **Obsah a data:** Devět skupin zboží přímo u položek hry (pečivo, mléčné, ovoce, zelenina, maso, trvanlivé, sladkosti, nápoje, drogerie).
+- **Úrovně:** Od úrovně 5: odhad počtu položek a výběr skupin zboží, teprve potom nabídka.
+- **Hodnocení:** Zvlášť skupiny zboží (a odhad) a rozpoznání položek; výkon hry podle rozpoznání.
+- **Krátká verze do lekce:** Beze změny (bez odhadu a skupin).
 - **Pozor u seniorů:** —
 
 ### EX-06 Mozaika: víc vzorů za sebou
 
-*Paměť · Rozšíření · priorita P3 · pracnost S · Rozšíření hry Mozaika*
+*Paměť · Rozšíření · priorita P3 · pracnost S · Rozšíření hry Mozaika* · **hotovo v aplikaci**
 
 - **Inspirace:** str. 59, č. 13 Paměť na tabulky; str. 85, výzva 2 Paměť na tabulky
 - **Trénuje:** Prostorovou paměť, na nejvyšší úrovni i pod časovým limitem.
 - **Jak se hraje:** Dva až čtyři vzory (4×4 až 6×6) za sebou a teprve potom jejich opakování. Na nižších úrovních si hráč čas na zapamatování určí sám, na nejvyšší má každý vzor 5 sekund.
 - **Obsah a data:** Žádná nová data.
-- **Úrovně:** Nové nejvyšší úrovně hry.
+- **Úrovně:** 7) dva vzory 4×4, 8) tři vzory 4×4, čas si hráč určí sám; 9) tři vzory 5×5, každý 5 sekund.
 - **Hodnocení:** Jako dosud.
-- **Krátká verze do lekce:** Beze změny.
+- **Krátká verze do lekce:** Beze změny (jedno kolo).
 - **Pozor u seniorů:** —
 
 ### EX-07 Otočené tvary: najdi vetřelce
@@ -916,7 +916,7 @@ Stav k 18. 11. 2026: z první vlny je hotových všech 9 her (Kde co leží, Co 
 
 1. **První vlna:** 9 her P1 a Hádanka dne se 30 hádankami. Zastávky 8–12 (Telč, Třeboň, Brno, Litomyšl, České Švýcarsko) dnes žádné nové hry nepřinášejí, takže každá dostane 2 hry z první vlny.
 2. **Druhá vlna:** 19 her P2, rozšíření EX-01 až EX-03 a EX-07 a Škola paměti. Hotové jsou: Podnos, Součty z paměti a Sčítací pyramida (Šumava a České Švýcarsko), Cesta podle šipek s Hledáním čísel (Kroměříž), Oslí můstek s Paměťovými kolíky (Pálava), Popletené štítky s Písmenkovou polévkou (Ještěd), Terč s Balonky (Ostrava), Smajlíci s Přeléváním (Karlštejn), Vynesené karty s Chybějícím dílkem (Hluboká), Najdi pravidlo se Slovními úlohami (Třebíč) a Stavba z kostek se Slovním žebříkem (Plzeň), tedy všech 19 nových her druhé vlny. Hotová jsou i rozšíření EX-01 a EX-02 (Co se změnilo: víc změn v tabulce tvarů a co přibylo), EX-03 (Jména a tváře: kreslené portréty, otázka na konci hry a volba s trikem) a EX-07 (najdi vetřelce v Otočených tvarech) a Škola paměti. Druhá vlna je tím celá hotová.
-3. **Třetí vlna:** P3 podle toho, co se osvědčí při zkoušení se seniory. Hotové jsou Pohled z boku a Otočené stavby (PL-11, PL-12, zastávka Žďár nad Sázavou), postavené na kreslení kostek ze Stavby z kostek (PL-07), Skládání krychle s Třemi hrnky (PL-16, RO-04, zastávka Moravský kras) Tajná šifra se Slovním cikcakem (SL-07, SL-06, zastávka Kokořín) Číselná síť s Hadí cestou (PL-08, PL-18, zastávka Rožnov pod Radhoštěm) a Přesýpací hodiny s Dělením tvaru (RO-05, PL-10, zastávka Kuks).
+3. **Třetí vlna:** P3 podle toho, co se osvědčí při zkoušení se seniory. Hotové jsou Pohled z boku a Otočené stavby (PL-11, PL-12, zastávka Žďár nad Sázavou), postavené na kreslení kostek ze Stavby z kostek (PL-07), Skládání krychle s Třemi hrnky (PL-16, RO-04, zastávka Moravský kras) Tajná šifra se Slovním cikcakem (SL-07, SL-06, zastávka Kokořín) Číselná síť s Hadí cestou (PL-08, PL-18, zastávka Rožnov pod Radhoštěm) a Přesýpací hodiny s Dělením tvaru (RO-05, PL-10, zastávka Kuks). Hotová jsou i rozšíření EX-04 až EX-06.
 
 ## Obsah, který bude potřeba vytvořit
 
