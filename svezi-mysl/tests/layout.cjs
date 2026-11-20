@@ -1,10 +1,10 @@
-/* Kontrola rozvržení s největším písmem („Největší“) na malých iPhonech.
+/* Kontrola rozvržení s velkým písmem („Větší“ a „Největší“) na malých iPhonech.
    Projde všechny hry na všech úrovních (hráči z tests/e2e.cjs) a při každém tahu hledá tlačítka,
    na která nejde klepnout bez posouvání: mimo obrazovku, useknutá, zakrytá jiným prvkem, nebo jen v posuvné ploše,
    a popisky, které přetékají z tlačítka nebo jsou useknuté.
    Každá hra běží dvakrát: ve volném hraní (delší verze) a v lekci (kratší verze a nahoře lištička lekce).
-   Spuštění:   node tests/layout.cjs
-   Volitelně:  --only byt,retez   --devices 8,se   --scale 3   --jobs 3   --mode free|lesson
+   Spuštění:   node tests/layout.cjs                 (Největší; obě velikosti: --scale 2,3)
+   Volitelně:  --only byt,retez   --devices 8,se,13   --scale 2,3   --jobs 3   --mode free|lesson
                --shots ./snimky (snímek prvního problému)   --gallery ./snimky (snímek při každém tahu)
    Pravidla:   iPhone 8 a větší: všechna tlačítka celá na obrazovce, bez posouvání.
                iPhone SE (320 px): posouvat se smí jen plocha hry; tlačítka dole (.play-foot) musí být vidět vždy. */
@@ -16,7 +16,7 @@ const E = require('./e2e.cjs');
 const arg = (name, def) => { const i = process.argv.indexOf('--' + name); return i > -1 ? process.argv[i + 1] : def; };
 const ONLY = arg('only') ? arg('only').split(',') : null;
 const DEVS = arg('devices', '8,se').split(',');
-const SCALE = +arg('scale', 3);
+const SCALES = arg('scale', '3').split(',').map(Number); // 2 = Větší, 3 = Největší
 const JOBS = +arg('jobs', 3);
 const SHOTS = arg('shots') ? path.resolve(arg('shots')) : null;
 const MODES = arg('mode') ? [arg('mode')] : ['free', 'lesson'];
@@ -136,17 +136,17 @@ const found = new Map(); // klíč → { dev, id, lv, kind, what, n, ... }
 const crashes = [];
 const isBad = (dev, p) => !(LENIENT[dev] && p.kind === 'scroll');
 function record(info, p, st) {
-  const key = [info.dev, info.id, info.lv, info.mode, p.kind, p.what.replace(/ „.*$/, '')].join('|');
+  const key = [info.dev, info.scale, info.id, info.lv, info.mode, p.kind, p.what.replace(/ „.*$/, '')].join('|');
   const e = found.get(key);
   if (e) { e.n++; return; }
-  found.set(key, Object.assign({ dev: info.dev, id: info.id, lv: info.lv, mode: info.mode, n: 1, status: st[0], progress: st[1] }, p));
+  found.set(key, Object.assign({ dev: info.dev, scale: info.scale, id: info.id, lv: info.lv, mode: info.mode, n: 1, status: st[0], progress: st[1] }, p));
 }
 
 async function check(page) {
   const info = page.__info;
   if (!info) return;
   if (GALLERY && (info.k = (info.k || 0) + 1) <= 10) {
-    await page.screenshot({ path: path.join(GALLERY, [info.dev, info.id, 'lv' + info.lv, info.mode, String(info.k).padStart(2, '0')].join('-') + '.png') });
+    await page.screenshot({ path: path.join(GALLERY, [info.dev, 's' + info.scale, info.id, 'lv' + info.lv, info.mode, String(info.k).padStart(2, '0')].join('-') + '.png') });
   }
   const lay = () => page.evaluate(() => (window.__lay ? window.__lay() : []));
   const state = () => page.evaluate(() => [(document.querySelector('.play-status') || {}).textContent || '', (document.querySelector('.play-progress') || {}).textContent || '']);
@@ -168,15 +168,16 @@ async function check(page) {
   const bad = a.filter((p) => isBad(info.dev, p));
   if (SHOTS && bad.length && !info.shot) {
     info.shot = true;
-    await page.screenshot({ path: path.join(SHOTS, [info.dev, info.id, 'lv' + info.lv, info.mode, bad[0].kind].join('-') + '.png') });
+    await page.screenshot({ path: path.join(SHOTS, [info.dev, 's' + info.scale, info.id, 'lv' + info.lv, info.mode, bad[0].kind].join('-') + '.png') });
   }
 }
 E.hooks.step = check;
 
-async function worker(browser, base, dev, queue, errors) {
+async function worker(browser, base, dev, scale, queue, errors) {
   const context = await browser.newContext(Object.assign({}, devices[DEVICES[dev]], { deviceScaleFactor: 1, locale: 'cs-CZ' }));
   const page = await context.newPage();
-  const where = () => '[' + dev + '] ' + (page.__info ? page.__info.id + ' ' + page.__info.lv + ': ' : '');
+  const tag = '[' + dev + (SCALES.length > 1 ? '@' + scale : '') + '] ';
+  const where = () => tag + (page.__info ? page.__info.id + ' ' + page.__info.lv + ': ' : '');
   page.on('pageerror', (e) => errors.push(where() + e.message));
   page.on('console', (m) => { if (m.type() === 'error') errors.push(where() + m.text()); });
   await page.goto(base + '?ts=0.1');
@@ -191,13 +192,13 @@ async function worker(browser, base, dev, queue, errors) {
     SM.ui.applySettings();
     Object.keys(SM.games).forEach((id) => SM.engine.unlockEarly(id));
     return [document.documentElement.dataset.scale, getComputedStyle(document.documentElement).fontSize];
-  }, SCALE);
-  if (fsz[0] !== String(SCALE)) throw new Error('velikost písma se nepoužila: ' + fsz.join(' '));
+  }, scale);
+  if (fsz[0] !== String(scale)) throw new Error('velikost písma se nepoužila: ' + fsz.join(' '));
   await E.prepare(page);
   await page.evaluate(probe);
   while (queue.length) {
     const [id, lv, mode] = queue.shift();
-    page.__info = { dev: dev, id: id, lv: lv, mode: mode };
+    page.__info = { dev: dev, scale: scale, id: id, lv: lv, mode: mode };
     try {
       await page.evaluate((a) => { SM.store.game(a[0]).level = a[1]; SM.store.save(); }, [id, lv]);
       // Stejně jako z karty Hry (volné hraní), nebo jako druhá hra lekce (kratší verze, lištička lekce).
@@ -209,7 +210,7 @@ async function worker(browser, base, dev, queue, errors) {
       await E.players[id](page);
       await page.waitForFunction(() => !document.querySelector('.play'), null, { timeout: 30000 });
     } catch (e) {
-      crashes.push('[' + dev + '] ' + id + ' úroveň ' + lv + ' (' + (mode === 'lesson' ? 'lekce' : 'volné hraní') + '): ' + e.message.split('\n')[0]);
+      crashes.push(tag + id + ' úroveň ' + lv + ' (' + (mode === 'lesson' ? 'lekce' : 'volné hraní') + '): ' + e.message.split('\n')[0]);
       await page.evaluate(() => SM.ui.go('hry')).catch(() => {});
     }
     const log = await page.evaluate(() => { const l = window.__layLog; window.__layLog = []; return l; }).catch(() => []);
@@ -225,7 +226,7 @@ async function worker(browser, base, dev, queue, errors) {
   const browser = await chromium.launch();
   const errors = [];
   const t0 = Date.now();
-  for (const dev of DEVS) {
+  for (const scale of SCALES) for (const dev of DEVS) {
     if (!DEVICES[dev]) throw new Error('neznámé zařízení ' + dev + ' (' + Object.keys(DEVICES).join(', ') + ')');
     const page = await browser.newPage();
     await page.goto(base + '?ts=0.1');
@@ -235,8 +236,8 @@ async function worker(browser, base, dev, queue, errors) {
     games.filter((g) => !ONLY || ONLY.indexOf(g[0]) !== -1).forEach((g) => {
       for (let lv = 1; lv <= g[1]; lv++) MODES.forEach((m) => queue.push([g[0], lv, m]));
     });
-    process.stdout.write(DEVICES[dev] + ' (' + queue.length + ' her) ');
-    await Promise.all(Array.from({ length: Math.min(JOBS, queue.length) }, () => worker(browser, base, dev, queue, errors)));
+    process.stdout.write(DEVICES[dev] + ', písmo ' + scale + ' (' + queue.length + ' her) ');
+    await Promise.all(Array.from({ length: Math.min(JOBS, queue.length) }, () => worker(browser, base, dev, scale, queue, errors)));
     process.stdout.write('\n');
   }
   await browser.close();
@@ -245,7 +246,7 @@ async function worker(browser, base, dev, queue, errors) {
   const all = Array.from(found.values());
   const bad = all.filter((p) => isBad(p.dev, p));
   const info = all.filter((p) => !isBad(p.dev, p));
-  const line = (p) => '  [' + p.dev + '] ' + (p.id + ' ' + p.lv + (p.mode === 'lesson' ? ' L' : '')).padEnd(15) + p.kind.padEnd(8) + p.what +
+  const line = (p) => '  [' + p.dev + (SCALES.length > 1 ? '@' + p.scale : '') + '] ' + (p.id + ' ' + p.lv + (p.mode === 'lesson' ? ' L' : '')).padEnd(15) + p.kind.padEnd(8) + p.what +
     (p.by ? ' pod ' + p.by : '') + (p.in ? ' v ' + p.in + ' (' + p.box + ' px)' : '') + (p.vis != null ? ' vidět ' + p.vis + ' %' : '') +
     (p.y != null ? ' y=' + p.y + ' h=' + p.h : '') + (p.w ? ' w=' + p.w : '') + (p.n > 1 ? ' ×' + p.n : '') + ' | ' + p.status.slice(0, 50);
   if (info.length) console.log('\nPosouvá se jen plocha hry (na tomto displeji v pořádku):\n' + info.map(line).join('\n'));

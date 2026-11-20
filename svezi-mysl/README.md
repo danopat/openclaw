@@ -4,7 +4,7 @@ Krátké denní hry pro seniory na trénink **paměti, postřehu, rozhodování,
 
 Navrženo pro starší uživatele:
 
-- velké písmo **Atkinson Hyperlegible**, které Braille Institute navrhl pro lidi se slabším zrakem, a nastavitelná velikost písma ve třech stupních,
+- velké písmo **Atkinson Hyperlegible**, které Braille Institute navrhl pro lidi se slabším zrakem, a nastavitelná velikost písma ve třech stupních (na telefonu se při větším písmu hlavička a tlačítka ve hrách zúží, aby se hra vešla bez posouvání),
 - velká tlačítka, žádná gesta, žádné drobné ovládací prvky,
 - vykání, krátké věty a pokyny, které si lze nechat přečíst nahlas česky,
 - obtížnost se přizpůsobuje sama: když se daří, hra přitvrdí, když ne, uleví,
@@ -113,10 +113,10 @@ npm i -D playwright && npx playwright install chromium
 node tests/e2e.cjs                  # volitelně: --shots ./screenshots
 ```
 
-Kontrola rozvržení s největším písmem („Největší“) projde všechny hry na všech úrovních, ve volném hraní i v lekci, na iPhonu 8 a iPhonu SE. Při každém tahu hledá tlačítka, na která nejde rovnou klepnout (mimo obrazovku, useknutá, zakrytá nebo jen v posuvné ploše), a popisky, které přetékají. Na iPhonu 8 musí být všechno vidět bez posouvání, na iPhonu SE se smí posouvat jen plocha hry a tlačítka dole musí být vidět vždy:
+Kontrola rozvržení s velkým písmem („Větší“ a „Největší“) projde všechny hry na všech úrovních, ve volném hraní i v lekci, na iPhonu 8 a iPhonu SE. Při každém tahu hledá tlačítka, na která nejde rovnou klepnout (mimo obrazovku, useknutá, zakrytá nebo jen v posuvné ploše), a popisky, které přetékají. Na iPhonu 8 musí být všechno vidět bez posouvání, na iPhonu SE se smí posouvat jen plocha hry a tlačítka dole musí být vidět vždy:
 
 ```bash
-node tests/layout.cjs               # volitelně: --only byt,retez  --devices 8,se,13  --shots ./snimky
+node tests/layout.cjs --scale 2,3   # bez --scale jen Největší; volitelně: --only byt,retez  --devices 8,se,13  --shots ./snimky
 ```
 
 Pro rychlé ruční zkoušení lze všechna čekání zrychlit parametrem `?ts=0.1` (například `http://localhost:8080/?ts=0.1`).
@@ -160,7 +160,7 @@ js/app.js             kostra: navigace, spodní lišta, dialogy, běh hry
 js/screens/*.js       cesta, lekce a oslavy, karta Hry, sbírka, pokrok, nastavení a první spuštění
 js/games/*.js         jednotlivé minihry (44)
 tests/e2e.cjs         automatický test v Playwrightu
-tests/layout.cjs      kontrola rozvržení s největším písmem na malých iPhonech
+tests/layout.cjs      kontrola rozvržení s velkým písmem na malých iPhonech
 ```
 
 Cílem je Safari 15 a novější (např. iPhone 7 nebo starší iPady). Proto kód nepoužívá CSS nesting, `:has()` ani `color-mix()`.

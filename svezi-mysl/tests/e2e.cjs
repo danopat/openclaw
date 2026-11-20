@@ -119,22 +119,26 @@ const players = {
   async sipky(page) {
     let last = '';
     for (let t = 0; t < 30; t++) {
-      const p = await next(page, (l) => { const p = (document.querySelector('.play-progress') || {}).textContent; return p !== l && document.querySelector('.arrows') ? p : false; }, last);
-      if (!p) return;
-      last = p;
-      const left = /doleva/.test(await page.getAttribute('.arrows', 'aria-label'));
-      await page.getByRole('button', { name: left !== (t === 3) ? 'Doleva' : 'Doprava' }).click();
+      // Směr šipek se přečte hned, dokud jsou vidět (na vyšších úrovních mají jen krátký čas).
+      const st = await next(page, (l) => { const p = (document.querySelector('.play-progress') || {}).textContent; const a = document.querySelector('.arrows'); return p !== l && a ? [p, a.getAttribute('aria-label')] : false; }, last);
+      if (!st) return;
+      last = st[0];
+      const left = /doleva/.test(st[1]);
+      await page.getByRole('button', { name: left !== (t === 3) ? 'Doleva' : 'Doprava' }).click({ timeout: 3000 }).catch(() => {}); // čas na odpověď mohl vypršet
     }
   },
   async barvy(page) {
     let last = '';
     for (let t = 0; t < 30; t++) {
-      const p = await next(page, (l) => { const p = (document.querySelector('.play-progress') || {}).textContent; const w = document.querySelector('.board-word'); return p !== l && w && w.textContent ? p : false; }, last);
-      if (!p) return;
-      last = p;
-      const info = await page.evaluate(() => ({ label: document.querySelector('.board-word').getAttribute('aria-label'), word: document.querySelector('.rule-pill').classList.contains('is-word') }));
+      const info = await next(page, (l) => {
+        const p = (document.querySelector('.play-progress') || {}).textContent;
+        const w = document.querySelector('.board-word');
+        return p !== l && w && w.textContent ? { p: p, label: w.getAttribute('aria-label'), word: document.querySelector('.rule-pill').classList.contains('is-word') } : false;
+      }, last);
+      if (!info) return;
+      last = info.p;
       const m = /Slovo (\S+), napsané barvou (\S+)/.exec(info.label);
-      await page.locator('.color-btn', { hasText: info.word ? m[1] : m[2] }).click();
+      await page.locator('.color-btn', { hasText: info.word ? m[1] : m[2] }).click({ timeout: 3000 }).catch(() => {}); // čas na odpověď mohl vypršet
     }
   },
   async poradi(page) {
